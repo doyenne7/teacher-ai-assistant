@@ -2715,28 +2715,32 @@ function renderOnboarding() {
 }
 
 async function onboardingCardClicked(cardId) {
-  // Switch to chat tab and surface the relevant content
+  // Switch to chat tab to surface content, but back returns to Get started tab
   setTab("chat");
   await wait(200);
   const detail = STATE.courseId ? tc().onboardingDetail : {};
   const content = detail[cardId];
   if (!content) {
     await botSay(`<p>${t().helpers.noMatch}</p>`, 500);
-    showHomeMenu();
+    setQuickReplies([{ label: "← Back to Get started", action: returnToOnboarding, primary: true }]);
     return;
   }
   if (cardId === "lesson-plan") {
     await botSay(content, 600);
     setQuickReplies([
       ...tc().lessonChips.map(l => ({ label: l.label, action: () => showPreflight(l.id) })),
-      { label: t().ui.backHome, action: returnHome, secondary: true }
+      { label: "← Back to Get started", action: returnToOnboarding, secondary: true }
     ]);
   } else {
     await botSay(content, 900);
     setQuickReplies([
-      { label: t().ui.backHome, action: returnHome, primary: true }
+      { label: "← Back to Get started", action: returnToOnboarding, primary: true }
     ]);
   }
+}
+
+function returnToOnboarding() {
+  setTab("onboarding");
 }
 
 function setTab(tab) {
