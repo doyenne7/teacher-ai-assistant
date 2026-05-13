@@ -2480,6 +2480,12 @@ const CONTENT = {
     },
     }, // end ES Course 1
     ], // end es.courses
+    courseNames: {
+      "how-ai-makes-decisions":  "Cómo la IA Toma Decisiones",
+      "problem-solving-with-ai": "Resolución de Problemas con IA",
+      "how-ai-works":            "Cómo Funciona la IA",
+      "foundations-gen-ai":      "Fundamentos de la IA Generativa",
+    },
     reflection: {
       start: "Reflexionemos — toma 60 segundos. ¿Qué lección acabas de enseñar?",
       q1: "👍 ¿Qué funcionó mejor?",
@@ -2874,6 +2880,12 @@ const CONTENT = {
     },
     }, // end HI Course 1
     ], // end hi.courses
+    courseNames: {
+      "how-ai-makes-decisions":  "AI निर्णय कैसे लेता है",
+      "problem-solving-with-ai": "AI के साथ समस्या समाधान",
+      "how-ai-works":            "AI कैसे काम करती है",
+      "foundations-gen-ai":      "जेनरेटिव AI के आधार",
+    },
     reflection: {
       start: "विचार करें — 60 सेकंड लगते हैं। आपने अभी कौन सा पाठ पढ़ाया?",
       q1: "👍 क्या सबसे अच्छा काम किया?",
@@ -2955,7 +2967,8 @@ function renderCourseDropdown() {
   courses.forEach(c => {
     const opt = document.createElement("option");
     opt.value = c.id;
-    opt.textContent = c.name;
+    const translatedName = STATE.lang !== "en" && CONTENT[STATE.lang]?.courseNames?.[c.id];
+    opt.textContent = translatedName ? `${c.name} (${translatedName})` : c.name;
     if (c.id === STATE.courseId) opt.selected = true;
     sel.appendChild(opt);
   });
