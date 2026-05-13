@@ -1,0 +1,2750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#075E54">
+<title>AI Teaching Assistant — Code.org Courses</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", sans-serif;
+    background: #ECE5DD;
+    color: #303030;
+    font-size: 15px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* ===== APP FRAME ===== */
+  .phone {
+    max-width: 430px;
+    height: 100vh;
+    margin: 0 auto;
+    background: #ECE5DD;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,0.15);
+  }
+  @media (min-width: 500px) {
+    body { background: #d9d9d9; padding: 20px 0; }
+    .phone { height: calc(100vh - 40px); border-radius: 20px; }
+  }
+  /* ===== HEADER ===== */
+  .header {
+    background: #075E54;
+    color: #fff;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .header-info { flex: 1; min-width: 0; }
+  .header-name { font-weight: 600; font-size: 16px; }
+  .header-status { font-size: 12px; opacity: 0.85; }
+  .header-actions { display: flex; gap: 14px; align-items: center; }
+  .header-btn {
+    background: none; border: 0; color: #fff; cursor: pointer;
+    font-size: 13px; padding: 4px 8px; border-radius: 4px;
+    font-family: inherit;
+  }
+  .lang-toggle {
+    display: flex; background: rgba(255,255,255,0.15); border-radius: 16px;
+    padding: 2px; gap: 0;
+  }
+  .lang-btn {
+    background: none; border: 0; color: #fff; font-size: 11px;
+    padding: 4px 8px; border-radius: 14px; cursor: pointer;
+    font-weight: 600; opacity: 0.7; font-family: inherit;
+  }
+  .lang-btn.active { background: #fff; color: #075E54; opacity: 1; }
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    background: #075E54;
+    color: rgba(255,255,255,0.7);
+    flex-shrink: 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .tab {
+    flex: 1; padding: 10px 8px; text-align: center;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-family: inherit;
+    background: none;
+    border-top: 0; border-left: 0; border-right: 0;
+    color: inherit;
+  }
+  .tab.active { color: #fff; border-bottom-color: #25D366; }
+  /* ===== CHAT AREA ===== */
+  .chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 8px 4px;
+    background-color: #ECE5DD;
+    background-image:
+      linear-gradient(rgba(236,229,221,0.92), rgba(236,229,221,0.92)),
+      repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(-45deg, rgba(0,0,0,0.02) 0 2px, transparent 2px 22px);
+    scroll-behavior: smooth;
+  }
+  .day-divider {
+    text-align: center;
+    margin: 12px 0;
+  }
+  .day-divider span {
+    background: rgba(225, 245, 254, 0.92);
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #54656f;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+  }
+  .system-msg {
+    text-align: center;
+    margin: 8px 16px;
+    font-size: 12px;
+    color: #54656f;
+  }
+  .system-msg span {
+    background: rgba(225, 245, 254, 0.92);
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-block;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+  }
+  /* ===== MESSAGE BUBBLES ===== */
+  .msg-row {
+    display: flex;
+    margin: 2px 0;
+    align-items: flex-end;
+    animation: slide-in 0.25s ease-out;
+  }
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg-row.in { justify-content: flex-start; }
+  .msg-row.out { justify-content: flex-end; }
+  .bubble {
+    max-width: 78%;
+    padding: 6px 8px 8px;
+    border-radius: 7.5px;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    position: relative;
+    word-wrap: break-word;
+    font-size: 14.5px;
+  }
+  .bubble.in {
+    background: #fff;
+    border-top-left-radius: 0;
+    margin-left: 6px;
+  }
+  .bubble.in::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 0; height: 0;
+    border-top: 0 solid transparent;
+    border-right: 8px solid #fff;
+    border-bottom: 13px solid transparent;
+  }
+  .bubble.out {
+    background: #DCF8C6;
+    border-top-right-radius: 0;
+    margin-right: 6px;
+  }
+  .bubble.out::before {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 0;
+    width: 0; height: 0;
+    border-top: 0 solid transparent;
+    border-left: 8px solid #DCF8C6;
+    border-bottom: 13px solid transparent;
+  }
+  .bubble .text { padding-right: 50px; }
+  .bubble .text strong { font-weight: 600; color: #075E54; }
+  .bubble .text em { font-style: italic; color: #54656f; }
+  .bubble .text ul, .bubble .text ol { margin: 6px 0 6px 20px; }
+  .bubble .text li { margin: 3px 0; }
+  .bubble .text p { margin: 0 0 6px 0; }
+  .bubble .text p:last-child { margin-bottom: 0; }
+  .bubble .text .label {
+    display: inline-block;
+    background: rgba(7, 94, 84, 0.1);
+    color: #075E54;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .bubble .text .quote {
+    border-left: 3px solid #25D366;
+    padding-left: 8px;
+    margin: 6px 0;
+    color: #303030;
+    font-style: italic;
+    background: rgba(37, 211, 102, 0.06);
+    padding: 6px 8px;
+    border-radius: 0 4px 4px 0;
+  }
+  .meta {
+    position: absolute;
+    bottom: 4px;
+    right: 8px;
+    font-size: 10px;
+    color: #667781;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    pointer-events: none;
+  }
+  .meta .ticks {
+    color: #53bdeb;
+    font-size: 11px;
+    line-height: 1;
+  }
+  /* ===== TYPING INDICATOR ===== */
+  .typing-bubble {
+    background: #fff;
+    padding: 10px 12px;
+    border-radius: 7.5px;
+    border-top-left-radius: 0;
+    margin-left: 6px;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+  }
+  .typing-dot {
+    width: 6px; height: 6px;
+    background: #9aa6ad;
+    border-radius: 50%;
+    animation: blink 1.4s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink {
+    0%, 60%, 100% { opacity: 0.3; transform: scale(0.9); }
+    30% { opacity: 1; transform: scale(1.1); }
+  }
+  /* ===== QUICK REPLIES ===== */
+  .quick-replies {
+    padding: 4px 8px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex-shrink: 0;
+    background: rgba(236, 229, 221, 0.5);
+  }
+  .qr-chip {
+    background: #fff;
+    border: 1px solid #d1d7db;
+    color: #075E54;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.15s;
+    line-height: 1.2;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  }
+  .qr-chip:hover { background: #25D366; color: #fff; border-color: #25D366; }
+  .qr-chip:active { transform: scale(0.96); }
+  .qr-chip.primary { background: #25D366; color: #fff; border-color: #25D366; }
+  .qr-chip.secondary { background: rgba(255,255,255,0.7); }
+  /* ===== INPUT BAR ===== */
+  .input-bar {
+    background: #f0f2f5;
+    padding: 6px 8px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-shrink: 0;
+    border-top: 1px solid #d1d7db;
+  }
+  .input-text {
+    flex: 1;
+    background: #fff;
+    border: 0;
+    padding: 10px 14px;
+    border-radius: 22px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    box-shadow: inset 0 0 0 1px transparent;
+    transition: box-shadow 0.15s;
+  }
+  .input-text:focus { box-shadow: inset 0 0 0 1px #25D366; }
+  .send-btn {
+    background: #25D366;
+    color: #fff;
+    border: 0;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .send-btn:active { transform: scale(0.94); }
+  .send-btn:disabled { background: #9aa6ad; cursor: not-allowed; }
+  /* ===== ONBOARDING TAB ===== */
+  .onboarding-view {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    background: #ECE5DD;
+  }
+  .onb-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .onb-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(37, 211, 102, 0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .onb-title { font-weight: 600; color: #075E54; font-size: 15px; }
+  .onb-desc { font-size: 13px; color: #54656f; margin-top: 2px; }
+  .onb-note {
+    background: #fff7c2;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #54656f;
+    margin-bottom: 14px;
+    border-left: 3px solid #f0c40b;
+  }
+  /* ===== HIDDEN ===== */
+  .hidden { display: none !important; }
+  /* ===== SHARE TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #303030;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 24px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+  .toast.show { opacity: 0.95; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="header">
+    <div class="avatar">🤖</div>
+    <div class="header-info">
+      <div class="header-name" id="hdr-name">AI Teaching Assistant</div>
+      <div class="header-status" id="hdr-status">online</div>
+    </div>
+    <div class="header-actions">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="hi">HI</button>
+      </div>
+      <button class="header-btn" id="reset-btn" title="Reset conversation">↺</button>
+    </div>
+  </header>
+  <nav class="tabs">
+    <button class="tab active" data-tab="chat" id="tab-chat">💬 Just-in-time help</button>
+    <button class="tab" data-tab="onboarding" id="tab-onboarding">📚 Get started</button>
+  </nav>
+  <main class="chat" id="chat" role="log" aria-live="polite"></main>
+  <section class="onboarding-view hidden" id="onboarding-view"></section>
+  <div class="quick-replies" id="quick-replies"></div>
+  <form class="input-bar" id="input-form">
+    <input class="input-text" id="input-text" autocomplete="off"
+           placeholder="Type your question..." aria-label="Message" />
+    <button class="send-btn" type="submit" aria-label="Send">➤</button>
+  </form>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+/* ============================================================
+   CONTENT MODEL — EN / ES / HI
+   ============================================================ */
+const CONTENT = {
+  /* ====================== ENGLISH ====================== */
+  en: {
+    ui: {
+      appName: "AI Teaching Assistant",
+      tagline: "How AI Makes Decisions • K-5",
+      online: "online",
+      typing: "typing…",
+      placeholder: "Type your question…",
+      resetTitle: "Start over",
+      tabChat: "💬 Just-in-time help",
+      tabOnboarding: "📚 Get started",
+      yes: "Yes",
+      no: "No",
+      backHome: "← Back to menu",
+      keepGoing: "Keep going",
+      thatHelped: "That helped, thanks 🙏",
+      stillStuck: "Still stuck",
+      followUp: "I have a follow-up",
+      tellMeMore: "Tell me more",
+      gotIt: "Got it ✓",
+      anotherQuestion: "Another question",
+      showLessonPrep: "Pre-flight for next lesson",
+      reflectionSaved: "Reflection saved",
+      welcomeBack: "Welcome back",
+      lessonLabel: "LESSON",
+      tipLabel: "TEACHING TIP",
+      sayLabel: "SAY TO YOUR CLASS",
+      heyLabel: "BEHIND THE SCENES",
+      misconceptionLabel: "WHAT STUDENTS THINK",
+      realityLabel: "WHAT'S ACTUALLY HAPPENING",
+      fixLabel: "HOW TO REDIRECT",
+    },
+    intents: [
+      { id: "preflight", label: "🛫 Pre-flight check", desc: "Prep for tomorrow's lesson" },
+      { id: "inmoment", label: "🙋 Student just asked me…", desc: "Mid-class help" },
+      { id: "concept", label: "💡 Explain a concept", desc: "Vocab & ideas, kid-friendly" },
+      { id: "misconception", label: "⚠️ Common misconceptions", desc: "What students get wrong" },
+      { id: "reflect", label: "📝 Reflect on a lesson", desc: "After class" },
+      { id: "switchCourse", label: "🔄 Switch course", desc: "Change to a different course" },
+    ],
+    pickLessonPrompt: "Which lesson?",
+    pickCoursePrompt: "Which course are you teaching?",
+    courses: [
+    {
+      id: "how-ai-makes-decisions",
+      name: "How AI Makes Decisions",
+      badge: "5 lessons · K–5",
+      greetings: {
+        first: [
+          "Hi! I'm your teaching assistant for the <strong>How AI Makes Decisions</strong> module — 5 lessons for upper elementary. 👋",
+          "I'm here whenever you hit something tricky — before class, mid-lesson, or after. What do you need right now?"
+        ],
+        returning: [
+          "Welcome back! 👋 Last time you taught <strong>{lastLesson}</strong>. How can I help?"
+        ],
+      },
+      lessonChips: [
+        { id: 1, label: "L1 · Making Predictions" },
+        { id: 2, label: "L2 · Training AI" },
+        { id: 3, label: "L3 · Using AI Bot" },
+        { id: 4, label: "L4 · AI Tools in School" },
+        { id: 5, label: "L5 · Share Your Voice" },
+      ],
+    /* ---------- PRE-FLIGHT CHECKLISTS ---------- */
+    preflight: {
+      1: {
+        header: "Lesson 1 · Making Predictions · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+          <p><strong>What you'll teach:</strong> Students act as the computer and predict how items should be sorted.</p>
+          <p><strong>New vocab (5):</strong> Data, Feature, Predict, Sort, Training data</p>
+          <p><strong>Activities:</strong></p>
+          <ul>
+            <li>Levels 1–2: Supervised (labeled data)</li>
+            <li>Levels 3–5: Reinforcement (feedback-based)</li>
+            <li>Level 6: Check for understanding</li>
+            <li>Level 7: Pair work — partner predicts your sort</li>
+          </ul>
+          <p><strong>Tech check:</strong> First-time multiple-choice format on Level 1. <em>Model it</em> before students start.</p>
+          <p><strong>Optional prep:</strong> Print physical sorting manipulatives (recommended for younger students).</p>`,
+        followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "What if students disagree?"]
+      },
+      2: {
+        header: "Lesson 2 · Training AI · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+          <p><strong>What you'll teach:</strong> How the data we feed AI shapes its predictions — and how bias creeps in.</p>
+          <p><strong>New vocab (4):</strong> Machine Learning, AI, Accurate, Bias</p>
+          <p><strong>Activities — AI for Oceans:</strong></p>
+          <ul>
+            <li>L2: Train AI on fish vs. trash</li>
+            <li>L3–4: Train AI on sea creatures (introduces "AI only learns what we teach it")</li>
+            <li>L5: Teach AI a new word — group students by their chosen word, compare results</li>
+          </ul>
+          <p><strong>Tech check:</strong> Warm-up uses Random Book Generator + Amazon. <em>If blocked on school WiFi, use the backup slide.</em></p>
+          <p><strong>⚡ Watch for:</strong> Students will think the AI is "broken" when it can't recognize a starfish. That's the lesson — lean into it.</p>`,
+        followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How do I run Level 5 grouping?"]
+      },
+      3: {
+        header: "Lesson 3 · Using AI Bot · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+          <p><strong>What you'll teach:</strong> AI makes choices based on probability, not certainty.</p>
+          <p><strong>New vocab (1):</strong> Feature Vector — numbers we assign to features so a machine can find patterns.</p>
+          <p><strong>Activities — Dance Party AI Edition:</strong></p>
+          <ul>
+            <li>L1: Food feature vector (sweetness × like-to-eat)</li>
+            <li>L3: Emoji feature vector (colorful × happy)</li>
+            <li>L6: AI block — generate dance effects from 3 emojis</li>
+          </ul>
+          <p><strong>Tech check:</strong> Dance Party loads + audio works on student devices.</p>
+          <p><strong>⚡ Watch for:</strong> Students get effects they don't like → great moment to teach <em>regenerate, edit, or co-create</em>.</p>`,
+        followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How do I model the AI block?"]
+      },
+      4: {
+        header: "Lesson 4 · AI Tools in School · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+          <p><strong>What you'll teach:</strong> Reading a dataset, deciding what data is relevant, and what to leave out.</p>
+          <p><strong>Vocab:</strong> Recap of AI, Data, Training, Training data (no new terms)</p>
+          <p><strong>Activities:</strong></p>
+          <ul>
+            <li>Warm-up: Student Survey — online (L1) OR paper version</li>
+            <li>Main: Using AI Tools in School — students pick a hypothetical AI tool, decide what data to include / exclude</li>
+          </ul>
+          <p><strong>Decide in advance:</strong> Online or unplugged? (Affects prep — paper version needs printouts.)</p>
+          <p><strong>⚡ Watch for:</strong> Students want to include <em>all</em> data. The point is to push them to question what's relevant. "Should detention history affect lunch seats?"</p>`,
+        followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "Online vs paper — which is better?"]
+      },
+      5: {
+        header: "Lesson 5 · Share Your Voice · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+          <p><strong>What you'll teach:</strong> Students form and share an opinion about AI tools in school.</p>
+          <p><strong>Vocab:</strong> Recap of AI, Data, Training, Bias (no new terms)</p>
+          <p><strong>Choice activity — students pick one:</strong></p>
+          <ul>
+            <li>Letter to the principal</li>
+            <li>Speech, song, or rap</li>
+            <li>Poster</li>
+            <li>Sprite Lab project</li>
+            <li>Coded poem</li>
+          </ul>
+          <p><strong>Prep:</strong> Materials for writing, drawing, etc. Check the chili-pepper difficulty marks so students pick something finishable in 30 min.</p>
+          <p><strong>⚡ Watch for:</strong> Students who say "I don't know what I think." Offer sentence starters: <em>"AI could help with ___ because ___. But ___ might go wrong because ___."</em></p>`,
+        followUps: ["Sentence starters for hesitant students", "How do I grade this?", "Common student questions", "Reflection prompts"]
+      }
+    },
+    /* ---------- STUDENT QUESTIONS (in-the-moment) ---------- */
+    studentQs: {
+      1: [
+        {
+          q: "Is AI just guessing?",
+          a: `<p>No — and that's the key insight of this lesson. AI looks for <strong>patterns</strong> in data.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"Random would be flipping a coin. In Level 1, you looked at the colors to figure out the rule — that's what AI does. Different from guessing!"</div>`
+        },
+        {
+          q: "Why did my answer get marked wrong?",
+          a: `<p>Levels 1–2 have <em>labeled</em> data — students can see the rule. Levels 3–5 are <strong>reinforcement</strong> — you only know if you got it right after trying.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"You're learning the way AI learns — by trying and getting feedback. Each wrong answer teaches you what the pattern is NOT."</div>`
+        },
+        {
+          q: "Two of us sorted differently — who's right?",
+          a: `<p>Both can be right! Different valid features → different valid sortings.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"Did you sort by color? Shape? Toppings? All correct. The question isn't 'is there one right way' — it's 'what feature did you choose?'"</div>`
+        },
+        {
+          q: "Why isn't there a 'don't know' button?",
+          a: `<p>Forcing a prediction is the point. AI doesn't get to abstain — it must classify based on what it has.</p>
+              <p><span class="label">Behind the scenes</span></p>
+              <p>If a student is stuck, have them say their best guess out loud and explain why. That's the model thinking.</p>`
+        },
+      ],
+      2: [
+        {
+          q: "Why does the AI think a starfish is trash?",
+          a: `<p>Because we only trained it on fish. From its perspective, "fish = keep, everything else = trash."</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"AI only learns what we teach it. If we never showed it a starfish, it has no idea what one is. That's why Level 3 retrains it on more sea creatures."</div>`
+        },
+        {
+          q: "How does the AI know which fish is 'angry'?",
+          a: `<p>It doesn't! That's the lesson. Your students each define "angry" by which fish <em>they</em> labeled angry.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"Compare with your partner. Same word, different model. Why? Because your training data — the fish you picked — was different. Opinions become bias when they become rules."</div>`
+        },
+        {
+          q: "Will AI replace teachers? / Will AI take my parent's job?",
+          a: `<p>Big, valid question. Use the Attendance Bot wrap-up to ground it.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"Attendance Bot could automate one task, but it can't notice if you're upset, if you helped a classmate, or if you had a great idea today. AI is best when it works <em>with</em> people, not instead of them."</div>`
+        },
+        {
+          q: "Can the AI cheat?",
+          a: `<p>Reframe: AI can't <em>want</em> to cheat. But it can be trained on bad data that makes it act unfair.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"If we only show AI red 'angry' fish, it learns red = angry. That's not cheating — but it's wrong, because we taught it something wrong."</div>`
+        },
+      ],
+      3: [
+        {
+          q: "Why did the AI pick effects I don't like?",
+          a: `<p>The AI is averaging across many people's choices. Your taste is in the data, but so is everyone else's.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"Three options: regenerate, edit the dropdowns, or pick new emojis. This is what 'co-creating with AI' looks like — you don't have to accept its first answer."</div>`
+        },
+        {
+          q: "What's a feature vector again?",
+          a: `<p>Numbers we put on features so a computer can find patterns.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"A donut is maybe 9 out of 10 sweet, and 10 out of 10 'I love it!'. Now write that as the pair (9, 10). The computer can compare donuts to other foods using those numbers."</div>`
+        },
+        {
+          q: "Why does AI give different answers to the same question?",
+          a: `<p>Probability. AI picks the most likely option, but sometimes it picks a less-likely one.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"Most people say a sunset is orange and red — so AI usually says that. But sometimes people say purple and pink. AI will say that too, just less often. It's not broken — it's reflecting the data."</div>`
+        },
+      ],
+      4: [
+        {
+          q: "Why can't we just use all the data?",
+          a: `<p>Because irrelevant or unfair data leads to biased decisions.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"For seating in the cafeteria, languages spoken = helpful. Detentions = not relevant and might cause AI to seat kids unfairly. Quality &gt; quantity."</div>`
+        },
+        {
+          q: "How do you stop AI from being unfair?",
+          a: `<p>Two answers in this lesson: <strong>diverse training data</strong> + <strong>human oversight</strong>.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"Even with the best data, AI makes mistakes. A grown-up should check its decisions. That's why we never let AI decide alone."</div>`
+        },
+        {
+          q: "Is using AI bad?",
+          a: `<p>Not inherently. Depends on the stakes and the oversight.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"AI is good for things like sorting recycling — low stakes, easy to check. AI is risky for things like 'who gets Student of the Month' — high stakes, hard to undo if wrong."</div>`
+        },
+      ],
+      5: [
+        {
+          q: "I don't know what I think about AI",
+          a: `<p>Totally fine. The point is informed thinking, not a fixed answer.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"Pick one AI tool from yesterday. Say one thing that could go right, and one thing that could go wrong. Now you have an opinion!"</div>`
+        },
+        {
+          q: "Can I say AI is bad?",
+          a: `<p>Yes — as long as it's grounded in what they learned.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"You can say AI is risky. Just back it up with examples from our lessons: bias, bad data, no human nuance."</div>`
+        },
+        {
+          q: "What if I change my mind later?",
+          a: `<p>That's how learning works. Affirm the change.</p>
+              <p><span class="label">Say to your class</span></p>
+              <div class="quote">"The opinion you have today is allowed to change tomorrow. That's not flip-flopping — that's learning more."</div>`
+        },
+      ]
+    },
+    /* ---------- CONCEPT EXPLAINERS ---------- */
+    concepts: [
+      { id: "data", term: "Data", lessons: [1,2,3,4,5],
+        adult: "Information collected about the world.",
+        kid: "Stuff we know about something. The class data: 12 like pizza, 8 like tacos. That's data.",
+        example: "List of every student's favorite pizza topping = data.",
+        nonexample: "A guess about what topping will be popular = not data."
+      },
+      { id: "feature", term: "Feature", lessons: [1,3],
+        adult: "A property an item has — its color, shape, size, or any attribute.",
+        kid: "Something an item IS or HAS. A triangle has 3 sides — that's a feature. A pizza has cheese — that's a feature.",
+        example: "Triangle: 3 sides, pointy, flat = features.",
+        nonexample: "'Cool' is not a feature — too opinion-based."
+      },
+      { id: "predict", term: "Predict", lessons: [1,2,3],
+        adult: "Make an informed guess based on patterns in data.",
+        kid: "Guessing what comes next, using what you already know. If every Friday we have pizza, you can predict Friday = pizza.",
+        example: "After seeing 10 sorted items, guess where the 11th goes.",
+        nonexample: "Flipping a coin to decide — that's random, not prediction."
+      },
+      { id: "sort", term: "Sort", lessons: [1],
+        adult: "Group items by shared features.",
+        kid: "Putting things in piles where each pile has something in common.",
+        example: "All the round things in one pile, all the flat things in another.",
+        nonexample: "Stacking randomly — not sorting."
+      },
+      { id: "training-data", term: "Training data", lessons: [1,2,4],
+        adult: "Sorted, labeled information given to a computer so it can learn to make predictions.",
+        kid: "The examples we show the computer so it can learn. Like flashcards for a robot.",
+        example: "100 photos labeled 'cat' or 'dog' to teach the computer the difference.",
+        nonexample: "Showing the computer photos with NO labels — that's not training data."
+      },
+      { id: "ml", term: "Machine Learning", lessons: [2],
+        adult: "How computers recognize patterns and make decisions without explicit rules.",
+        kid: "A way for the computer to figure things out by looking at lots of examples, not by us writing every rule.",
+        example: "AI for Oceans learns 'fish vs. trash' from examples, not a rulebook.",
+        nonexample: "A calculator following exact math rules — that's just a program, not ML."
+      },
+      { id: "ai", term: "Artificial Intelligence (AI)", lessons: [2,3,4,5],
+        adult: "A way for computers to make decisions on their own using patterns from data.",
+        kid: "When a computer can make a choice by itself, after we showed it lots of examples.",
+        example: "Voice assistants, self-driving cars, AI Bot picking dance effects.",
+        nonexample: "A clock showing the time — no decision, just a measurement."
+      },
+      { id: "accurate", term: "Accurate", lessons: [2],
+        adult: "Correct or close to correct.",
+        kid: "Right. The opposite of wrong.",
+        example: "AI predicted 'fish' and it was a fish → accurate.",
+        nonexample: "AI predicted 'fish' and it was actually a starfish → not accurate."
+      },
+      { id: "bias", term: "Bias", lessons: [2,4,5],
+        adult: "Favoring some things over others, leading to unfair decisions.",
+        kid: "When a model gives some things a fair shot but not others. Usually because the training data was unfair.",
+        example: "If we only train AI on red angry-looking fish, it learns red = angry. That's bias.",
+        nonexample: "Liking pizza more than salad is preference, not bias — it doesn't unfairly affect others."
+      },
+      { id: "feature-vector", term: "Feature Vector", lessons: [3],
+        adult: "Numbers assigned to features so a machine can compare items mathematically.",
+        kid: "Putting numbers on features so the computer can do math with them. Like rating sweetness 1–10.",
+        example: "A donut: sweetness 9, like-to-eat 10 → feature vector (9, 10).",
+        nonexample: "Just the word 'sweet' — no number, no math, no vector."
+      },
+      { id: "training", term: "Training", lessons: [2,4,5],
+        adult: "Teaching a computer to do a task by showing it many examples.",
+        kid: "Showing a computer lots of examples so it learns the pattern.",
+        example: "Showing AI 200 photos of fish so it learns to spot fish.",
+        nonexample: "Telling a computer 'be smart' — not training."
+      }
+    ],
+    /* ---------- MISCONCEPTIONS ---------- */
+    misconceptions: {
+      1: [
+        { student: "AI is magic / AI knows everything from the start.",
+          reality: "AI is pattern-matching on data you give it. Nothing more.",
+          fix: `"Remember how you had to look at colors to figure out the rule? AI does that, but with way more examples. No magic — just a lot of practice."` },
+        { student: "More guessing makes AI better.",
+          reality: "More <em>sorted, labeled</em> data makes AI better. Random guesses don't help.",
+          fix: `"Imagine flashcards. If they're all blank, you don't learn. If they have answers, you do. AI is the same."` },
+        { student: "If I sort differently than my partner, one of us is wrong.",
+          reality: "Different valid features → different valid sortings. Both can be right.",
+          fix: `"Did you both follow a clear pattern? Then you're both right. The question is 'what feature did you sort on?', not 'who's correct?'"` }
+      ],
+      2: [
+        { student: "AI is always more accurate than humans.",
+          reality: "AI fails in cases humans handle easily — student kneeling, in the bathroom, in a wheelchair.",
+          fix: `"Attendance Bot can't see nuance. A teacher can. Speed vs. understanding — AI gives speed, humans give understanding."` },
+        { student: "Same training word → same AI model.",
+          reality: "The <em>examples</em> shape the model, not the label.",
+          fix: `"You and your partner both picked 'happy'. But you trained on different fish. Same word, different model. The pictures matter more than the label."` },
+        { student: "AI just learns on its own.",
+          reality: "Humans pick the data and the labels. AI doesn't 'learn' without that.",
+          fix: `"Look at the counter — it's counting the examples YOU gave. Without that, AI does nothing."` }
+      ],
+      3: [
+        { student: "AI 'knows' what I want.",
+          reality: "AI estimates based on probability across many users' choices.",
+          fix: `"AI guesses what most people who picked those emojis liked. You might be different. That's why you can regenerate or edit."` },
+        { student: "Same emojis always = same effects.",
+          reality: "Usually yes, but probability means sometimes AI picks a less-likely option.",
+          fix: `"It's like flipping a weighted coin. Usually heads. Sometimes tails. AI is the same — usually predictable, sometimes surprising."` },
+        { student: "Letting AI decide is always faster and better.",
+          reality: "Faster, often yes. Better — depends on whether AI's 'average' matches your taste.",
+          fix: `"AI is a great first draft. Your job is to keep, change, or throw it out."` }
+      ],
+      4: [
+        { student: "More data = always better.",
+          reality: "Irrelevant data introduces bias. Relevance matters more than volume.",
+          fix: `"Would you use someone's detention record to pick their lunch seat? Probably not. Some data sneaks bias in even when there's lots of it."` },
+        { student: "AI bias is rare.",
+          reality: "Bias is the default unless you actively prevent it.",
+          fix: `"Bias creeps in any time the training data doesn't represent everyone. That's almost always — unless we work to fix it."` },
+        { student: "Once trained, AI is done.",
+          reality: "AI needs ongoing review. Data changes, people change, AI should change too.",
+          fix: `"Imagine training AI in 2010. Would it know what TikTok is? Of course not. AI needs updates, just like our learning."` }
+      ],
+      5: [
+        { student: "There's a right answer about AI.",
+          reality: "There isn't. The point is informed opinion.",
+          fix: `"Reasonable people disagree about AI. That's fine. Your job is to explain WHY you think what you think, with examples."` },
+        { student: "AI is all bad / all good.",
+          reality: "Context-dependent. Same tool can help in one situation and harm in another.",
+          fix: `"AI sorting trash from recycling? Probably great. AI choosing Student of the Month? Probably risky. Same kind of AI, very different stakes."` }
+      ]
+    }, // end misconceptions
+    /* ---------- ONBOARDING JOURNEYS ---------- */
+    onboarding: {
+      banner: "These journeys are also available on the web version. Tap any card to preview here.",
+      cards: [
+        { id: "start", icon: "🚀", title: "Where should I start?", desc: "5-minute orientation: what 'How AI Makes Decisions' is, who it's for, what to do first." },
+        { id: "syllabus", icon: "📋", title: "Review the syllabus", desc: "All 5 lessons at a glance: timing, objectives, vocab, materials needed." },
+        { id: "lesson-plan", icon: "📖", title: "See a lesson plan", desc: "Walk through Lesson 1 minute by minute, including discussion goals and timing." },
+        { id: "sample", icon: "🎬", title: "Explore a sample lesson", desc: "Try the student levels yourself so you know what your students will see." },
+        { id: "evaluate", icon: "✅", title: "Learn how to evaluate", desc: "Question of the Day as exit ticket. Optional rubrics for Lesson 5 artifacts." },
+        { id: "section", icon: "👩‍🏫", title: "Create a class section", desc: "Quick steps to set up a section in Code.org and add students." },
+      ]
+    },
+    onboardingDetail: {
+      start: `<p><span class="label">Where to start</span></p>
+        <p>The module is <strong>5 lessons × 45 min</strong>, for upper elementary (Grades 3–5). Designed for teachers new to CS/AI — no coding background needed.</p>
+        <p><strong>Your first 30 minutes of prep:</strong></p>
+        <ul>
+          <li>Watch the <em>What is AI?</em> intro video (3 min)</li>
+          <li>Click through Lesson 1's Levels 1–7 yourself (15 min)</li>
+          <li>Read the Lesson 1 pre-flight in this chat (5 min)</li>
+        </ul>
+        <p>That's it. You're ready for Day 1.</p>`,
+      syllabus: `<p><span class="label">Syllabus</span></p>
+        <ul>
+          <li><strong>L1 · Making Predictions</strong> — Supervised vs reinforcement learning, sorting</li>
+          <li><strong>L2 · Training AI</strong> — Training data, bias (AI for Oceans)</li>
+          <li><strong>L3 · Using AI Bot</strong> — Feature vectors, probability (Dance Party AI)</li>
+          <li><strong>L4 · AI Tools in School</strong> — Picking relevant data, preventing bias</li>
+          <li><strong>L5 · Share Your Voice</strong> — Forming and sharing opinions on AI</li>
+        </ul>`,
+      "lesson-plan": `<p>Pick a lesson to see its full plan in chat:</p>`,
+      sample: `<p><span class="label">Sample lesson</span></p>
+        <p>Best starting point: <strong>Lesson 1, Level 1</strong> — "How is it Sorted?" Try answering as if you were a student.</p>
+        <p>Then jump to <strong>Lesson 2, AI for Oceans Level 2</strong> to feel what training an AI is like.</p>`,
+      evaluate: `<p><span class="label">Evaluating</span></p>
+        <p><strong>Every lesson</strong> ends with a Question of the Day — perfect as an exit ticket.</p>
+        <p><strong>Lesson 5 artifacts</strong> (letter, poster, song, etc.) can be evaluated on: clarity of opinion, use of vocab from the module, and at least one example from the lessons.</p>`,
+      section: `<p><span class="label">Create a class section</span></p>
+        <p>Set this up on the web (not yet available in this app):</p>
+        <ol>
+          <li>Log in to <strong>studio.code.org</strong></li>
+          <li>Tap <strong>Sections</strong> → <strong>New section</strong></li>
+          <li>Choose course: <em>"How AI Makes Decisions"</em></li>
+          <li>Share the section code with your students</li>
+        </ol>`
+    },
+    }, // end Course 1
+    /* ====================== COURSE 2 ====================== */
+    {
+      id: "problem-solving-with-ai",
+      name: "Problem Solving with AI",
+      badge: "13 lessons · Grades 6–8",
+      greetings: {
+        first: [
+          "Hi! I'm your teaching assistant for <strong>Problem Solving with AI</strong> — 13 lessons for middle school. 👋",
+          "This unit helps students critically evaluate, refine, and collaborate with AI. What do you need right now?"
+        ],
+        returning: ["Welcome back! 👋 Last time you taught <strong>{lastLesson}</strong>. How can I help?"],
+      },
+      lessonChips: [
+        { id: 1,  label: "L1 · Talking to Machines" },
+        { id: 2,  label: "L2 · Beyond Words" },
+        { id: 3,  label: "L3 · The AI's Brain" },
+        { id: 4,  label: "L4 · Smart or Just Predictable?" },
+        { id: 5,  label: "L5 · Uncovering Contradictions" },
+        { id: 6,  label: "L6 · Understanding Bias" },
+        { id: 7,  label: "L7 · AI's Wild Imagination" },
+        { id: 8,  label: "L8 · Debugging and Refining Outputs" },
+        { id: 9,  label: "L9 · AI as a Co-Creator" },
+        { id: 10, label: "L10 · Remixing, Creativity, Originality" },
+        { id: 11, label: "L11 · Ownership, Ethics, Creativity" },
+        { id: 12, label: "L12 · AI's Role in Society" },
+        { id: 13, label: "L13 · AI Time Capsule Project" },
+      ],
+      preflight: {
+        1: {
+          header: "Lesson 1 · Talking to Machines · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> How AI generates responses via pattern recognition. Essential Q: "How can I use AI effectively?"</p>
+            <p><strong>New vocab:</strong> Prompt, Pattern recognition, Large Language Model</p>
+            <p><strong>Activities:</strong> L1 AI Predictions (observe patterns), L2–4 Prompting AI (craft text prompts), L5 Prompting Practice, L6 Check Understanding</p>
+            <p><strong>Tech check:</strong> Students need access to AI Chat levels. Do a quick model yourself first.</p>
+            <p><strong>⚡ Watch for:</strong> Students treating AI like a search engine — redirect them to think about prompts as instructions, not queries.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How do I explain prompting?"]
+        },
+        2: {
+          header: "Lesson 2 · Beyond Words · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> How multimodal AI processes text + images together. Essential Q: "How does AI process different types of media?"</p>
+            <p><strong>New vocab:</strong> Multimodal AI, Privacy</p>
+            <p><strong>Activities:</strong> L1–2 AI's Image Observation Skills, L3–4 Scenario-Based Prompting, L5 Practice with Multimodal Model</p>
+            <p><strong>Tech check:</strong> Image upload works in students' browsers.</p>
+            <p><strong>⚡ Watch for:</strong> Students sharing personal photos — remind them never to upload images with faces or personal info.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "Privacy concerns to flag"]
+        },
+        3: {
+          header: "Lesson 3 · The AI's Brain · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> How LLMs are trained and use neural networks. Essential Q: "How do AI models learn?"</p>
+            <p><strong>New vocab:</strong> Large Language Model (LLM), Neural network, Zero-shot / One-shot / Multi-shot prompting</p>
+            <p><strong>Activities:</strong> Unplugged neural network simulation (no device needed), L1–4 Prompting Challenges</p>
+            <p><strong>Key insight:</strong> More examples in a prompt = more accurate AI output.</p>
+            <p><strong>⚡ Watch for:</strong> Students thinking AI "thinks" or "understands" — keep redirecting to pattern prediction.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to run the unplugged activity"]
+        },
+        4: {
+          header: "Lesson 4 · Smart or Just Predictable? · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> AI strengths, weaknesses, and hallucinations. Essential Q: "Where does AI excel vs. struggle?"</p>
+            <p><strong>New vocab:</strong> Hallucination (AI), Human oversight</p>
+            <p><strong>Activities:</strong> L1–4 AI vs. Human Tasks comparison, L5 Check Understanding</p>
+            <p><strong>Key insight:</strong> AI excels at pattern completion and scaling; struggles with nuance, ethics, novel scenarios.</p>
+            <p><strong>⚡ Watch for:</strong> Students either over-trusting AI ("it's always right") or dismissing it entirely — push them toward nuanced evaluation.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "Examples of hallucinations to share"]
+        },
+        5: {
+          header: "Lesson 5 · Uncovering Contradictions · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> Why AI contradicts itself and how to reduce it. Essential Q: "Can AI contradict itself?"</p>
+            <p><strong>New vocab:</strong> Contradiction, Prompt precision</p>
+            <p><strong>Activities:</strong> L1 Two Truths and a Lie, L2 Examining AI Contradictions, L3–4 AI Contradictions in Practice, L5–6 Try Your Own</p>
+            <p><strong>Key insight:</strong> Vague prompts produce inconsistent AI outputs. Precise prompts reduce contradictions.</p>
+            <p><strong>Heads up:</strong> This is a great lesson to let students "break" the AI on purpose — frame it as science, not misbehaving.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to frame 'breaking' AI productively"]
+        },
+        6: {
+          header: "Lesson 6 · Understanding Bias · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> How bias enters AI through training data. Essential Q: "What is AI bias, and how does it emerge?"</p>
+            <p><strong>New vocab:</strong> AI bias, Mitigation</p>
+            <p><strong>Activities:</strong> L1 Career Clothing (biased recommendations), L2 Check Understanding, L3 Decision-Making Roles, L4–5 AI Audit Challenge</p>
+            <p><strong>Key insight:</strong> Bias isn't always obvious — even "neutral" data carries historical inequities.</p>
+            <p><strong>⚡ Watch for:</strong> Students blaming bias on bad intent — help them see it's often accidental and structural.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "Real-world bias examples to use"]
+        },
+        7: {
+          header: "Lesson 7 · AI's Wild Imagination · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> AI hallucinations — what they are and why they happen. Essential Q: "What are AI hallucinations and what are their impacts?"</p>
+            <p><strong>New vocab:</strong> Hallucination, Fact-checking</p>
+            <p><strong>Activities:</strong> L1–2 Reduce AI Hallucinations (strategies and case studies)</p>
+            <p><strong>Key insight:</strong> AI doesn't know when it's wrong. It presents false info confidently. Students need skepticism habits.</p>
+            <p><strong>Discuss:</strong> Real case of a lawyer citing non-existent cases generated by ChatGPT. What went wrong?</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "Case studies to share with class"]
+        },
+        8: {
+          header: "Lesson 8 · Debugging and Refining Outputs · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> A 5-step framework to write better prompts. Essential Q: "Can we improve AI's responses?"</p>
+            <p><strong>New vocab:</strong> Prompt framework (Task, Context, Reference, Format, Tone)</p>
+            <p><strong>Activities:</strong> L1 Adding a Task, L2–6 AI Prompting Framework (5-step), L7–9 Refinement Practice</p>
+            <p><strong>Key insight:</strong> Task + Context + Reference + Format + Tone = dramatically better outputs.</p>
+            <p><strong>Model it:</strong> Show a weak prompt vs. a strong one using the framework before students try.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to model the 5-step framework"]
+        },
+        9: {
+          header: "Lesson 9 · AI as a Co-Creator · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> AI as a creative partner across project stages. Essential Q: "How can AI enhance creativity?"</p>
+            <p><strong>Activities:</strong> L1–5 Collaborate on Product Launch (teams of 2–3, 4 stages: research, brainstorm, generate, edit), L6 Check Understanding</p>
+            <p><strong>Stage breakdown:</strong> Research (gather student insights) → Brainstorm with AI → Generate materials (slogans, scripts) → Edit for authenticity</p>
+            <p><strong>Key insight:</strong> AI amplifies human creativity; it doesn't replace the human judgment that makes work meaningful.</p>`,
+          followUps: ["Common student questions", "Most likely misconception", "How to run the 4-stage collaboration", "Tips for editing AI-generated content"]
+        },
+        10: {
+          header: "Lesson 10 · Remixing, Creativity, and Originality · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> The difference between human and AI contributions to creative work. Essential Q: "How do human strengths and AI capabilities interact?"</p>
+            <p><strong>Activities:</strong> L1 AI in Music Lab, L2 Students as the Pilot (solo), L3–4 Students as the Co-Pilot (AI collaboration), L5 Check Understanding</p>
+            <p><strong>Key insight:</strong> AI is a great first draft, not a final product. Human judgment = originality.</p>
+            <p><strong>⚡ Watch for:</strong> Students turning in pure AI output — help them see that editing IS the creative act.</p>`,
+          followUps: ["Common student questions", "Most likely misconception", "How to explain 'originality' to students"]
+        },
+        11: {
+          header: "Lesson 11 · Ownership, Ethics, and Creativity · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> Ethical tradeoffs of AI-generated content. Essential Q: "What are the ethical considerations of AI collaboration?"</p>
+            <p><strong>Activities:</strong> Values warm-up, L1–2 Ownership, Ethics, Creativity case studies, Rotating discussion stations, Reflection on guiding principles</p>
+            <p><strong>Key discussion:</strong> Who owns AI-generated art? Should musicians be compensated when AI trains on their music?</p>
+            <p><strong>Note:</strong> This is a values-heavy lesson — your job is to hold space for disagreement, not resolve it.</p>`,
+          followUps: ["Common student questions", "Most likely misconception", "Discussion station setup tips", "Key ethical questions to surface"]
+        },
+        12: {
+          header: "Lesson 12 · AI's Role in Society · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> Real-world AI use in communities — who benefits, who's harmed. Essential Q: "How should AI be used in solving real-world problems?"</p>
+            <p><strong>Activities:</strong> L1 Articles (research), L2 AI in the Community, L3 Check Understanding, L4 Optional: Collaborate with AI on solutions</p>
+            <p>Students research a local/national AI application, analyze stakeholder impacts, propose solutions.</p>
+            <p><strong>Heads up:</strong> This can go long — decide in advance whether L4 is in-class or homework.</p>`,
+          followUps: ["Common student questions", "Most likely misconception", "Examples of community AI to research", "How to scaffold the stakeholder analysis"]
+        },
+        13: {
+          header: "Lesson 13 · AI Time Capsule Project · 3 days × 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> 3-day capstone — evidence-based future predictions co-created with AI. Essential Q: "How can we use AI as a creative partner to generate meaningful future predictions?"</p>
+            <p><strong>Day 1:</strong> Choose focus area, gather artifacts, make initial prediction, collaborate with AI Chat</p>
+            <p><strong>Day 2:</strong> Build presentation, refine with AI, peer feedback</p>
+            <p><strong>Day 3:</strong> Final edits, small-group presentations, reflection discussion</p>
+            <p><strong>Rubric elements:</strong> Research quality, AI collaboration, critical evaluation, human voice, clarity, reflection</p>
+            <p><strong>Heads up:</strong> Some students struggle with "human voice" — discuss what makes their prediction uniquely theirs.</p>`,
+          followUps: ["Rubric details", "Common student questions", "How to run Day 3 presentations", "What counts as 'human voice'?"]
+        },
+      },
+      studentQs: {
+        1: [
+          { q: "Is AI just autocomplete?",
+            a: `<p>It's a useful analogy. AI predicts the next most-likely word based on patterns.</p><p><span class="label">Say to your class</span></p><div class="quote">"Yes — and that's not an insult. Autocomplete that's read most of the internet and can write essays is still pattern prediction. The key question is: what can it NOT do that way?"</div>` },
+          { q: "Why does the same prompt give different answers?",
+            a: `<p>Probability. AI doesn't always pick the single most likely word — it samples from a distribution.</p><p><span class="label">Say to your class</span></p><div class="quote">"Think of a weighted bag of marbles. Red usually comes out, but blue sometimes does. AI has a 'temperature' setting that controls how random it is."</div>` },
+          { q: "Can AI think or understand?",
+            a: `<p>No — AI predicts; it doesn't understand.</p><p><span class="label">Say to your class</span></p><div class="quote">"It learned that 'Paris is the capital of ___' usually ends in 'France.' It doesn't know what a capital is — it knows what comes next in that sentence pattern."</div>` },
+        ],
+        2: [
+          { q: "Can AI see what's in a photo?",
+            a: `<p>It can describe patterns and objects it was trained to recognize, but it doesn't 'see' the way we do.</p><p><span class="label">Say to your class</span></p><div class="quote">"AI matches what it sees to patterns from millions of labeled images. It's very good at this — but it can be fooled by unusual lighting, angles, or objects it hasn't seen in training."</div>` },
+          { q: "Should I be careful about what photos I share?",
+            a: `<p>Yes — this is a critical safety point.</p><p><span class="label">Say to your class</span></p><div class="quote">"Never upload photos with faces of real people you know, your home address visible, or anything private. Even if the tool seems safe, you don't control where that image goes."</div>` },
+          { q: "Does text or image matter more for the AI?",
+            a: `<p>Together they're much more powerful than either alone.</p><p><span class="label">${"Behind the scenes"}</span></p><p>The image provides visual context (what's there) and the text guides interpretation (what to focus on, how to describe it). Neither alone is as effective.</p>` },
+        ],
+        3: [
+          { q: "Did someone teach AI all these facts?",
+            a: `<p>Not directly. AI was trained on patterns in text, not explicit facts.</p><p><span class="label">Say to your class</span></p><div class="quote">"The AI read billions of sentences where 'the sky is blue' appeared. It learned that those words go together — not because someone told it 'the sky is blue' as a rule."</div>` },
+          { q: "Why do I get better answers when I give an example?",
+            a: `<p>Examples help AI pattern-match to what you actually want.</p><p><span class="label">Say to your class</span></p><div class="quote">"If I say 'write a haiku,' AI guesses what you mean. If I show you a haiku first, AI knows exactly the pattern to match. That's one-shot prompting — and it works."</div>` },
+          { q: "How does AI get better over time?",
+            a: `<p>Human feedback. RLHF — reinforcement learning from human feedback.</p><p><span class="label">Say to your class</span></p><div class="quote">"Real people rated AI responses as 'good' or 'bad.' The AI learned to generate more responses that humans rated good. People trained the AI — AI didn't train itself."</div>` },
+        ],
+        4: [
+          { q: "How do I know if I should trust what AI says?",
+            a: `<p>Two checks: Is this something AI is good at (facts, summaries, patterns), and can you verify it?</p><p><span class="label">Say to your class</span></p><div class="quote">"Ask yourself: Could a very fast, well-read human get this wrong? If yes, double-check. AI gets facts wrong all the time — especially numbers, names, and recent events."</div>` },
+          { q: "What's a hallucination?",
+            a: `<p>When AI confidently states something false, as if it were true.</p><p><span class="label">Say to your class</span></p><div class="quote">"A lawyer used ChatGPT to find legal cases. The AI made up case names that sounded real — and the lawyer cited them in court. The judge was not impressed. AI doesn't know when it's guessing."</div>` },
+          { q: "Is AI cheating?",
+            a: `<p>Using AI isn't automatically cheating — it depends on the rules and how you use it.</p><p><span class="label">Behind the scenes</span></p><p>Frame it as a tool decision: a calculator isn't cheating in the right context. What matters is whether the human is doing the thinking — using AI to skip that is the problem.</p>` },
+        ],
+        5: [
+          { q: "Why does AI say different things about the same topic?",
+            a: `<p>Different prompts, different probability distributions, different outputs.</p><p><span class="label">Say to your class</span></p><div class="quote">"Ask the AI about climate change two different ways. You might get two very different answers. That's not lying — it's probability. Same reason weather forecasts differ depending on the model used."</div>` },
+          { q: "How do I write a prompt that doesn't get contradictions?",
+            a: `<p>Be specific about what you want, for whom, and in what format.</p><p><span class="label">Say to your class</span></p><div class="quote">"Weak prompt: 'Tell me about healthy food.' Strong prompt: 'List 5 healthy foods for school lunch, each under 100 calories, and explain why they're healthy in one sentence.' The second one leaves much less room for contradictions."</div>` },
+          { q: "Can I use AI to check AI?",
+            a: `<p>Yes, and it's actually a useful technique.</p><p><span class="label">Behind the scenes</span></p><p>Give the AI a claim and ask it to fact-check itself, or ask a second AI tool to evaluate the first response. It's not foolproof, but it often catches obvious contradictions.</p>` },
+        ],
+        6: [
+          { q: "If AI is trained on real data, how can it be biased?",
+            a: `<p>Real data reflects real-world inequities.</p><p><span class="label">Say to your class</span></p><div class="quote">"If most CEO photos online are of men in suits, and AI learns from those photos, it will think 'CEO = man in suit.' Not because someone programmed that — because that's what the data showed."</div>` },
+          { q: "Can we just fix the training data?",
+            a: `<p>It helps, but it's not the only solution.</p><p><span class="label">Say to your class</span></p><div class="quote">"Fixing data is step one. You also need diverse teams checking for bias, fairness metrics in the model, and ongoing monitoring. Bias can creep back in as the world changes."</div>` },
+          { q: "Is AI racist/sexist?",
+            a: `<p>AI can produce biased outputs that reflect racism or sexism — but the cause is data and design, not intent.</p><p><span class="label">Behind the scenes</span></p><p>AI doesn't 'intend' anything. But 'no intent' doesn't mean 'no harm' — that's why human oversight matters so much.</p>` },
+        ],
+        7: [
+          { q: "Why does AI make stuff up?",
+            a: `<p>Because it's always predicting the next most likely word, whether or not it's accurate.</p><p><span class="label">Say to your class</span></p><div class="quote">"AI doesn't have a fact-checker inside it. It produces text that sounds plausible — that's all. If the training data was wrong, or the AI is on unfamiliar ground, it can sound very confident while being very wrong."</div>` },
+          { q: "How can I tell if AI is hallucinating?",
+            a: `<p>Watch for: very specific details (dates, names, statistics) with no source, and information you can't verify elsewhere.</p><p><span class="label">Say to your class</span></p><div class="quote">"Be most suspicious when AI gives you a specific number, name, or quote. Those are the hallucination hot spots. Always verify before you repeat it."</div>` },
+          { q: "Has AI hallucination caused real harm?",
+            a: `<p>Yes — in law, medicine, and journalism.</p><p><span class="label">Behind the scenes</span></p><p>The 2023 case of two lawyers who cited AI-generated fake court cases is well-documented. Medical misinformation from AI has also spread. The stakes are real — especially in high-trust fields.</p>` },
+        ],
+        8: [
+          { q: "Why didn't my prompt work?",
+            a: `<p>Usually one of the five framework pieces is missing.</p><p><span class="label">Say to your class</span></p><div class="quote">"Run through the checklist: Task clear? Context given? Reference example provided? Format specified? Tone set? Usually it's context or format that's missing. Add one of those and try again."</div>` },
+          { q: "What's the difference between context and reference?",
+            a: `<p>Context is WHY you need it and who it's for. Reference is an EXAMPLE of what you want.</p><p><span class="label">Say to your class</span></p><div class="quote">"Context: 'I'm teaching 7th graders who've never heard of climate change.' Reference: 'Here's an example of the kind of explanation I want: [paste example].' Together, they lock in what you need."</div>` },
+          { q: "Can you give too much context?",
+            a: `<p>Rarely — but you can give irrelevant context.</p><p><span class="label">Behind the scenes</span></p><p>Very long prompts with lots of irrelevant information can actually confuse AI. Keep context relevant to the task. A focused, specific prompt beats a long rambling one.</p>` },
+        ],
+        9: [
+          { q: "Can AI replace the creative part?",
+            a: `<p>Only the first draft — and a first draft isn't a finished product.</p><p><span class="label">Say to your class</span></p><div class="quote">"AI can generate 20 slogans in 10 seconds. Your job is to know which one is actually good, why it works, and how to make it better. That judgment is the creative part — AI can't do that."</div>` },
+          { q: "What if my team's AI outputs are all the same?",
+            a: `<p>Time to prompt differently.</p><p><span class="label">Say to your class</span></p><div class="quote">"If everyone's getting similar output, change the context or format. Tell AI to be surprising, to give you an unusual angle, or to approach it from a different audience's perspective. Same prompt = same output."</div>` },
+          { q: "How do we split AI work fairly in a team?",
+            a: `<p>Decide in advance who does which stage.</p><p><span class="label">Behind the scenes</span></p><p>Suggest assigning stages: one person leads research, one leads brainstorming prompts, one leads editing. Each person is responsible for making their stage genuinely theirs — not just accepting whatever AI generates.</p>` },
+        ],
+        10: [
+          { q: "Is AI-generated content original?",
+            a: `<p>Not on its own — AI remixes patterns from training data.</p><p><span class="label">Say to your class</span></p><div class="quote">"AI can't create something truly new — it recombines what it's learned. But when you use AI output as a starting point and shape it with your own ideas, the result can be original. The key is how much of YOU is in the final product."</div>` },
+          { q: "Am I just copying if I use AI?",
+            a: `<p>Using AI as a tool is not the same as copying, if you make meaningful editorial choices.</p><p><span class="label">Say to your class</span></p><div class="quote">"A musician who loops a drum sample isn't copying — they're building something new around it. Same here. If you chose, edited, and arranged — it's yours. If you hit generate and turned it in — that's closer to copying."</div>` },
+          { q: "Why does AI music/art feel slightly off?",
+            a: `<p>Because AI averages across millions of examples — originality requires going against the average.</p><p><span class="label">Behind the scenes</span></p><p>AI optimizes for what's statistically common, not what's surprising or moving. That's why human curation of AI output matters — we can recognize and choose the outlier.</p>` },
+        ],
+        11: [
+          { q: "Who owns something an AI makes?",
+            a: `<p>Currently unclear in most legal systems — this is an active debate.</p><p><span class="label">Say to your class</span></p><div class="quote">"Courts are still figuring this out. Some say: whoever wrote the prompt. Some say: the AI company. Some say: no one. What do YOU think should matter most when deciding?"</div>` },
+          { q: "Is it fair that AI trained on artists' work without permission?",
+            a: `<p>Many artists say no — this is one of the biggest ongoing debates in AI.</p><p><span class="label">Say to your class</span></p><div class="quote">"Think about it this way: if someone learned to paint by studying your art and then sold paintings in your style, would that be okay? Now scale that to millions of artists and an AI. Same question, much bigger scale."</div>` },
+          { q: "Does AI know it's using someone else's work?",
+            a: `<p>No — AI has no awareness of what it was trained on.</p><p><span class="label">Behind the scenes</span></p><p>AI processes statistical patterns, not individual works. But 'I didn't know' doesn't resolve the ethical question for the humans who built and deployed the system.</p>` },
+        ],
+        12: [
+          { q: "Can AI actually solve community problems?",
+            a: `<p>It can help — but it introduces new ones too.</p><p><span class="label">Say to your class</span></p><div class="quote">"AI can process data faster than humans and spot patterns we'd miss. But it can also replicate existing inequities at scale. The question isn't 'can AI help' — it's 'who benefits, who's harmed, and who decides.'"</div>` },
+          { q: "What if there's no AI in my community to research?",
+            a: `<p>Look at regional or national examples that affect your community.</p><p><span class="label">Behind the scenes</span></p><p>Try: predictive policing in nearby cities, AI in school systems (attendance, grading tools), AI in healthcare coverage decisions, or algorithmic hiring tools used by local employers.</p>` },
+          { q: "What should I do if I find something unfair?",
+            a: `<p>That's exactly what this lesson is building toward — propose a change.</p><p><span class="label">Say to your class</span></p><div class="quote">"The call-to-action in this lesson is your answer. Research it, identify who was harmed, identify who has the power to fix it, and write a specific recommendation. That's civic engagement."</div>` },
+        ],
+        13: [
+          { q: "How far in the future should my prediction be?",
+            a: `<p>5-25 years is a useful range — specific enough to research, far enough to be interesting.</p><p><span class="label">Say to your class</span></p><div class="quote">"2 years is too close — we can see that already. 100 years is too far — too much guessing. 10-20 years lets you find evidence today that points toward the future."</div>` },
+          { q: "What if AI gives me a prediction I disagree with?",
+            a: `<p>That's perfect — use it as your starting point to argue with.</p><p><span class="label">Say to your class</span></p><div class="quote">"Your job isn't to accept AI's prediction. Your job is to use evidence to either build on it or push back on it. Disagreeing with AI — with reasons — is exactly the critical thinking this project is about."</div>` },
+          { q: "How much of this is my work vs. AI's?",
+            a: `<p>At least half should be yours — your research, your choices, your edits.</p><p><span class="label">Behind the scenes</span></p><p>The rubric awards points for human voice and critical evaluation. If the project could have been created by the AI alone, it's not meeting the bar. Students should be able to explain every choice they made.</p>` },
+        ],
+      },
+      concepts: [
+        { id: "prompt", term: "Prompt", lessons: [1,2,3,8],
+          adult: "The instruction or question you give an AI to generate a response.",
+          kid: "What you type or say to the AI. Like giving a robot very clear instructions.",
+          example: "'Write a 3-sentence explanation of photosynthesis for a 5th grader' — that's a specific, useful prompt.",
+          nonexample: "'Tell me stuff' — too vague to get a useful response." },
+        { id: "llm", term: "Large Language Model (LLM)", lessons: [3],
+          adult: "An AI system trained on massive amounts of text to predict and generate language.",
+          kid: "An AI that learned from billions of sentences and got really good at predicting what word comes next.",
+          example: "ChatGPT, Claude, Gemini — these are all LLMs.",
+          nonexample: "A calculator — it follows exact rules, not patterns learned from text." },
+        { id: "hallucination", term: "Hallucination (AI)", lessons: [4,7],
+          adult: "When an AI generates false or made-up information presented as if it were fact.",
+          kid: "When AI makes something up and states it confidently, like it knows — but it's wrong.",
+          example: "AI inventing a court case citation that doesn't exist — citing it as real.",
+          nonexample: "AI saying 'I'm not sure' — that's honest uncertainty, not a hallucination." },
+        { id: "multimodal", term: "Multimodal AI", lessons: [2],
+          adult: "AI that can process and generate multiple types of media — text, images, audio, etc.",
+          kid: "An AI that can understand both words AND pictures (and sometimes sound or video).",
+          example: "Uploading a photo of a plant and asking 'what disease does this have?' — text + image input.",
+          nonexample: "A chatbot that only accepts text — that's unimodal." },
+        { id: "neural-network", term: "Neural Network", lessons: [3],
+          adult: "A computing system loosely inspired by the brain, made of layers of nodes that recognize patterns.",
+          kid: "A system of connected 'switches' that work together to find patterns, like a team of people passing notes.",
+          example: "Each layer in a neural network finds more complex patterns: pixels → edges → shapes → faces.",
+          nonexample: "A spreadsheet formula — that's explicit rules, not learned pattern-finding." },
+        { id: "few-shot", term: "Few-Shot Prompting", lessons: [3,8],
+          adult: "Giving an AI one or more examples in the prompt so it can match the pattern you want.",
+          kid: "Showing the AI an example of what you want before asking it to do it.",
+          example: "'Here's a haiku: [example]. Now write one about winter.' — the example teaches the pattern.",
+          nonexample: "Just saying 'write a haiku' with no example — that's zero-shot." },
+        { id: "ai-bias", term: "AI Bias", lessons: [6],
+          adult: "When an AI system produces outputs that systematically favor or disadvantage certain groups, usually due to biased training data.",
+          kid: "When AI treats some people unfairly because the examples it learned from were unfair.",
+          example: "An AI hiring tool that ranks men higher because most historical 'successful employee' examples in training data were men.",
+          nonexample: "An AI that makes a one-time error — a single mistake isn't necessarily bias." },
+        { id: "prompt-framework", term: "Prompt Framework (TCRFT)", lessons: [8],
+          adult: "A structured approach to prompting: Task, Context, Reference, Format, Tone — each element improves AI output quality.",
+          kid: "A checklist for writing better AI instructions: what to do, why you need it, an example, how to organize it, and what voice to use.",
+          example: "Task: Summarize. Context: For 7th graders. Reference: [here's a similar summary]. Format: 3 bullets. Tone: Friendly.",
+          nonexample: "'Summarize this' — no context, no format, no reference — likely to get a mediocre result." },
+        { id: "human-oversight", term: "Human Oversight", lessons: [4,6,12],
+          adult: "The practice of having humans review, verify, and correct AI outputs — especially in high-stakes contexts.",
+          kid: "A person double-checking what the AI did to make sure it's right and fair.",
+          example: "A doctor reviewing an AI diagnosis before telling a patient. The AI helps, but the doctor decides.",
+          nonexample: "Posting an AI-written article without anyone reading it first — no oversight." },
+        { id: "originality", term: "Originality (in AI context)", lessons: [10,11],
+          adult: "In creative work with AI, originality comes from the human choices, edits, and perspectives layered onto AI-generated content.",
+          kid: "What makes your AI-assisted work yours — the ideas you added, the choices you made, the parts you changed.",
+          example: "Taking AI's generated poem, rewriting the last stanza with your own emotion, and cutting the clichés — that's originality.",
+          nonexample: "Generating a poem and turning it in unchanged — no human originality added." },
+      ],
+      misconceptions: {
+        1: [
+          { student: "AI understands what it reads.",
+            reality: "AI predicts text patterns — it doesn't understand meaning.",
+            fix: `"When AI says 'Paris is the capital of France,' it's not because it knows geography. It's because that sentence appears so often that 'France' always follows that prompt. Zero understanding, just pattern."` },
+          { student: "A longer prompt is always better.",
+            reality: "A specific, focused prompt beats a long vague one.",
+            fix: `"Think: short and precise > long and rambling. Every extra word should add information the AI needs. Filler words confuse, not clarify."` },
+        ],
+        2: [
+          { student: "Multimodal AI can identify any person in a photo.",
+            reality: "Most public AI tools intentionally avoid facial recognition for privacy and safety reasons.",
+            fix: `"By design, most AI tools won't name people in photos. This is intentional — not a limitation. And it's a good reminder of why image privacy matters."` },
+        ],
+        3: [
+          { student: "AI gets smarter every time I use it.",
+            reality: "Most AI tools don't learn from individual conversations — the model stays fixed after training.",
+            fix: `"Your chat doesn't update the AI. The model was trained once on a huge dataset, then frozen. What changes is your prompt quality — not the AI."` },
+          { student: "More examples in a prompt always help.",
+            reality: "Examples help only when they match what you want — bad examples mislead the AI.",
+            fix: `"One great example beats five mediocre ones. If your reference example has the wrong tone or structure, AI will copy that mistake."` },
+        ],
+        4: [
+          { student: "AI hallucinations are rare edge cases.",
+            reality: "Hallucinations are common, especially for specific facts, names, dates, and sources.",
+            fix: `"AI is most dangerous when it's most confident. Treat AI-generated statistics, quotes, and source citations as unverified until you've checked them yourself."` },
+        ],
+        5: [
+          { student: "If AI gives contradictory answers, one must be correct.",
+            reality: "Both answers might be partially correct, incorrect, or context-dependent — AI doesn't have a single true answer.",
+            fix: `"AI doesn't look up 'the answer.' It generates a plausible response each time. Don't compare two AI outputs and trust the one you prefer — verify both against a real source."` },
+        ],
+        6: [
+          { student: "Fixing the training data fixes the bias.",
+            reality: "Data is one source of bias — but model design, evaluation metrics, and deployment context also matter.",
+            fix: `"Better data helps a lot. But you can have perfect data and still have biased outputs if the model's success metric is wrong, or if it's deployed without diverse feedback. Bias mitigation is ongoing, not a one-time fix."` },
+        ],
+        7: [
+          { student: "I can tell when AI is hallucinating because it sounds wrong.",
+            reality: "Hallucinations often sound completely plausible and well-written.",
+            fix: `"The scariest hallucinations are the ones that sound exactly right. AI doesn't stutter or hedge when it's making things up. The writing quality gives you no signal at all — that's what makes fact-checking essential."` },
+        ],
+        8: [
+          { student: "Once I have a good prompt, I'm done.",
+            reality: "Prompting is iterative — refine based on outputs.",
+            fix: `"Think of your first prompt as a rough draft, not a final product. The outputs tell you what to adjust: too formal? Add tone. Too vague? Add context. Prompting is a dialogue."` },
+        ],
+        9: [
+          { student: "AI co-creation means the AI does the creative work.",
+            reality: "In AI co-creation, humans make the key creative decisions — AI provides material to react to.",
+            fix: `"Co-creating means YOU are the editor, director, and judge. AI gives you clay. You decide what to sculpt."` },
+        ],
+        10: [
+          { student: "Using AI = not being creative.",
+            reality: "How you use AI — what you choose, change, combine, and cut — is where creativity lives.",
+            fix: `"DJs, film editors, and architects all use tools to make creative choices. The tool isn't uncreative — the choices are or aren't. What choices are you making?"` },
+        ],
+        11: [
+          { student: "If AI generated it, no one owns it.",
+            reality: "Ownership of AI-generated content is a live legal and ethical debate with no settled answer yet.",
+            fix: `"Right now, the law varies by country and is actively changing. Your job in this lesson isn't to get the 'right' answer — it's to figure out what principles should guide the answer."` },
+        ],
+        12: [
+          { student: "AI in the community is always a technology company decision.",
+            reality: "Communities, governments, and advocacy groups increasingly have a say in how AI is deployed.",
+            fix: `"In many places, there are now laws requiring AI audits, disclosure when AI is used in hiring or lending, and community input on public AI systems. Change comes from people who understand the technology."` },
+        ],
+        13: [
+          { student: "A good AI Time Capsule prediction is whatever AI says the future will look like.",
+            reality: "A good prediction is evidence-based, questioned, and shaped by the student's own perspective.",
+            fix: `"If your Time Capsule prediction is just AI's first response, you haven't done the project. The rubric awards points for your research, your critical evaluation, and your voice. AI is the starting point, not the destination."` },
+        ],
+      },
+      onboarding: {
+        banner: "Resources for Problem Solving with AI. Tap any card to explore in chat.",
+        cards: [
+          { id: "start", icon: "🚀", title: "Where to start", desc: "5-minute orientation: what this 13-lesson unit covers and how to set up your class." },
+          { id: "syllabus", icon: "📋", title: "Unit overview", desc: "All 13 lessons at a glance — timing, key concepts, and week-by-week pacing." },
+          { id: "lesson-plan", icon: "📖", title: "See a lesson plan", desc: "Walk through any lesson's pre-flight, activities, and watch-fors." },
+          { id: "sample", icon: "🎬", title: "Try a sample level", desc: "Recommendations for which levels to try yourself before teaching." },
+          { id: "evaluate", icon: "✅", title: "Capstone rubric", desc: "Overview of the Lesson 13 Time Capsule Project rubric." },
+          { id: "section", icon: "👩‍🏫", title: "Create a class section", desc: "Set up your section on Code.org for Problem Solving with AI." },
+        ]
+      },
+      onboardingDetail: {
+        start: `<p><span class="label">Where to start</span></p><p><strong>13 lessons × 45 min</strong>, Grades 6–8, ~3 weeks pacing.</p><p><strong>Your first 30 min of prep:</strong></p><ul><li>Watch the Lesson 1 intro video</li><li>Try Lesson 1 L2 (Prompting AI) yourself</li><li>Read the L1 pre-flight in this chat</li></ul>`,
+        syllabus: `<p><span class="label">Unit overview</span></p><ul><li><strong>Week 1 (L1–5):</strong> Prompting, multimodal AI, LLM mechanics, strengths/limits, contradictions</li><li><strong>Week 2 (L6–10):</strong> Bias, hallucinations, prompt refinement, co-creation, creativity</li><li><strong>Week 3 (L11–13):</strong> Ethics, society, 3-day capstone project</li></ul>`,
+        "lesson-plan": `<p>Pick a lesson to see its pre-flight in chat:</p>`,
+        sample: `<p><span class="label">Sample levels</span></p><p>Best starting points: Try <strong>Lesson 1 L2</strong> (Prompting AI) to feel what students experience. Then try <strong>Lesson 8 L3</strong> (prompting framework) to understand the core skill.</p>`,
+        evaluate: `<p><span class="label">Capstone rubric (L13)</span></p><p>Rubric awards points for: Research quality, AI collaboration quality, critical evaluation, originality/human voice, clarity of future scenario, reflection on process.</p>`,
+        section: `<p><span class="label">Create a class section</span></p><ol><li>Log in to <strong>studio.code.org</strong></li><li>Sections → New section</li><li>Choose course: <em>"Problem Solving with AI"</em></li><li>Share the section code with students</li></ol>`,
+      },
+    }, // end Course 2
+    /* ====================== COURSE 3 ====================== */
+    {
+      id: "how-ai-works",
+      name: "How AI Works",
+      badge: "Coming soon",
+      greetings: {
+        first: [
+          "Hi! Content for <strong>How AI Works</strong> is being added. 👋",
+          "Check back soon — or use the pre-flight and vocab features as they become available."
+        ],
+        returning: ["Welcome back! 👋 <strong>How AI Works</strong> content is still being finalized."],
+      },
+      lessonChips: [],
+      preflight: {},
+      studentQs: {},
+      concepts: [],
+      misconceptions: {},
+      onboarding: { banner: "How AI Works content coming soon.", cards: [] },
+      onboardingDetail: {},
+    }, // end Course 3
+    /* ====================== COURSE 4 ====================== */
+    {
+      id: "foundations-gen-ai",
+      name: "Foundations of Generative AI",
+      badge: "Coming soon",
+      greetings: {
+        first: [
+          "Hi! Content for <strong>Foundations of Generative AI</strong> is being added. 👋",
+          "Check back soon — or use the pre-flight and vocab features as they become available."
+        ],
+        returning: ["Welcome back! 👋 <strong>Foundations of Generative AI</strong> content is still being finalized."],
+      },
+      lessonChips: [],
+      preflight: {},
+      studentQs: {},
+      concepts: [],
+      misconceptions: {},
+      onboarding: { banner: "Foundations of Generative AI content coming soon.", cards: [] },
+      onboardingDetail: {},
+    }, // end Course 4
+    ], // end en.courses
+    /* ---------- REFLECTION (top-level, shared across courses) ---------- */
+    reflection: {
+      start: "Let's reflect — takes 60 seconds. Which lesson did you just teach?",
+      q1: "👍 What worked best?",
+      q1Chips: ["The discussion went deep", "Hands-on activity clicked", "Video opened the topic well", "Students answered each other's questions"],
+      q2: "🤔 Where did students struggle?",
+      q2Chips: ["A vocabulary word", "A specific level", "An unexpected question I couldn't answer", "Pacing — ran out of time"],
+      q3: "📌 Anything to know before next lesson?",
+      q3Placeholder: "Type or skip…",
+      thanks: "Saved! I'll bring this back up when you open the pre-flight for the next lesson. 👍",
+    },
+    helpers: {
+      noMatch: "I don't have a scripted answer for that yet — but the team is collecting these. Meanwhile, here's what I CAN help with:",
+      backToMenu: "What else can I help with?",
+    }
+  },
+  /* ====================== ESPAÑOL ====================== */
+  es: {
+    ui: {
+      appName: "Asistente Docente de IA",
+      tagline: "Cómo la IA Toma Decisiones • K-5",
+      online: "en línea",
+      typing: "escribiendo…",
+      placeholder: "Escribe tu pregunta…",
+      resetTitle: "Empezar de nuevo",
+      tabChat: "💬 Ayuda inmediata",
+      tabOnboarding: "📚 Comenzar",
+      yes: "Sí",
+      no: "No",
+      backHome: "← Volver al menú",
+      keepGoing: "Continuar",
+      thatHelped: "Eso ayudó, gracias 🙏",
+      stillStuck: "Sigo atascado/a",
+      followUp: "Tengo una pregunta de seguimiento",
+      tellMeMore: "Cuéntame más",
+      gotIt: "Entendido ✓",
+      anotherQuestion: "Otra pregunta",
+      showLessonPrep: "Prep para la próxima lección",
+      reflectionSaved: "Reflexión guardada",
+      welcomeBack: "Bienvenido/a de vuelta",
+      lessonLabel: "LECCIÓN",
+      tipLabel: "CONSEJO DOCENTE",
+      sayLabel: "DI A TU CLASE",
+      heyLabel: "ENTRE BASTIDORES",
+      misconceptionLabel: "LO QUE PIENSAN LOS ESTUDIANTES",
+      realityLabel: "LO QUE REALMENTE PASA",
+      fixLabel: "CÓMO REDIRIGIR",
+    },
+    intents: [
+      { id: "preflight", label: "🛫 Preparación de lección", desc: "Prep para la lección de mañana" },
+      { id: "inmoment", label: "🙋 Un estudiante me preguntó…", desc: "Ayuda durante la clase" },
+      { id: "concept", label: "💡 Explicar un concepto", desc: "Vocabulario e ideas, para niños" },
+      { id: "misconception", label: "⚠️ Errores comunes", desc: "Lo que los estudiantes malinterpretan" },
+      { id: "reflect", label: "📝 Reflexionar sobre una lección", desc: "Después de clase" },
+      { id: "switchCourse", label: "🔄 Cambiar curso", desc: "Cambiar a un curso diferente" },
+    ],
+    pickLessonPrompt: "¿Qué lección?",
+    pickCoursePrompt: "¿Qué curso estás enseñando?",
+    courses: [
+    {
+      id: "how-ai-makes-decisions",
+      name: "Cómo la IA Toma Decisiones",
+      badge: "5 lecciones · K–5",
+      greetings: {
+        first: [
+          "¡Hola! Soy tu asistente docente para el módulo <strong>Cómo la IA Toma Decisiones</strong> — 5 lecciones para primaria superior. 👋",
+          "Estoy aquí cuando encuentres algo complicado — antes de clase, durante la lección, o después. ¿Qué necesitas ahora?"
+        ],
+        returning: [
+          "¡Bienvenido/a de vuelta! 👋 La última vez enseñaste <strong>{lastLesson}</strong>. ¿En qué puedo ayudarte?"
+        ],
+      },
+      lessonChips: [
+        { id: 1, label: "L1 · Hacer Predicciones" },
+        { id: 2, label: "L2 · Entrenar la IA" },
+        { id: 3, label: "L3 · Usar AI Bot" },
+        { id: 4, label: "L4 · IA en la Escuela" },
+        { id: 5, label: "L5 · Comparte tu Voz" },
+      ],
+    preflight: {
+      1: {
+        header: "Lección 1 · Hacer Predicciones · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+          <p><strong>Qué enseñarás:</strong> Los estudiantes actúan como la computadora y predicen cómo deben ordenarse los elementos.</p>
+          <p><strong>Vocabulario nuevo (5):</strong> Datos, Característica, Predecir, Ordenar, Datos de entrenamiento</p>
+          <p><strong>Actividades:</strong></p>
+          <ul>
+            <li>Niveles 1–2: Aprendizaje supervisado (datos etiquetados)</li>
+            <li>Niveles 3–5: Aprendizaje por refuerzo (con retroalimentación)</li>
+            <li>Nivel 6: Verificación de comprensión</li>
+            <li>Nivel 7: En parejas — el compañero predice tu orden</li>
+          </ul>
+          <p><strong>Verificación técnica:</strong> Primera vez con preguntas de opción múltiple en el Nivel 1. <em>Modélalo</em> antes de que empiecen.</p>
+          <p><strong>Prep opcional:</strong> Imprime los manipulativos físicos (recomendado para los más pequeños).</p>`,
+        followUps: ["Repaso de vocabulario", "Preguntas comunes de estudiantes", "Error más probable", "¿Y si los estudiantes no están de acuerdo?"]
+      },
+      2: {
+        header: "Lección 2 · Entrenar la IA · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+          <p><strong>Qué enseñarás:</strong> Cómo los datos que damos a la IA dan forma a sus predicciones — y cómo se cuela el sesgo.</p>
+          <p><strong>Vocabulario nuevo (4):</strong> Aprendizaje automático, IA, Preciso, Sesgo</p>
+          <p><strong>Actividades — IA para los Océanos:</strong></p>
+          <ul>
+            <li>N2: Entrenar IA con peces vs. basura</li>
+            <li>N3–4: Entrenar IA con criaturas marinas (presenta "la IA solo aprende lo que le enseñamos")</li>
+            <li>N5: Enseña a la IA una palabra nueva — agrupa estudiantes por la palabra elegida y compara resultados</li>
+          </ul>
+          <p><strong>Verificación técnica:</strong> El calentamiento usa Random Book Generator + Amazon. <em>Si están bloqueados en el WiFi de la escuela, usa la diapositiva de respaldo.</em></p>
+          <p><strong>⚡ Atención a:</strong> Los estudiantes pensarán que la IA está "rota" cuando no reconozca una estrella de mar. Esa es la lección — aprovéchalo.</p>`,
+        followUps: ["Repaso de vocabulario", "Preguntas comunes de estudiantes", "Error más probable", "¿Cómo agrupar en el Nivel 5?"]
+      },
+      3: {
+        header: "Lección 3 · Usar AI Bot · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+          <p><strong>Qué enseñarás:</strong> La IA elige basándose en probabilidad, no certeza.</p>
+          <p><strong>Vocabulario nuevo (1):</strong> Vector de Características — números asignados a características para que una máquina encuentre patrones.</p>
+          <p><strong>Actividades — Dance Party Edición IA:</strong></p>
+          <ul>
+            <li>N1: Vector de características de comida (dulzura × cuánto te gusta)</li>
+            <li>N3: Vector de emojis (colorido × feliz)</li>
+            <li>N6: Bloque IA — generar efectos a partir de 3 emojis</li>
+          </ul>
+          <p><strong>Verificación técnica:</strong> Dance Party carga y el audio funciona en los dispositivos.</p>
+          <p><strong>⚡ Atención a:</strong> A los estudiantes no les gustarán los efectos → momento ideal para enseñar <em>regenerar, editar o co-crear</em>.</p>`,
+        followUps: ["Repaso de vocabulario", "Preguntas comunes de estudiantes", "Error más probable", "¿Cómo modelar el bloque IA?"]
+      },
+      4: {
+        header: "Lección 4 · IA en la Escuela · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+          <p><strong>Qué enseñarás:</strong> Leer un conjunto de datos, decidir qué datos son relevantes y qué dejar fuera.</p>
+          <p><strong>Vocabulario:</strong> Repaso de IA, Datos, Entrenamiento, Datos de entrenamiento (sin términos nuevos)</p>
+          <p><strong>Actividades:</strong></p>
+          <ul>
+            <li>Calentamiento: Encuesta a estudiantes — en línea (N1) O en papel</li>
+            <li>Principal: Herramientas de IA en la Escuela — eligen una herramienta IA hipotética, deciden qué datos incluir / excluir</li>
+          </ul>
+          <p><strong>Decide con anticipación:</strong> ¿En línea o sin dispositivos? (Afecta la prep — la versión en papel necesita impresiones.)</p>
+          <p><strong>⚡ Atención a:</strong> Los estudiantes querrán incluir <em>todos</em> los datos. El punto es cuestionar la relevancia. "¿Debería el historial de detención afectar dónde se sientan a comer?"</p>`,
+        followUps: ["Repaso de vocabulario", "Preguntas comunes de estudiantes", "Error más probable", "¿En línea o papel — cuál es mejor?"]
+      },
+      5: {
+        header: "Lección 5 · Comparte tu Voz · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+          <p><strong>Qué enseñarás:</strong> Los estudiantes forman y comparten su opinión sobre las herramientas de IA en la escuela.</p>
+          <p><strong>Vocabulario:</strong> Repaso de IA, Datos, Entrenamiento, Sesgo (sin términos nuevos)</p>
+          <p><strong>Actividad de elección — los estudiantes eligen una:</strong></p>
+          <ul>
+            <li>Carta al director/a</li>
+            <li>Discurso, canción o rap</li>
+            <li>Cartel</li>
+            <li>Proyecto en Sprite Lab</li>
+            <li>Poema codificado</li>
+          </ul>
+          <p><strong>Prep:</strong> Materiales para escribir, dibujar, etc. Revisa los niveles de dificultad (chiles 🌶️) para que elijan algo que puedan terminar en 30 min.</p>
+          <p><strong>⚡ Atención a:</strong> Estudiantes que dicen "No sé qué pienso." Ofrece arranques de frase: <em>"La IA podría ayudar con ___ porque ___. Pero ___ podría salir mal porque ___."</em></p>`,
+        followUps: ["Arranques de frase para indecisos", "¿Cómo califico esto?", "Preguntas comunes de estudiantes", "Indicaciones de reflexión"]
+      }
+    },
+    studentQs: {
+      1: [
+        { q: "¿La IA solo adivina?",
+          a: `<p>No — y esa es la idea clave de esta lección. La IA busca <strong>patrones</strong> en los datos.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Lanzar una moneda es aleatorio. En el Nivel 1, miraste los colores para descubrir la regla — eso hace la IA. ¡Diferente a adivinar!"</div>` },
+        { q: "¿Por qué mi respuesta salió mal?",
+          a: `<p>Los Niveles 1–2 tienen datos <em>etiquetados</em> — pueden ver la regla. Los Niveles 3–5 son <strong>refuerzo</strong> — solo sabes si acertaste tras intentarlo.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Estás aprendiendo como aprende la IA — intentando y recibiendo retroalimentación. Cada error te enseña qué NO es el patrón."</div>` },
+        { q: "Mi compañero y yo lo ordenamos diferente — ¿quién tiene razón?",
+          a: `<p>¡Ambos pueden tener razón! Diferentes características válidas → diferentes ordenamientos válidos.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"¿Ordenaste por color? ¿Forma? ¿Ingredientes? Todo correcto. La pregunta no es 'cuál es la única forma correcta' — es '¿qué característica elegiste?'"</div>` },
+        { q: "¿Por qué no hay un botón 'no sé'?",
+          a: `<p>Forzar una predicción es el punto. La IA no puede abstenerse — debe clasificar con lo que tiene.</p>
+              <p><span class="label">Entre bastidores</span></p>
+              <p>Si un estudiante se atasca, pídele que diga su mejor intento en voz alta y explique por qué. Eso es modelar el pensamiento.</p>` }
+      ],
+      2: [
+        { q: "¿Por qué la IA piensa que una estrella de mar es basura?",
+          a: `<p>Porque solo la entrenamos con peces. Desde su perspectiva: "pez = mantener, todo lo demás = basura."</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"La IA solo aprende lo que le enseñamos. Si nunca le mostramos una estrella de mar, no tiene idea de qué es. Por eso el Nivel 3 la re-entrena con más criaturas marinas."</div>` },
+        { q: "¿Cómo sabe la IA qué pez está 'enojado'?",
+          a: `<p>¡No lo sabe! Esa es la lección. Cada estudiante define "enojado" según los peces que <em>ellos</em> etiquetaron.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Compara con tu compañero. Misma palabra, diferente modelo. ¿Por qué? Porque tus datos de entrenamiento — los peces que escogiste — fueron diferentes. Las opiniones se vuelven sesgo cuando se vuelven reglas."</div>` },
+        { q: "¿La IA reemplazará a los maestros? / ¿Quitará el trabajo a mi mamá?",
+          a: `<p>Pregunta grande y válida. Usa el cierre de Attendance Bot para aterrizarla.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Attendance Bot puede automatizar una tarea, pero no nota si estás triste, si ayudaste a un compañero, o si tuviste una gran idea hoy. La IA es mejor cuando trabaja <em>con</em> las personas, no en su lugar."</div>` },
+        { q: "¿La IA puede hacer trampa?",
+          a: `<p>Reenmárcalo: la IA no puede <em>querer</em> hacer trampa. Pero puede entrenarse con datos malos que la hagan actuar injustamente.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Si solo le mostramos peces rojos 'enojados', aprende rojo = enojado. No es trampa — pero está mal, porque le enseñamos algo erróneo."</div>` }
+      ],
+      3: [
+        { q: "¿Por qué la IA eligió efectos que no me gustan?",
+          a: `<p>La IA promedia las elecciones de muchas personas. Tu gusto está en los datos, pero también el de todos los demás.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Tres opciones: regenerar, editar los menús, o elegir nuevos emojis. Así se ve 'co-crear con IA' — no tienes que aceptar su primera respuesta."</div>` },
+        { q: "¿Qué es un vector de características otra vez?",
+          a: `<p>Números puestos a las características para que la computadora encuentre patrones.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Una dona es quizás 9 de 10 en dulzura, y 10 de 10 en '¡me encanta!'. Escríbelo como el par (9, 10). La computadora puede comparar donas con otras comidas usando esos números."</div>` },
+        { q: "¿Por qué la IA da respuestas diferentes a la misma pregunta?",
+          a: `<p>Probabilidad. La IA escoge la opción más probable, pero a veces elige una menos probable.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"La mayoría dice que un atardecer es naranja y rojo — entonces la IA usualmente dice eso. Pero a veces la gente dice morado y rosa. La IA también lo dirá, solo menos seguido. No está rota — refleja los datos."</div>` }
+      ],
+      4: [
+        { q: "¿Por qué no usamos todos los datos?",
+          a: `<p>Porque datos irrelevantes o injustos llevan a decisiones sesgadas.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Para asientos en el comedor, idiomas hablados = útil. Detenciones = no relevante y podría hacer que la IA siente a los niños injustamente. La calidad &gt; la cantidad."</div>` },
+        { q: "¿Cómo evitas que la IA sea injusta?",
+          a: `<p>Dos respuestas en esta lección: <strong>datos diversos</strong> + <strong>supervisión humana</strong>.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Incluso con los mejores datos, la IA comete errores. Un adulto debe revisar sus decisiones. Por eso nunca dejamos que la IA decida sola."</div>` },
+        { q: "¿Usar IA es malo?",
+          a: `<p>No inherentemente. Depende de los riesgos y la supervisión.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"La IA es buena para cosas como clasificar reciclaje — bajos riesgos, fácil de revisar. La IA es arriesgada para cosas como 'quién recibe Estudiante del Mes' — altos riesgos, difícil de deshacer si está mal."</div>` }
+      ],
+      5: [
+        { q: "No sé qué pienso de la IA",
+          a: `<p>Está totalmente bien. El punto es pensar con información, no tener una respuesta fija.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Elige una herramienta de IA de ayer. Di una cosa que podría salir bien, y una que podría salir mal. ¡Ahora tienes una opinión!"</div>` },
+        { q: "¿Puedo decir que la IA es mala?",
+          a: `<p>Sí — siempre que esté basado en lo que aprendieron.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"Puedes decir que la IA es arriesgada. Solo respáldalo con ejemplos de nuestras lecciones: sesgo, datos malos, falta de matiz humano."</div>` },
+        { q: "¿Y si cambio de opinión después?",
+          a: `<p>Así funciona el aprendizaje. Afirma el cambio.</p>
+              <p><span class="label">Di a tu clase</span></p>
+              <div class="quote">"La opinión que tienes hoy puede cambiar mañana. Eso no es indecisión — es aprender más."</div>` }
+      ]
+    },
+    concepts: [
+      { id: "data", term: "Datos", lessons: [1,2,3,4,5],
+        adult: "Información recolectada sobre el mundo.",
+        kid: "Cosas que sabemos sobre algo. Los datos de la clase: 12 prefieren pizza, 8 tacos. Eso son datos.",
+        example: "Lista del topping favorito de cada estudiante = datos.",
+        nonexample: "Adivinar qué topping será popular = no son datos." },
+      { id: "feature", term: "Característica", lessons: [1,3],
+        adult: "Una propiedad que tiene un objeto — color, forma, tamaño o cualquier atributo.",
+        kid: "Algo que un objeto ES o TIENE. Un triángulo tiene 3 lados — esa es una característica. Una pizza tiene queso — esa es una característica.",
+        example: "Triángulo: 3 lados, puntiagudo, plano = características.",
+        nonexample: "'Genial' no es una característica — depende de la opinión." },
+      { id: "predict", term: "Predecir", lessons: [1,2,3],
+        adult: "Hacer una conjetura informada basada en patrones en los datos.",
+        kid: "Adivinar qué sigue, usando lo que ya sabes. Si todos los viernes comemos pizza, puedes predecir viernes = pizza.",
+        example: "Después de ver 10 elementos ordenados, adivina dónde va el 11.",
+        nonexample: "Lanzar una moneda para decidir — eso es azar, no predicción." },
+      { id: "sort", term: "Ordenar", lessons: [1],
+        adult: "Agrupar objetos por características compartidas.",
+        kid: "Poner cosas en pilas donde cada pila tiene algo en común.",
+        example: "Todas las cosas redondas en una pila, todas las planas en otra.",
+        nonexample: "Apilar al azar — no es ordenar." },
+      { id: "training-data", term: "Datos de entrenamiento", lessons: [1,2,4],
+        adult: "Información ordenada y etiquetada dada a una computadora para que aprenda a predecir.",
+        kid: "Los ejemplos que mostramos a la computadora para que aprenda. Como tarjetas de estudio para un robot.",
+        example: "100 fotos etiquetadas 'gato' o 'perro' para enseñar la diferencia.",
+        nonexample: "Mostrarle fotos SIN etiquetas — no son datos de entrenamiento." },
+      { id: "ml", term: "Aprendizaje automático", lessons: [2],
+        adult: "Cómo las computadoras reconocen patrones y toman decisiones sin reglas explícitas.",
+        kid: "Una forma para que la computadora descubra cosas viendo muchos ejemplos, no porque escribamos cada regla.",
+        example: "IA para los Océanos aprende 'pez vs. basura' por ejemplos, no por un manual.",
+        nonexample: "Una calculadora siguiendo reglas matemáticas exactas — eso es un programa, no aprendizaje automático." },
+      { id: "ai", term: "Inteligencia Artificial (IA)", lessons: [2,3,4,5],
+        adult: "Una forma para que las computadoras tomen decisiones por sí mismas usando patrones de datos.",
+        kid: "Cuando una computadora puede elegir por sí misma, después de que le mostramos muchos ejemplos.",
+        example: "Asistentes de voz, autos autónomos, AI Bot eligiendo efectos de baile.",
+        nonexample: "Un reloj mostrando la hora — no es decisión, solo una medición." },
+      { id: "accurate", term: "Preciso", lessons: [2],
+        adult: "Correcto o casi correcto.",
+        kid: "Bien. Lo opuesto de mal.",
+        example: "La IA predijo 'pez' y era un pez → preciso.",
+        nonexample: "La IA predijo 'pez' y era una estrella de mar → no preciso." },
+      { id: "bias", term: "Sesgo", lessons: [2,4,5],
+        adult: "Favorecer algunas cosas sobre otras, llevando a decisiones injustas.",
+        kid: "Cuando un modelo da oportunidad a algunas cosas pero no a otras. Normalmente porque los datos de entrenamiento eran injustos.",
+        example: "Si solo entrenamos la IA con peces rojos 'enojados', aprende rojo = enojado. Eso es sesgo.",
+        nonexample: "Que te guste más la pizza que la ensalada es preferencia, no sesgo — no afecta injustamente a otros." },
+      { id: "feature-vector", term: "Vector de Características", lessons: [3],
+        adult: "Números asignados a características para que una máquina pueda comparar matemáticamente.",
+        kid: "Poner números a las características para que la computadora pueda hacer matemáticas con ellas. Como puntuar dulzura del 1 al 10.",
+        example: "Una dona: dulzura 9, me-gusta-comer 10 → vector (9, 10).",
+        nonexample: "Solo la palabra 'dulce' — sin número, sin matemáticas, sin vector." },
+      { id: "training", term: "Entrenamiento", lessons: [2,4,5],
+        adult: "Enseñar a una computadora a hacer una tarea mostrándole muchos ejemplos.",
+        kid: "Mostrar a una computadora muchos ejemplos para que aprenda el patrón.",
+        example: "Mostrar a la IA 200 fotos de peces para que aprenda a identificarlos.",
+        nonexample: "Decirle a una computadora 'sé inteligente' — no es entrenamiento." }
+    ],
+    misconceptions: {
+      1: [
+        { student: "La IA es mágica / La IA lo sabe todo desde el principio.",
+          reality: "La IA encuentra patrones en los datos que le damos. Nada más.",
+          fix: `"¿Recuerdas cómo tuviste que mirar los colores para descubrir la regla? La IA hace eso, pero con muchísimos más ejemplos. Sin magia — solo mucha práctica."` },
+        { student: "Más adivinanzas hacen mejor a la IA.",
+          reality: "Más datos <em>ordenados y etiquetados</em> hacen mejor a la IA. Las adivinanzas al azar no ayudan.",
+          fix: `"Imagina tarjetas de estudio. Si están en blanco, no aprendes. Si tienen respuestas, sí. La IA es igual."` },
+        { student: "Si ordeno diferente que mi compañero, uno está equivocado.",
+          reality: "Diferentes características válidas → diferentes ordenamientos válidos. Ambos pueden tener razón.",
+          fix: `"¿Ambos siguieron un patrón claro? Entonces ambos tienen razón. La pregunta es '¿qué característica elegiste?', no '¿quién tiene razón?'"` }
+      ],
+      2: [
+        { student: "La IA siempre es más precisa que los humanos.",
+          reality: "La IA falla en casos que los humanos manejan fácilmente — un estudiante arrodillado, en el baño, en silla de ruedas.",
+          fix: `"Attendance Bot no ve matices. Un maestro sí. Velocidad vs. comprensión — la IA da velocidad, los humanos dan comprensión."` },
+        { student: "Misma palabra de entrenamiento → mismo modelo IA.",
+          reality: "Los <em>ejemplos</em> forman el modelo, no la etiqueta.",
+          fix: `"Tú y tu compañero eligieron 'feliz'. Pero entrenaron con peces diferentes. Misma palabra, diferente modelo. Las imágenes importan más que la etiqueta."` },
+        { student: "La IA aprende sola.",
+          reality: "Los humanos eligen los datos y las etiquetas. La IA no 'aprende' sin eso.",
+          fix: `"Mira el contador — cuenta los ejemplos que TÚ diste. Sin eso, la IA no hace nada."` }
+      ],
+      3: [
+        { student: "La IA 'sabe' lo que quiero.",
+          reality: "La IA estima por probabilidad entre las elecciones de muchos usuarios.",
+          fix: `"La IA adivina lo que a la mayoría con esos emojis les gustó. Tú puedes ser diferente. Por eso puedes regenerar o editar."` },
+        { student: "Mismos emojis = siempre los mismos efectos.",
+          reality: "Usualmente sí, pero por probabilidad a veces elige una opción menos probable.",
+          fix: `"Es como lanzar una moneda cargada. Normalmente cara. A veces cruz. La IA es igual — normalmente predecible, a veces sorprendente."` },
+        { student: "Dejar que la IA decida siempre es más rápido y mejor.",
+          reality: "Más rápido, normalmente sí. Mejor — depende de si el 'promedio' de la IA coincide con tu gusto.",
+          fix: `"La IA es un excelente primer borrador. Tu trabajo es conservar, cambiar o descartar."` }
+      ],
+      4: [
+        { student: "Más datos = siempre mejor.",
+          reality: "Datos irrelevantes introducen sesgo. La relevancia importa más que el volumen.",
+          fix: `"¿Usarías el historial de detención de alguien para elegir su asiento en el comedor? Probablemente no. Algunos datos cuelan sesgo aunque sean muchos."` },
+        { student: "El sesgo en la IA es raro.",
+          reality: "El sesgo es el predeterminado a menos que lo evites activamente.",
+          fix: `"El sesgo se cuela cada vez que los datos de entrenamiento no representan a todos. Casi siempre — a menos que trabajemos para evitarlo."` },
+        { student: "Una vez entrenada, la IA está lista.",
+          reality: "La IA necesita revisión continua. Los datos cambian, la gente cambia, la IA debe cambiar también.",
+          fix: `"Imagina entrenar IA en 2010. ¿Sabría qué es TikTok? Claro que no. La IA necesita actualizaciones, igual que nuestro aprendizaje."` }
+      ],
+      5: [
+        { student: "Hay una respuesta correcta sobre la IA.",
+          reality: "No la hay. El punto es la opinión informada.",
+          fix: `"Personas razonables discrepan sobre la IA. Eso está bien. Tu trabajo es explicar POR QUÉ piensas lo que piensas, con ejemplos."` },
+        { student: "La IA es toda mala / toda buena.",
+          reality: "Depende del contexto. La misma herramienta puede ayudar en una situación y dañar en otra.",
+          fix: `"¿IA clasificando basura del reciclaje? Probablemente genial. ¿IA eligiendo Estudiante del Mes? Probablemente arriesgado. Misma IA, riesgos muy diferentes."` }
+      ]
+    }, // end misconceptions
+    onboarding: {
+      banner: "Estas guías también están en la versión web. Toca cualquier tarjeta para previsualizar aquí.",
+      cards: [
+        { id: "start", icon: "🚀", title: "¿Por dónde empiezo?", desc: "Orientación de 5 min: qué es 'Cómo la IA Toma Decisiones', para quién es, qué hacer primero." },
+        { id: "syllabus", icon: "📋", title: "Revisar el temario", desc: "Las 5 lecciones de un vistazo: tiempos, objetivos, vocabulario, materiales." },
+        { id: "lesson-plan", icon: "📖", title: "Ver un plan de lección", desc: "Recorrer la Lección 1 minuto a minuto, incluyendo objetivos de discusión y tiempos." },
+        { id: "sample", icon: "🎬", title: "Explorar lección de muestra", desc: "Prueba los niveles del estudiante para saber qué verán." },
+        { id: "evaluate", icon: "✅", title: "Aprender a evaluar", desc: "Pregunta del Día como boleto de salida. Rúbricas opcionales para artefactos de la Lección 5." },
+        { id: "section", icon: "👩‍🏫", title: "Crear una sección de clase", desc: "Pasos rápidos para configurar una sección en Code.org y agregar estudiantes." },
+      ]
+    },
+    onboardingDetail: {
+      start: `<p><span class="label">Por dónde empezar</span></p>
+        <p>El módulo es <strong>5 lecciones × 45 min</strong>, para primaria superior (Grados 3–5). Diseñado para docentes nuevos en CS/IA — sin necesidad de saber programar.</p>
+        <p><strong>Tus primeros 30 minutos de prep:</strong></p>
+        <ul>
+          <li>Mira el video introductorio <em>¿Qué es la IA?</em> (3 min)</li>
+          <li>Pasa por los Niveles 1–7 de la Lección 1 (15 min)</li>
+          <li>Lee la preparación de la Lección 1 en este chat (5 min)</li>
+        </ul>
+        <p>Eso es todo. Listo/a para el Día 1.</p>`,
+      syllabus: `<p><span class="label">Temario</span></p>
+        <ul>
+          <li><strong>L1 · Hacer Predicciones</strong> — Aprendizaje supervisado vs. por refuerzo, ordenar</li>
+          <li><strong>L2 · Entrenar la IA</strong> — Datos de entrenamiento, sesgo (IA para los Océanos)</li>
+          <li><strong>L3 · Usar AI Bot</strong> — Vectores de características, probabilidad (Dance Party IA)</li>
+          <li><strong>L4 · IA en la Escuela</strong> — Elegir datos relevantes, prevenir sesgo</li>
+          <li><strong>L5 · Comparte tu Voz</strong> — Formar y compartir opiniones sobre IA</li>
+        </ul>`,
+      "lesson-plan": `<p>Elige una lección para ver su plan completo en el chat:</p>`,
+      sample: `<p><span class="label">Lección de muestra</span></p>
+        <p>Mejor punto de partida: <strong>Lección 1, Nivel 1</strong> — "¿Cómo está ordenado?" Intenta responder como estudiante.</p>
+        <p>Luego salta a <strong>Lección 2, IA para los Océanos Nivel 2</strong> para sentir cómo es entrenar una IA.</p>`,
+      evaluate: `<p><span class="label">Evaluar</span></p>
+        <p><strong>Cada lección</strong> termina con una Pregunta del Día — perfecta como boleto de salida.</p>
+        <p><strong>Artefactos de la Lección 5</strong> (carta, cartel, canción, etc.) se pueden evaluar por: claridad de opinión, uso del vocabulario del módulo, y al menos un ejemplo de las lecciones.</p>`,
+      section: `<p><span class="label">Crear una sección de clase</span></p>
+        <p>Configura esto en la web (aún no disponible en esta app):</p>
+        <ol>
+          <li>Inicia sesión en <strong>studio.code.org</strong></li>
+          <li>Toca <strong>Secciones</strong> → <strong>Nueva sección</strong></li>
+          <li>Elige el curso: <em>"Cómo la IA Toma Decisiones"</em></li>
+          <li>Comparte el código con tus estudiantes</li>
+        </ol>`
+    },
+    }, // end ES Course 1
+    ], // end es.courses
+    reflection: {
+      start: "Reflexionemos — toma 60 segundos. ¿Qué lección acabas de enseñar?",
+      q1: "👍 ¿Qué funcionó mejor?",
+      q1Chips: ["La discusión fue profunda", "La actividad práctica encajó", "El video abrió bien el tema", "Los estudiantes se respondieron entre sí"],
+      q2: "🤔 ¿Dónde tuvieron dificultades?",
+      q2Chips: ["Una palabra del vocabulario", "Un nivel específico", "Una pregunta inesperada que no supe responder", "Ritmo — se acabó el tiempo"],
+      q3: "📌 ¿Algo que saber antes de la próxima lección?",
+      q3Placeholder: "Escribe o salta…",
+      thanks: "¡Guardado! Lo traeré de vuelta cuando abras la preparación de la próxima lección. 👍",
+    },
+    helpers: {
+      noMatch: "Aún no tengo una respuesta guionada para eso — pero el equipo las está recopilando. Mientras tanto, esto SÍ puedo ayudarte:",
+      backToMenu: "¿En qué más puedo ayudarte?",
+    }
+  },
+  /* ====================== हिन्दी ====================== */
+  hi: {
+    ui: {
+      appName: "AI शिक्षण सहायक",
+      tagline: "AI निर्णय कैसे लेता है • K-5",
+      online: "ऑनलाइन",
+      typing: "टाइप कर रहा है…",
+      placeholder: "अपना प्रश्न लिखें…",
+      resetTitle: "फिर से शुरू करें",
+      tabChat: "💬 तुरंत मदद",
+      tabOnboarding: "📚 शुरू करें",
+      yes: "हाँ",
+      no: "नहीं",
+      backHome: "← मेनू पर वापस",
+      keepGoing: "जारी रखें",
+      thatHelped: "इससे मदद मिली, धन्यवाद 🙏",
+      stillStuck: "अभी भी अटका हूँ",
+      followUp: "मेरा एक और सवाल है",
+      tellMeMore: "और बताएं",
+      gotIt: "समझ गया ✓",
+      anotherQuestion: "एक और सवाल",
+      showLessonPrep: "अगले पाठ की तैयारी",
+      reflectionSaved: "विचार सहेजा गया",
+      welcomeBack: "वापसी पर स्वागत है",
+      lessonLabel: "पाठ",
+      tipLabel: "शिक्षण सुझाव",
+      sayLabel: "अपनी कक्षा से कहें",
+      heyLabel: "पर्दे के पीछे",
+      misconceptionLabel: "छात्र क्या सोचते हैं",
+      realityLabel: "वास्तव में क्या हो रहा है",
+      fixLabel: "कैसे ठीक करें",
+    },
+    intents: [
+      { id: "preflight", label: "🛫 पाठ की तैयारी", desc: "कल के पाठ की तैयारी" },
+      { id: "inmoment", label: "🙋 छात्र ने अभी पूछा…", desc: "कक्षा के बीच मदद" },
+      { id: "concept", label: "💡 कोई अवधारणा समझाएं", desc: "शब्दावली और विचार, बच्चों के लिए" },
+      { id: "misconception", label: "⚠️ आम गलतफहमियाँ", desc: "जो छात्र गलत समझते हैं" },
+      { id: "reflect", label: "📝 पाठ पर विचार करें", desc: "कक्षा के बाद" },
+      { id: "switchCourse", label: "🔄 कोर्स बदलें", desc: "किसी दूसरे कोर्स पर जाएँ" },
+    ],
+    pickLessonPrompt: "कौन सा पाठ?",
+    pickCoursePrompt: "आप कौन सा कोर्स पढ़ा रहे हैं?",
+    courses: [
+    {
+      id: "how-ai-makes-decisions",
+      name: "AI निर्णय कैसे लेता है",
+      badge: "5 पाठ · K–5",
+      greetings: {
+        first: [
+          "नमस्ते! मैं आपका <strong>AI निर्णय कैसे लेता है</strong> मॉड्यूल के लिए शिक्षण सहायक हूँ — उच्च प्राथमिक के लिए 5 पाठ। 👋",
+          "जब भी कोई कठिनाई आए — कक्षा से पहले, बीच में, या बाद में — मैं यहाँ हूँ। अभी आपको क्या चाहिए?"
+        ],
+        returning: [
+          "वापसी पर स्वागत है! 👋 पिछली बार आपने <strong>{lastLesson}</strong> पढ़ाया था। मैं कैसे मदद कर सकता हूँ?"
+        ],
+      },
+      lessonChips: [
+        { id: 1, label: "पाठ 1 · भविष्यवाणी करना" },
+        { id: 2, label: "पाठ 2 · AI को प्रशिक्षित करना" },
+        { id: 3, label: "पाठ 3 · AI Bot का उपयोग" },
+        { id: 4, label: "पाठ 4 · स्कूल में AI" },
+        { id: 5, label: "पाठ 5 · अपनी आवाज़ दें" },
+    ],
+    preflight: {
+      1: {
+        header: "पाठ 1 · भविष्यवाणी करना · 45 मिनट",
+        body: `<p><span class="label">तैयारी</span></p>
+          <p><strong>क्या पढ़ाएंगे:</strong> छात्र कंप्यूटर की तरह काम करते हैं और भविष्यवाणी करते हैं कि वस्तुओं को कैसे क्रमबद्ध किया जाए।</p>
+          <p><strong>नई शब्दावली (5):</strong> डेटा, विशेषता, भविष्यवाणी, क्रमबद्ध, प्रशिक्षण डेटा</p>
+          <p><strong>गतिविधियाँ:</strong></p>
+          <ul>
+            <li>स्तर 1–2: पर्यवेक्षित शिक्षण (लेबल किया गया डेटा)</li>
+            <li>स्तर 3–5: सुदृढीकरण (प्रतिक्रिया-आधारित)</li>
+            <li>स्तर 6: समझ की जाँच</li>
+            <li>स्तर 7: जोड़े में काम — साथी आपके क्रम का अनुमान लगाएगा</li>
+          </ul>
+          <p><strong>तकनीकी जाँच:</strong> स्तर 1 पर पहली बार बहुविकल्पीय प्रश्न। शुरू होने से पहले <em>उदाहरण दें</em>।</p>
+          <p><strong>वैकल्पिक तैयारी:</strong> भौतिक छँटाई सामग्री प्रिंट करें (छोटे छात्रों के लिए सुझाया गया)।</p>`,
+        followUps: ["शब्दावली पुनरीक्षण", "छात्रों के आम प्रश्न", "सबसे संभावित गलतफहमी", "अगर छात्र असहमत हों तो?"]
+      },
+      2: {
+        header: "पाठ 2 · AI को प्रशिक्षित करना · 45 मिनट",
+        body: `<p><span class="label">तैयारी</span></p>
+          <p><strong>क्या पढ़ाएंगे:</strong> हम AI को जो डेटा देते हैं वह उसकी भविष्यवाणियों को कैसे आकार देता है — और पूर्वाग्रह कैसे आता है।</p>
+          <p><strong>नई शब्दावली (4):</strong> मशीन लर्निंग, AI, सटीक, पूर्वाग्रह</p>
+          <p><strong>गतिविधियाँ — महासागरों के लिए AI:</strong></p>
+          <ul>
+            <li>स्तर 2: मछली बनाम कचरे पर AI को प्रशिक्षित करें</li>
+            <li>स्तर 3–4: समुद्री जीवों पर AI को प्रशिक्षित करें ("AI केवल वही सीखता है जो हम सिखाते हैं")</li>
+            <li>स्तर 5: AI को एक नया शब्द सिखाएं — चुने हुए शब्द के अनुसार छात्रों को समूहित करें, परिणामों की तुलना करें</li>
+          </ul>
+          <p><strong>तकनीकी जाँच:</strong> वार्म-अप में Random Book Generator + Amazon का उपयोग होता है। <em>यदि स्कूल वाईफाई पर बंद हो, तो बैकअप स्लाइड का उपयोग करें।</em></p>
+          <p><strong>⚡ ध्यान दें:</strong> जब AI तारामछली को नहीं पहचानेगा तो छात्र सोचेंगे कि AI "खराब" है। यही पाठ है — इसका लाभ उठाएं।</p>`,
+        followUps: ["शब्दावली पुनरीक्षण", "छात्रों के आम प्रश्न", "सबसे संभावित गलतफहमी", "स्तर 5 का समूहीकरण कैसे करें?"]
+      },
+      3: {
+        header: "पाठ 3 · AI Bot का उपयोग · 45 मिनट",
+        body: `<p><span class="label">तैयारी</span></p>
+          <p><strong>क्या पढ़ाएंगे:</strong> AI निश्चितता पर नहीं, संभावना पर चुनाव करता है।</p>
+          <p><strong>नई शब्दावली (1):</strong> फ़ीचर वेक्टर — विशेषताओं को संख्या देना ताकि मशीन पैटर्न ढूँढ सके।</p>
+          <p><strong>गतिविधियाँ — Dance Party AI:</strong></p>
+          <ul>
+            <li>स्तर 1: भोजन फ़ीचर वेक्टर (मिठास × पसंद)</li>
+            <li>स्तर 3: इमोजी फ़ीचर वेक्टर (रंगीन × खुश)</li>
+            <li>स्तर 6: AI ब्लॉक — 3 इमोजी से डांस इफेक्ट उत्पन्न करें</li>
+          </ul>
+          <p><strong>तकनीकी जाँच:</strong> छात्रों के डिवाइस पर Dance Party लोड होता है और ऑडियो काम करता है।</p>
+          <p><strong>⚡ ध्यान दें:</strong> छात्रों को मनचाहे इफेक्ट नहीं मिलेंगे → <em>पुनः उत्पन्न करना, संपादित करना, या सह-निर्माण</em> सिखाने का बढ़िया अवसर।</p>`,
+        followUps: ["शब्दावली पुनरीक्षण", "छात्रों के आम प्रश्न", "सबसे संभावित गलतफहमी", "AI ब्लॉक का उदाहरण कैसे दें?"]
+      },
+      4: {
+        header: "पाठ 4 · स्कूल में AI · 45 मिनट",
+        body: `<p><span class="label">तैयारी</span></p>
+          <p><strong>क्या पढ़ाएंगे:</strong> डेटासेट पढ़ना, यह तय करना कि कौन सा डेटा प्रासंगिक है और क्या छोड़ना है।</p>
+          <p><strong>शब्दावली:</strong> AI, डेटा, प्रशिक्षण, प्रशिक्षण डेटा का पुनरीक्षण (कोई नया शब्द नहीं)</p>
+          <p><strong>गतिविधियाँ:</strong></p>
+          <ul>
+            <li>वार्म-अप: छात्र सर्वेक्षण — ऑनलाइन (स्तर 1) या पेपर संस्करण</li>
+            <li>मुख्य: स्कूल में AI टूल्स — छात्र एक काल्पनिक AI टूल चुनते हैं, तय करते हैं कि कौन सा डेटा शामिल/बाहर करें</li>
+          </ul>
+          <p><strong>पहले से तय करें:</strong> ऑनलाइन या बिना डिवाइस? (पेपर संस्करण को प्रिंटआउट की आवश्यकता है।)</p>
+          <p><strong>⚡ ध्यान दें:</strong> छात्र <em>सारा</em> डेटा शामिल करना चाहेंगे। उद्देश्य है उन्हें प्रासंगिकता पर सोचने के लिए प्रेरित करना। "क्या डिटेंशन इतिहास से लंच की सीट तय होनी चाहिए?"</p>`,
+        followUps: ["शब्दावली पुनरीक्षण", "छात्रों के आम प्रश्न", "सबसे संभावित गलतफहमी", "ऑनलाइन या पेपर — कौन सा बेहतर?"]
+      },
+      5: {
+        header: "पाठ 5 · अपनी आवाज़ दें · 45 मिनट",
+        body: `<p><span class="label">तैयारी</span></p>
+          <p><strong>क्या पढ़ाएंगे:</strong> छात्र स्कूल में AI टूल्स पर अपनी राय बनाते और साझा करते हैं।</p>
+          <p><strong>शब्दावली:</strong> AI, डेटा, प्रशिक्षण, पूर्वाग्रह का पुनरीक्षण (कोई नया शब्द नहीं)</p>
+          <p><strong>चयन गतिविधि — छात्र एक चुनते हैं:</strong></p>
+          <ul>
+            <li>प्रिंसिपल को पत्र</li>
+            <li>भाषण, गीत, या रैप</li>
+            <li>पोस्टर</li>
+            <li>Sprite Lab प्रोजेक्ट</li>
+            <li>कोडित कविता</li>
+          </ul>
+          <p><strong>तैयारी:</strong> लिखने, चित्र बनाने आदि के लिए सामग्री। मिर्च (कठिनाई) चिह्न देखें ताकि छात्र 30 मिनट में पूरा कर सकें।</p>
+          <p><strong>⚡ ध्यान दें:</strong> "मुझे नहीं पता मैं क्या सोचता हूँ" कहने वाले छात्र। वाक्य की शुरुआत दें: <em>"AI ___ में मदद कर सकता है क्योंकि ___। लेकिन ___ गलत हो सकता है क्योंकि ___।"</em></p>`,
+        followUps: ["झिझकते छात्रों के लिए वाक्य शुरुआत", "इसका मूल्यांकन कैसे करूँ?", "छात्रों के आम प्रश्न", "विचार के लिए संकेत"]
+      }
+    },
+    studentQs: {
+      1: [
+        { q: "क्या AI सिर्फ अनुमान लगाता है?",
+          a: `<p>नहीं — और यही इस पाठ की मुख्य बात है। AI डेटा में <strong>पैटर्न</strong> ढूँढता है।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"सिक्का उछालना यादृच्छिक है। स्तर 1 में, आपने रंगों को देखकर नियम पता किया — यही AI करता है। अनुमान लगाने से अलग!"</div>` },
+        { q: "मेरा उत्तर गलत क्यों आया?",
+          a: `<p>स्तर 1–2 में <em>लेबल किया</em> डेटा होता है — छात्र नियम देख सकते हैं। स्तर 3–5 <strong>सुदृढीकरण</strong> है — कोशिश करने के बाद ही पता चलता है।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"आप वैसे ही सीख रहे हैं जैसे AI सीखता है — कोशिश करके और प्रतिक्रिया पाकर। हर गलत उत्तर बताता है कि पैटर्न क्या नहीं है।"</div>` },
+        { q: "मेरे साथी और मैंने अलग तरह से क्रमबद्ध किया — कौन सही है?",
+          a: `<p>दोनों सही हो सकते हैं! अलग वैध विशेषताएं → अलग वैध क्रम।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"क्या आपने रंग से क्रमबद्ध किया? आकार से? टॉपिंग्स से? सब सही। प्रश्न 'एक ही सही तरीका क्या है' नहीं है — 'आपने कौन सी विशेषता चुनी' है।"</div>` },
+        { q: "'मुझे नहीं पता' का बटन क्यों नहीं है?",
+          a: `<p>भविष्यवाणी करने के लिए मजबूर करना ही उद्देश्य है। AI टाल नहीं सकता — उसके पास जो है उसी से वर्गीकृत करना होगा।</p>
+              <p><span class="label">पर्दे के पीछे</span></p>
+              <p>अगर कोई छात्र अटका हो, तो उसे अपना सर्वोत्तम अनुमान ज़ोर से कहने और क्यों समझाने को कहें। यही मॉडल की सोच है।</p>` }
+      ],
+      2: [
+        { q: "AI तारामछली को कचरा क्यों समझता है?",
+          a: `<p>क्योंकि हमने उसे केवल मछलियों पर प्रशिक्षित किया। उसके दृष्टिकोण से, "मछली = रखें, बाकी सब = कचरा।"</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"AI केवल वही सीखता है जो हम सिखाते हैं। अगर हमने उसे तारामछली नहीं दिखाई, तो उसे पता नहीं कि वह क्या है। इसलिए स्तर 3 में हम उसे अधिक समुद्री जीवों पर फिर से प्रशिक्षित करते हैं।"</div>` },
+        { q: "AI को कैसे पता कौन सी मछली 'गुस्से वाली' है?",
+          a: `<p>उसे नहीं पता! यही पाठ है। हर छात्र "गुस्से वाली" को उन मछलियों से परिभाषित करता है जिन्हें <em>उन्होंने</em> लेबल किया।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"अपने साथी से तुलना करें। एक ही शब्द, अलग मॉडल। क्यों? क्योंकि आपका प्रशिक्षण डेटा — आपने जो मछलियाँ चुनीं — अलग था। राय जब नियम बन जाती हैं तो पूर्वाग्रह बन जाती है।"</div>` },
+        { q: "क्या AI शिक्षकों की जगह ले लेगा? / क्या यह मेरे माता-पिता की नौकरी ले लेगा?",
+          a: `<p>बड़ा, वैध प्रश्न। Attendance Bot वाले रैप-अप से जवाब दें।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"Attendance Bot एक काम स्वचालित कर सकता है, लेकिन यह नहीं जान सकता कि आप परेशान हैं, आपने किसी की मदद की, या आज आपका बढ़िया विचार था। AI तब सबसे अच्छा है जब वह लोगों के <em>साथ</em> काम करे, उनके बजाय नहीं।"</div>` },
+        { q: "क्या AI धोखा दे सकता है?",
+          a: `<p>दोबारा सोचें: AI धोखा देना <em>चाहता</em> नहीं हो सकता। लेकिन इसे गलत डेटा पर प्रशिक्षित किया जा सकता है जो इसे अनुचित बना दे।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"अगर हम AI को केवल लाल 'गुस्से वाली' मछलियाँ दिखाएँ, तो वह लाल = गुस्सा सीखेगा। यह धोखा नहीं है — लेकिन यह गलत है, क्योंकि हमने कुछ गलत सिखाया।"</div>` }
+      ],
+      3: [
+        { q: "AI ने ऐसे इफेक्ट क्यों चुने जो मुझे पसंद नहीं?",
+          a: `<p>AI कई लोगों की पसंद का औसत निकाल रहा है। आपका स्वाद डेटा में है, लेकिन बाकी सबका भी।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"तीन विकल्प: पुनः उत्पन्न करें, ड्रॉपडाउन संपादित करें, या नए इमोजी चुनें। यही 'AI के साथ सह-निर्माण' है — आपको उसका पहला उत्तर स्वीकार करने की ज़रूरत नहीं।"</div>` },
+        { q: "फ़ीचर वेक्टर क्या है फिर से?",
+          a: `<p>विशेषताओं पर रखी संख्याएँ ताकि कंप्यूटर पैटर्न ढूँढ सके।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"एक डोनट शायद 10 में से 9 मीठा है, और 10 में से 10 'मुझे पसंद है'। इसे (9, 10) जोड़े के रूप में लिखें। कंप्यूटर अब डोनट की तुलना अन्य खाद्य पदार्थों से कर सकता है।"</div>` },
+        { q: "AI एक ही प्रश्न के अलग उत्तर क्यों देता है?",
+          a: `<p>संभावना। AI सबसे संभावित विकल्प चुनता है, पर कभी-कभी कम संभावित भी।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"ज़्यादातर लोग कहते हैं सूर्यास्त नारंगी और लाल होता है — तो AI आमतौर पर यही कहता है। पर कभी लोग बैंगनी और गुलाबी कहते हैं। AI वह भी कहेगा, बस कम बार। यह खराब नहीं है — डेटा को दर्शा रहा है।"</div>` }
+      ],
+      4: [
+        { q: "हम सारा डेटा क्यों नहीं उपयोग कर सकते?",
+          a: `<p>क्योंकि अप्रासंगिक या अनुचित डेटा पक्षपाती निर्णय की ओर ले जाता है।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"कैफेटेरिया की सीटों के लिए, बोली जाने वाली भाषाएँ = उपयोगी। डिटेंशन = अप्रासंगिक और AI को बच्चों को अनुचित ढंग से बिठा सकता है। गुणवत्ता &gt; मात्रा।"</div>` },
+        { q: "AI को अनुचित होने से कैसे रोकें?",
+          a: `<p>इस पाठ में दो उत्तर: <strong>विविध प्रशिक्षण डेटा</strong> + <strong>मानवीय निगरानी</strong>।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"सबसे अच्छे डेटा के साथ भी AI गलतियाँ करता है। एक बड़े व्यक्ति को उसके निर्णयों की जाँच करनी चाहिए। इसलिए हम AI को कभी अकेले निर्णय लेने नहीं देते।"</div>` },
+        { q: "क्या AI का उपयोग बुरा है?",
+          a: `<p>स्वाभाविक रूप से नहीं। यह जोखिम और निगरानी पर निर्भर करता है।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"AI रीसाइक्लिंग छाँटने जैसी चीज़ों के लिए अच्छा है — कम जोखिम, जाँचने में आसान। 'महीने के छात्र' जैसे काम के लिए AI जोखिम भरा है — ज़्यादा दांव, गलत होने पर सुधारना कठिन।"</div>` }
+      ],
+      5: [
+        { q: "मुझे नहीं पता मैं AI के बारे में क्या सोचता हूँ",
+          a: `<p>बिल्कुल ठीक है। उद्देश्य सूचित सोच है, निश्चित उत्तर नहीं।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"कल का कोई एक AI टूल चुनो। एक बात कहो जो सही हो सकती है, और एक जो गलत हो सकती है। अब आपकी एक राय है!"</div>` },
+        { q: "क्या मैं कह सकता हूँ कि AI बुरा है?",
+          a: `<p>हाँ — जब तक यह सीखी हुई बातों पर आधारित हो।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"आप कह सकते हैं कि AI जोखिम भरा है। बस हमारे पाठों के उदाहरणों से इसका समर्थन करें: पूर्वाग्रह, बुरा डेटा, मानवीय बारीकी की कमी।"</div>` },
+        { q: "अगर बाद में मेरा मन बदल जाए?",
+          a: `<p>यही सीखना है। बदलाव को मान्यता दें।</p>
+              <p><span class="label">अपनी कक्षा से कहें</span></p>
+              <div class="quote">"आज की आपकी राय कल बदल सकती है। यह अनिश्चितता नहीं — और ज़्यादा सीखना है।"</div>` }
+      ]
+    },
+    concepts: [
+      { id: "data", term: "डेटा", lessons: [1,2,3,4,5],
+        adult: "दुनिया के बारे में एकत्रित जानकारी।",
+        kid: "किसी चीज़ के बारे में जो हम जानते हैं। कक्षा का डेटा: 12 को पिज्जा पसंद, 8 को टैकोज़। यही डेटा है।",
+        example: "हर छात्र की पसंदीदा पिज्जा टॉपिंग की सूची = डेटा।",
+        nonexample: "अनुमान कि कौन सी टॉपिंग लोकप्रिय होगी = डेटा नहीं।" },
+      { id: "feature", term: "विशेषता", lessons: [1,3],
+        adult: "किसी वस्तु का गुण — रंग, आकार, माप, या कोई भी विशेषता।",
+        kid: "कुछ जो कोई वस्तु है या उसमें है। त्रिकोण में 3 भुजाएँ हैं — यह एक विशेषता है। पिज्जा में चीज़ है — यह एक विशेषता है।",
+        example: "त्रिकोण: 3 भुजाएँ, नुकीला, सपाट = विशेषताएँ।",
+        nonexample: "'अच्छा' एक विशेषता नहीं — बहुत राय-आधारित।" },
+      { id: "predict", term: "भविष्यवाणी", lessons: [1,2,3],
+        adult: "डेटा के पैटर्न के आधार पर सूचित अनुमान लगाना।",
+        kid: "अनुमान लगाना कि आगे क्या आएगा, जो आप पहले से जानते हैं उसका उपयोग करके। अगर हर शुक्रवार को पिज्जा होता है, तो शुक्रवार = पिज्जा भविष्यवाणी कर सकते हैं।",
+        example: "10 क्रमबद्ध वस्तुओं को देखकर अनुमान लगाना कि 11वीं कहाँ जाएगी।",
+        nonexample: "तय करने के लिए सिक्का उछालना — यह यादृच्छिक है, भविष्यवाणी नहीं।" },
+      { id: "sort", term: "क्रमबद्ध", lessons: [1],
+        adult: "साझा विशेषताओं के आधार पर वस्तुओं का समूहीकरण।",
+        kid: "चीज़ों को ढेरों में रखना जहाँ हर ढेर में कुछ साझा हो।",
+        example: "सभी गोल चीज़ें एक ढेर में, सभी सपाट दूसरे में।",
+        nonexample: "यादृच्छिक रूप से ढेर लगाना — क्रमबद्ध नहीं।" },
+      { id: "training-data", term: "प्रशिक्षण डेटा", lessons: [1,2,4],
+        adult: "क्रमबद्ध, लेबल की गई जानकारी जो कंप्यूटर को दी जाती है ताकि वह भविष्यवाणी सीख सके।",
+        kid: "उदाहरण जो हम कंप्यूटर को दिखाते हैं ताकि वह सीख सके। रोबोट के लिए फ्लैशकार्ड जैसा।",
+        example: "100 तस्वीरें 'बिल्ली' या 'कुत्ता' लेबल वाली कंप्यूटर को सिखाने के लिए।",
+        nonexample: "बिना लेबल की तस्वीरें — यह प्रशिक्षण डेटा नहीं।" },
+      { id: "ml", term: "मशीन लर्निंग", lessons: [2],
+        adult: "कंप्यूटर बिना स्पष्ट नियमों के पैटर्न पहचानते हैं और निर्णय लेते हैं।",
+        kid: "कंप्यूटर के लिए बहुत सारे उदाहरण देखकर चीज़ें समझने का तरीका, हर नियम लिखे बिना।",
+        example: "महासागरों के लिए AI 'मछली बनाम कचरा' उदाहरणों से सीखता है, नियम-पुस्तिका से नहीं।",
+        nonexample: "एक कैलकुलेटर जो सटीक गणित नियमों का पालन करता है — यह सिर्फ प्रोग्राम है, ML नहीं।" },
+      { id: "ai", term: "आर्टिफिशियल इंटेलिजेंस (AI)", lessons: [2,3,4,5],
+        adult: "कंप्यूटर के लिए डेटा के पैटर्न का उपयोग कर स्वयं निर्णय लेने का तरीका।",
+        kid: "जब कंप्यूटर खुद चुन सकता है, बहुत सारे उदाहरण देखने के बाद।",
+        example: "आवाज़ सहायक, स्व-चालित कार, AI Bot डांस इफेक्ट चुनना।",
+        nonexample: "घड़ी समय दिखाना — कोई निर्णय नहीं, बस माप।" },
+      { id: "accurate", term: "सटीक", lessons: [2],
+        adult: "सही या सही के क़रीब।",
+        kid: "सही। गलत का उल्टा।",
+        example: "AI ने 'मछली' की भविष्यवाणी की और वह मछली थी → सटीक।",
+        nonexample: "AI ने 'मछली' की भविष्यवाणी की और वह तारामछली थी → सटीक नहीं।" },
+      { id: "bias", term: "पूर्वाग्रह", lessons: [2,4,5],
+        adult: "कुछ चीज़ों को दूसरों पर तरजीह देना, जिससे अनुचित निर्णय होते हैं।",
+        kid: "जब एक मॉडल कुछ चीज़ों को मौक़ा देता है पर दूसरों को नहीं। आमतौर पर क्योंकि प्रशिक्षण डेटा अनुचित था।",
+        example: "अगर हम AI को केवल लाल गुस्सैल मछलियों पर प्रशिक्षित करें, तो वह लाल = गुस्सा सीखेगा। यह पूर्वाग्रह है।",
+        nonexample: "पिज्जा को सलाद से ज़्यादा पसंद करना पसंद है, पूर्वाग्रह नहीं — यह दूसरों को अनुचित प्रभावित नहीं करता।" },
+      { id: "feature-vector", term: "फ़ीचर वेक्टर", lessons: [3],
+        adult: "विशेषताओं को दी गई संख्याएँ ताकि मशीन गणितीय तुलना कर सके।",
+        kid: "विशेषताओं पर संख्याएँ रखना ताकि कंप्यूटर उनसे गणित कर सके। जैसे मिठास को 1–10 रेट करना।",
+        example: "एक डोनट: मिठास 9, पसंद 10 → फ़ीचर वेक्टर (9, 10)।",
+        nonexample: "बस 'मीठा' शब्द — कोई संख्या नहीं, कोई गणित नहीं, कोई वेक्टर नहीं।" },
+      { id: "training", term: "प्रशिक्षण", lessons: [2,4,5],
+        adult: "कंप्यूटर को बहुत सारे उदाहरण दिखाकर कोई कार्य सिखाना।",
+        kid: "कंप्यूटर को बहुत सारे उदाहरण दिखाना ताकि वह पैटर्न सीखे।",
+        example: "AI को 200 मछलियों की तस्वीरें दिखाना ताकि वह मछली पहचानना सीखे।",
+        nonexample: "कंप्यूटर से 'बुद्धिमान बनो' कहना — प्रशिक्षण नहीं।" }
+    ],
+    misconceptions: {
+      1: [
+        { student: "AI जादू है / AI को शुरू से सब पता है।",
+          reality: "AI उस डेटा में पैटर्न ढूँढता है जो हम देते हैं। बस इतना ही।",
+          fix: `"याद है आपको रंग देखकर नियम पता करना पड़ा? AI यही करता है, बस बहुत ज़्यादा उदाहरणों के साथ। कोई जादू नहीं — बस बहुत अभ्यास।"` },
+        { student: "ज़्यादा अनुमान AI को बेहतर बनाते हैं।",
+          reality: "ज़्यादा <em>क्रमबद्ध, लेबल किया</em> डेटा AI को बेहतर बनाता है। यादृच्छिक अनुमान मदद नहीं करते।",
+          fix: `"फ्लैशकार्ड की कल्पना करें। अगर खाली हों, आप नहीं सीखेंगे। अगर उत्तर हों, सीखेंगे। AI भी ऐसा ही है।"` },
+        { student: "अगर मैंने साथी से अलग क्रमबद्ध किया, तो एक गलत है।",
+          reality: "अलग वैध विशेषताएं → अलग वैध क्रम। दोनों सही हो सकते हैं।",
+          fix: `"क्या दोनों ने स्पष्ट पैटर्न का पालन किया? तो दोनों सही हैं। प्रश्न है 'आपने कौन सी विशेषता चुनी?', 'कौन सही है?' नहीं।"` }
+      ],
+      2: [
+        { student: "AI हमेशा इंसानों से ज़्यादा सटीक होता है।",
+          reality: "AI उन मामलों में विफल होता है जो इंसान आसानी से संभालते हैं — घुटनों पर बैठा छात्र, बाथरूम में, व्हीलचेयर में।",
+          fix: `"Attendance Bot बारीकी नहीं देख सकता। शिक्षक देख सकता है। गति बनाम समझ — AI गति देता है, इंसान समझ।"` },
+        { student: "एक ही प्रशिक्षण शब्द → एक ही AI मॉडल।",
+          reality: "<em>उदाहरण</em> मॉडल को आकार देते हैं, लेबल नहीं।",
+          fix: `"आप और आपके साथी ने 'खुश' चुना। लेकिन आपने अलग मछलियों पर प्रशिक्षित किया। एक शब्द, अलग मॉडल। चित्र लेबल से ज़्यादा मायने रखते हैं।"` },
+        { student: "AI अपने आप सीखता है।",
+          reality: "इंसान डेटा और लेबल चुनते हैं। AI उसके बिना नहीं 'सीखता'।",
+          fix: `"काउंटर देखें — यह आपके दिए उदाहरण गिन रहा है। उसके बिना AI कुछ नहीं करता।"` }
+      ],
+      3: [
+        { student: "AI 'जानता' है कि मैं क्या चाहता हूँ।",
+          reality: "AI कई उपयोगकर्ताओं की पसंद की संभावना के आधार पर अनुमान लगाता है।",
+          fix: `"AI अनुमान लगाता है कि उन इमोजी चुनने वाले अधिकांश लोगों को क्या पसंद आया। आप अलग हो सकते हैं। इसलिए आप पुनः उत्पन्न कर सकते हैं या संपादित कर सकते हैं।"` },
+        { student: "एक ही इमोजी = हमेशा एक ही इफेक्ट।",
+          reality: "आमतौर पर हाँ, लेकिन संभावना का मतलब है कि कभी-कभी AI कम संभावित विकल्प चुनता है।",
+          fix: `"यह एक भारित सिक्का उछालने जैसा है। आमतौर पर हेड्स। कभी टेल्स। AI ऐसा ही है — आमतौर पर पूर्वानुमेय, कभी आश्चर्यजनक।"` },
+        { student: "AI को निर्णय लेने देना हमेशा तेज़ और बेहतर है।",
+          reality: "तेज़, अक्सर हाँ। बेहतर — निर्भर करता है कि AI का 'औसत' आपके स्वाद से मेल खाता है या नहीं।",
+          fix: `"AI शानदार पहला ड्राफ्ट है। आपका काम है रखना, बदलना, या फेंकना।"` }
+      ],
+      4: [
+        { student: "ज़्यादा डेटा = हमेशा बेहतर।",
+          reality: "अप्रासंगिक डेटा पूर्वाग्रह लाता है। प्रासंगिकता मात्रा से ज़्यादा मायने रखती है।",
+          fix: `"क्या आप किसी का डिटेंशन रिकॉर्ड उसकी लंच सीट चुनने के लिए इस्तेमाल करेंगे? शायद नहीं। कुछ डेटा बहुत होने पर भी पूर्वाग्रह घुसा देता है।"` },
+        { student: "AI पूर्वाग्रह दुर्लभ है।",
+          reality: "पूर्वाग्रह डिफ़ॉल्ट है जब तक आप उसे सक्रिय रूप से रोकें नहीं।",
+          fix: `"पूर्वाग्रह तब घुसता है जब प्रशिक्षण डेटा सभी का प्रतिनिधित्व नहीं करता। यह लगभग हमेशा होता है — जब तक हम इसे ठीक करने के लिए काम न करें।"` },
+        { student: "एक बार प्रशिक्षित, AI तैयार।",
+          reality: "AI को निरंतर समीक्षा चाहिए। डेटा बदलता है, लोग बदलते हैं, AI को भी बदलना चाहिए।",
+          fix: `"2010 में AI को प्रशिक्षित करने की कल्पना करें। क्या उसे TikTok पता होगा? बिल्कुल नहीं। AI को अपडेट चाहिए, हमारी सीख की तरह।"` }
+      ],
+      5: [
+        { student: "AI के बारे में एक सही उत्तर है।",
+          reality: "नहीं है। मुद्दा सूचित राय है।",
+          fix: `"समझदार लोग AI पर असहमत होते हैं। यह ठीक है। आपका काम है समझाना कि आप जो सोचते हैं वो क्यों सोचते हैं, उदाहरणों के साथ।"` },
+        { student: "AI पूरी तरह बुरा / पूरी तरह अच्छा है।",
+          reality: "संदर्भ-निर्भर। एक ही उपकरण एक स्थिति में मदद कर सकता है और दूसरी में हानि।",
+          fix: `"कचरे और रीसाइक्लिंग को छाँटने वाला AI? शायद अच्छा। 'महीने का छात्र' चुनने वाला AI? शायद जोखिम भरा। एक ही तरह का AI, बहुत अलग दांव।"` }
+      ]
+    }, // end misconceptions
+    onboarding: {
+      banner: "ये यात्राएँ वेब संस्करण पर भी उपलब्ध हैं। यहाँ पूर्वावलोकन के लिए किसी भी कार्ड पर टैप करें।",
+      cards: [
+        { id: "start", icon: "🚀", title: "मैं कहाँ से शुरू करूँ?", desc: "5 मिनट का अभिविन्यास: 'AI निर्णय कैसे लेता है' क्या है, किसके लिए है, पहले क्या करना है।" },
+        { id: "syllabus", icon: "📋", title: "पाठ्यक्रम की समीक्षा", desc: "एक नज़र में सभी 5 पाठ: समय, उद्देश्य, शब्दावली, आवश्यक सामग्री।" },
+        { id: "lesson-plan", icon: "📖", title: "पाठ योजना देखें", desc: "पाठ 1 को मिनट दर मिनट देखें, चर्चा लक्ष्यों और समय सहित।" },
+        { id: "sample", icon: "🎬", title: "नमूना पाठ देखें", desc: "छात्रों के स्तर खुद आज़माएँ ताकि आपको पता हो वे क्या देखेंगे।" },
+        { id: "evaluate", icon: "✅", title: "मूल्यांकन करना सीखें", desc: "एग्ज़िट टिकट के रूप में 'दिन का प्रश्न'। पाठ 5 के लिए वैकल्पिक रूब्रिक।" },
+        { id: "section", icon: "👩‍🏫", title: "कक्षा सेक्शन बनाएँ", desc: "Code.org में सेक्शन सेट करने और छात्रों को जोड़ने के लिए तेज़ कदम।" },
+      ]
+    },
+    onboardingDetail: {
+      start: `<p><span class="label">कहाँ से शुरू करें</span></p>
+        <p>मॉड्यूल <strong>5 पाठ × 45 मिनट</strong> है, उच्च प्राथमिक (कक्षा 3–5) के लिए। CS/AI में नए शिक्षकों के लिए डिज़ाइन किया गया — कोडिंग की पृष्ठभूमि की आवश्यकता नहीं।</p>
+        <p><strong>आपकी पहली 30 मिनट की तैयारी:</strong></p>
+        <ul>
+          <li><em>AI क्या है?</em> परिचय वीडियो देखें (3 मिनट)</li>
+          <li>पाठ 1 के स्तर 1–7 स्वयं पूरे करें (15 मिनट)</li>
+          <li>इस चैट में पाठ 1 की तैयारी पढ़ें (5 मिनट)</li>
+        </ul>
+        <p>बस इतना ही। आप दिन 1 के लिए तैयार हैं।</p>`,
+      syllabus: `<p><span class="label">पाठ्यक्रम</span></p>
+        <ul>
+          <li><strong>पाठ 1 · भविष्यवाणी करना</strong> — पर्यवेक्षित बनाम सुदृढीकरण शिक्षण, क्रमबद्ध करना</li>
+          <li><strong>पाठ 2 · AI को प्रशिक्षित करना</strong> — प्रशिक्षण डेटा, पूर्वाग्रह (महासागरों के लिए AI)</li>
+          <li><strong>पाठ 3 · AI Bot का उपयोग</strong> — फ़ीचर वेक्टर, संभावना (Dance Party AI)</li>
+          <li><strong>पाठ 4 · स्कूल में AI</strong> — प्रासंगिक डेटा चुनना, पूर्वाग्रह रोकना</li>
+          <li><strong>पाठ 5 · अपनी आवाज़ दें</strong> — AI पर राय बनाना और साझा करना</li>
+        </ul>`,
+      "lesson-plan": `<p>पूरी योजना चैट में देखने के लिए कोई पाठ चुनें:</p>`,
+      sample: `<p><span class="label">नमूना पाठ</span></p>
+        <p>सबसे अच्छा शुरुआती बिंदु: <strong>पाठ 1, स्तर 1</strong> — "यह कैसे क्रमबद्ध है?" एक छात्र की तरह उत्तर देने की कोशिश करें।</p>
+        <p>फिर <strong>पाठ 2, महासागरों के लिए AI स्तर 2</strong> पर जाएँ ताकि AI को प्रशिक्षित करना कैसा लगता है यह महसूस हो।</p>`,
+      evaluate: `<p><span class="label">मूल्यांकन</span></p>
+        <p><strong>हर पाठ</strong> 'दिन का प्रश्न' से समाप्त होता है — एग्ज़िट टिकट के लिए परफेक्ट।</p>
+        <p><strong>पाठ 5 के कलाकृति</strong> (पत्र, पोस्टर, गीत, आदि) का मूल्यांकन इस आधार पर किया जा सकता है: राय की स्पष्टता, मॉड्यूल की शब्दावली का उपयोग, और पाठों से कम से कम एक उदाहरण।</p>`,
+      section: `<p><span class="label">कक्षा सेक्शन बनाएँ</span></p>
+        <p>इसे वेब पर सेट करें (अभी इस ऐप में उपलब्ध नहीं):</p>
+        <ol>
+          <li><strong>studio.code.org</strong> पर लॉग इन करें</li>
+          <li><strong>Sections</strong> → <strong>New section</strong> पर टैप करें</li>
+          <li>पाठ्यक्रम चुनें: <em>"How AI Makes Decisions"</em></li>
+          <li>सेक्शन कोड अपने छात्रों के साथ साझा करें</li>
+        </ol>`
+    },
+    }, // end HI Course 1
+    ], // end hi.courses
+    reflection: {
+      start: "विचार करें — 60 सेकंड लगते हैं। आपने अभी कौन सा पाठ पढ़ाया?",
+      q1: "👍 क्या सबसे अच्छा काम किया?",
+      q1Chips: ["चर्चा गहरी हुई", "व्यावहारिक गतिविधि सफल रही", "वीडियो ने अच्छा शुरुआत की", "छात्रों ने एक-दूसरे के प्रश्नों का उत्तर दिया"],
+      q2: "🤔 छात्रों ने कहाँ संघर्ष किया?",
+      q2Chips: ["कोई शब्दावली शब्द", "एक विशिष्ट स्तर", "एक अप्रत्याशित प्रश्न जिसका उत्तर नहीं था", "गति — समय कम पड़ा"],
+      q3: "📌 अगले पाठ से पहले कुछ जानने योग्य?",
+      q3Placeholder: "लिखें या छोड़ें…",
+      thanks: "सहेजा गया! अगले पाठ की तैयारी खोलते ही मैं यह फिर लाऊँगा। 👍",
+    },
+    helpers: {
+      noMatch: "मेरे पास इसका तैयार उत्तर अभी नहीं है — पर टीम इन्हें एकत्र कर रही है। अभी मैं इन चीज़ों में मदद कर सकता हूँ:",
+      backToMenu: "और किसमें मदद करूँ?",
+    }
+  }
+};
+
+/* ============================================================
+   CONVERSATION ENGINE
+   ============================================================ */
+const STATE = {
+  lang: localStorage.getItem("teacherAssistantLang") || "en",
+  courseId: localStorage.getItem("teacherAssistantCourse") || null,
+  tab: "chat",
+  chat: [],
+  context: null, // {intent, lessonId, ...}
+  lastLessonTaught: localStorage.getItem("lastLessonTaught") || null,
+  lastCourseTaught: localStorage.getItem("lastCourseTaught") || null,
+  pendingNote: null, // reflection notes from last lesson
+  generation: 0, // increments on reset/lang-switch; pending async calls check this
+};
+
+/* Render helpers */
+function $(id) { return document.getElementById(id); }
+function t() { return CONTENT[STATE.lang]; }
+function tc() {
+  // Return current course content; fall back to English if not in current lang
+  const langCourses = CONTENT[STATE.lang].courses;
+  const course = langCourses && langCourses.find(c => c.id === STATE.courseId);
+  if (course) return course;
+  // Fallback to English
+  return CONTENT.en.courses.find(c => c.id === STATE.courseId) || CONTENT.en.courses[0];
+}
+
+function nowTime() {
+  const d = new Date();
+  let h = d.getHours();
+  const m = String(d.getMinutes()).padStart(2, "0");
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12 || 12;
+  return `${h}:${m} ${ampm}`;
+}
+
+function renderHeader() {
+  $("hdr-name").textContent = t().ui.appName;
+  $("hdr-status").textContent = t().ui.online;
+  $("tab-chat").textContent = t().ui.tabChat;
+  $("tab-onboarding").textContent = t().ui.tabOnboarding;
+  $("input-text").placeholder = t().ui.placeholder;
+  $("reset-btn").title = t().ui.resetTitle;
+  document.documentElement.lang = STATE.lang === "hi" ? "hi" : STATE.lang;
+}
+
+function appendDayDivider() {
+  const div = document.createElement("div");
+  div.className = "day-divider";
+  div.innerHTML = `<span>${new Date().toLocaleDateString(STATE.lang === "hi" ? "hi-IN" : STATE.lang === "es" ? "es-ES" : "en-US", { weekday: "long", month: "short", day: "numeric" })}</span>`;
+  $("chat").appendChild(div);
+}
+
+function appendSystem(text) {
+  const div = document.createElement("div");
+  div.className = "system-msg";
+  div.innerHTML = `<span>${text}</span>`;
+  $("chat").appendChild(div);
+  scrollChat();
+}
+
+function appendBubble(side, html) {
+  const row = document.createElement("div");
+  row.className = `msg-row ${side}`;
+  const bubble = document.createElement("div");
+  bubble.className = `bubble ${side}`;
+  const tickHtml = side === "out" ? `<span class="ticks">✓✓</span>` : '';
+  bubble.innerHTML = `<div class="text">${html}</div><div class="meta">${nowTime()} ${tickHtml}</div>`;
+  row.appendChild(bubble);
+  $("chat").appendChild(row);
+  scrollChat();
+}
+
+function showTyping() {
+  const row = document.createElement("div");
+  row.className = "msg-row in";
+  row.id = "typing-row";
+  row.innerHTML = `<div class="typing-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+  $("chat").appendChild(row);
+  $("hdr-status").textContent = t().ui.typing;
+  scrollChat();
+}
+
+function hideTyping() {
+  const row = document.getElementById("typing-row");
+  if (row) row.remove();
+  $("hdr-status").textContent = t().ui.online;
+}
+
+function scrollChat() {
+  const c = $("chat");
+  c.scrollTop = c.scrollHeight;
+}
+
+function clearQuickReplies() {
+  $("quick-replies").innerHTML = "";
+}
+
+function setQuickReplies(replies) {
+  const qr = $("quick-replies");
+  qr.innerHTML = "";
+  replies.forEach(r => {
+    const btn = document.createElement("button");
+    btn.className = `qr-chip${r.primary ? " primary" : ""}${r.secondary ? " secondary" : ""}`;
+    btn.textContent = r.label;
+    btn.addEventListener("click", () => {
+      // Echo the user's choice as a sent message
+      appendBubble("out", escapeHtml(r.label));
+      clearQuickReplies();
+      r.action();
+    });
+    qr.appendChild(btn);
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+/* Bot says: append with typing delay. Generation token prevents stale messages
+   from a previous language/reset from appearing in the new conversation. */
+async function botSay(html, delay = 700) {
+  const gen = STATE.generation;
+  showTyping();
+  await wait(delay);
+  if (STATE.generation !== gen) return; // Stale call — abort
+  hideTyping();
+  appendBubble("in", html);
+}
+
+function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+/* ============================================================
+   FLOWS
+   ============================================================ */
+async function startConversation() {
+  STATE.generation += 1;
+  $("chat").innerHTML = "";
+  clearQuickReplies();
+  hideTyping();
+  appendDayDivider();
+
+  if (!STATE.courseId) {
+    // No course selected yet — show picker
+    await botSay("Hi! I'm your AI teaching assistant for Code.org courses. 👋 Let's start by picking your course.", 600);
+    return flowCourseSelect();
+  }
+
+  if (STATE.lastLessonTaught && STATE.pendingNote && STATE.lastCourseTaught === STATE.courseId) {
+    const lessonObj = tc().lessonChips.find(l => l.id == STATE.lastLessonTaught);
+    const greet = tc().greetings.returning[0].replace("{lastLesson}", lessonObj ? lessonObj.label : "L" + STATE.lastLessonTaught);
+    await botSay(greet, 500);
+    if (STATE.pendingNote) {
+      await botSay(`<p><span class="label">${t().ui.heyLabel}</span></p><p>${escapeHtml(STATE.pendingNote)}</p>`, 600);
+    }
+  } else {
+    for (const line of tc().greetings.first) {
+      await botSay(line, 600);
+    }
+  }
+  showHomeMenu();
+}
+
+function showHomeMenu() {
+  const intents = t().intents;
+  setQuickReplies(intents.map(i => ({
+    label: i.label,
+    action: () => handleIntent(i.id)
+  })));
+}
+
+async function flowCourseSelect() {
+  const courses = CONTENT.en.courses; // always use EN list for course names/ids
+  await botSay(`<p>${t().pickCoursePrompt}</p>`, 400);
+  setQuickReplies(courses.map(c => ({
+    label: STATE.courseId === c.id ? c.name + " ← current" : c.name,
+    action: () => selectCourse(c.id)
+  })));
+}
+
+async function selectCourse(courseId) {
+  STATE.courseId = courseId;
+  localStorage.setItem("teacherAssistantCourse", courseId);
+  const course = tc();
+  for (const line of course.greetings.first) {
+    await botSay(line, 600);
+  }
+  showHomeMenu();
+}
+
+async function handleIntent(intentId) {
+  STATE.context = { intent: intentId };
+  switch (intentId) {
+    case "preflight": return flowPreflight();
+    case "inmoment": return flowInMoment();
+    case "concept": return flowConcept();
+    case "misconception": return flowMisconception();
+    case "reflect": return flowReflect();
+    case "switchCourse": return flowCourseSelect();
+  }
+}
+
+/* ---------- PRE-FLIGHT ---------- */
+async function flowPreflight() {
+  if (!tc().lessonChips.length) {
+    await botSay(`<p>Content for this course is coming soon. Try Pre-flight for <strong>How AI Makes Decisions</strong> instead?</p>`, 500);
+    setQuickReplies([
+      { label: "Switch course", action: flowCourseSelect, primary: true },
+      { label: t().ui.backHome, action: returnHome, secondary: true }
+    ]);
+    return;
+  }
+  await botSay(`<p>${t().pickLessonPrompt}</p>`, 400);
+  setQuickReplies(tc().lessonChips.map(l => ({
+    label: l.label,
+    action: () => showPreflight(l.id)
+  })));
+}
+
+async function showPreflight(lessonId) {
+  STATE.context = { intent: "preflight", lessonId };
+  const p = tc().preflight[lessonId];
+  await botSay(`<p><strong>${p.header}</strong></p>${p.body}`, 900);
+  const followUps = p.followUps.map(fu => ({
+    label: fu,
+    action: () => handlePreflightFollowUp(lessonId, fu)
+  }));
+  followUps.push({ label: t().ui.backHome, action: returnHome, secondary: true });
+  setQuickReplies(followUps);
+}
+
+async function handlePreflightFollowUp(lessonId, label) {
+  // Map common follow-ups
+  if (label.toLowerCase().includes("vocab") || label.includes("शब्दावली")) {
+    return showLessonVocab(lessonId);
+  }
+  if (label.toLowerCase().includes("question") || label.includes("preguntas") || label.includes("प्रश्न") || label.includes("question")) {
+    return flowInMomentForLesson(lessonId);
+  }
+  if (label.toLowerCase().includes("misconception") || label.includes("error") || label.includes("गलतफहमी")) {
+    return showMisconceptions(lessonId);
+  }
+  // Generic fallback — bot acknowledges
+  await botSay(`<p>${t().helpers.noMatch}</p>`, 500);
+  showHomeMenu();
+}
+
+async function showLessonVocab(lessonId) {
+  const relevant = tc().concepts.filter(c => c.lessons.includes(Number(lessonId)));
+  const lessonLabel = tc().lessonChips.find(l => l.id === Number(lessonId)).label;
+  const vocabIntros = {
+    en: `Vocab in <strong>${lessonLabel}</strong> (${relevant.length} terms). Tap to refresh:`,
+    es: `Vocabulario en <strong>${lessonLabel}</strong> (${relevant.length} términos). Toca para repasar:`,
+    hi: `<strong>${lessonLabel}</strong> की शब्दावली (${relevant.length} शब्द)। पुनरीक्षण के लिए टैप करें:`
+  };
+  await botSay(`<p>${vocabIntros[STATE.lang]}</p>`, 400);
+  setQuickReplies([
+    ...relevant.map(c => ({ label: c.term, action: () => showConceptDetail(c.id) })),
+    { label: t().ui.backHome, action: returnHome, secondary: true }
+  ]);
+}
+
+/* ---------- IN-THE-MOMENT ---------- */
+async function flowInMoment() {
+  if (!tc().lessonChips.length) {
+    await botSay(`<p>Content for this course is coming soon. Try switching to a course with full content.</p>`, 500);
+    setQuickReplies([
+      { label: "Switch course", action: flowCourseSelect, primary: true },
+      { label: t().ui.backHome, action: returnHome, secondary: true }
+    ]);
+    return;
+  }
+  await botSay(`<p>${t().pickLessonPrompt}</p>`, 400);
+  setQuickReplies(tc().lessonChips.map(l => ({
+    label: l.label,
+    action: () => flowInMomentForLesson(l.id)
+  })));
+}
+
+async function flowInMomentForLesson(lessonId) {
+  STATE.context = { intent: "inmoment", lessonId };
+  const qs = tc().studentQs[lessonId];
+  const lessonLabel = tc().lessonChips.find(l => l.id === Number(lessonId)).label;
+  const intros = {
+    en: `What did your student ask, or what's happening? Common ones for <strong>${lessonLabel}</strong>:`,
+    es: `¿Qué te preguntó el estudiante? Las comunes para <strong>${lessonLabel}</strong>:`,
+    hi: `छात्र ने क्या पूछा? <strong>${lessonLabel}</strong> के आम प्रश्न:`
+  };
+  await botSay(`<p>${intros[STATE.lang]}</p>`, 600);
+  setQuickReplies([
+    ...qs.map((q, idx) => ({ label: q.q, action: () => showStudentAnswer(lessonId, idx) })),
+    { label: t().ui.backHome, action: returnHome, secondary: true }
+  ]);
+}
+
+async function showStudentAnswer(lessonId, qIdx) {
+  const item = tc().studentQs[lessonId][qIdx];
+  await botSay(item.a, 1100);
+  setQuickReplies([
+    { label: t().ui.thatHelped, action: returnHome, primary: true },
+    { label: t().ui.anotherQuestion, action: () => flowInMomentForLesson(lessonId) },
+    { label: t().ui.backHome, action: returnHome, secondary: true }
+  ]);
+}
+
+/* ---------- CONCEPT REFRESHER ---------- */
+async function flowConcept() {
+  if (!tc().concepts.length) {
+    await botSay(`<p>Concept content for this course is coming soon. Try switching to a course with full content.</p>`, 500);
+    setQuickReplies([
+      { label: "Switch course", action: flowCourseSelect, primary: true },
+      { label: t().ui.backHome, action: returnHome, secondary: true }
+    ]);
+    return;
+  }
+  await botSay(`<p>${STATE.lang === "es" ? "¿Qué concepto?" : STATE.lang === "hi" ? "कौन सी अवधारणा?" : "Which concept?"}</p>`, 400);
+  const chips = tc().concepts.map(c => ({ label: c.term, action: () => showConceptDetail(c.id) }));
+  chips.push({ label: t().ui.backHome, action: returnHome, secondary: true });
+  setQuickReplies(chips);
+}
+
+async function showConceptDetail(conceptId) {
+  const c = tc().concepts.find(x => x.id === conceptId);
+  if (!c) return;
+  const adultLabel = STATE.lang === "es" ? "Para ti" : STATE.lang === "hi" ? "आपके लिए" : "For you";
+  const kidLabel = STATE.lang === "es" ? "Para tus estudiantes" : STATE.lang === "hi" ? "अपने छात्रों के लिए" : "For your students";
+  const exLabel = STATE.lang === "es" ? "Ejemplo" : STATE.lang === "hi" ? "उदाहरण" : "Example";
+  const nonLabel = STATE.lang === "es" ? "No es" : STATE.lang === "hi" ? "उदाहरण नहीं" : "Not an example";
+  const html = `
+    <p><strong>${c.term}</strong></p>
+    <p><span class="label">${adultLabel}</span></p>
+    <p>${c.adult}</p>
+    <p><span class="label">${kidLabel}</span></p>
+    <div class="quote">${c.kid}</div>
+    <p><strong>${exLabel}:</strong> ${c.example}<br><strong>${nonLabel}:</strong> ${c.nonexample}</p>`;
+  await botSay(html, 900);
+  setQuickReplies([
+    { label: t().ui.anotherQuestion, action: flowConcept, primary: true },
+    { label: t().ui.backHome, action: returnHome, secondary: true }
+  ]);
+}
+
+/* ---------- MISCONCEPTIONS ---------- */
+async function flowMisconception() {
+  if (!tc().lessonChips.length) {
+    await botSay(`<p>Misconception content for this course is coming soon. Try switching to a course with full content.</p>`, 500);
+    setQuickReplies([
+      { label: "Switch course", action: flowCourseSelect, primary: true },
+      { label: t().ui.backHome, action: returnHome, secondary: true }
+    ]);
+    return;
+  }
+  await botSay(`<p>${t().pickLessonPrompt}</p>`, 400);
+  setQuickReplies(tc().lessonChips.map(l => ({
+    label: l.label,
+    action: () => showMisconceptions(l.id)
+  })));
+}
+
+async function showMisconceptions(lessonId) {
+  const items = tc().misconceptions[lessonId];
+  const intro = STATE.lang === "es" ? `Errores comunes en la Lección ${lessonId}:` : STATE.lang === "hi" ? `पाठ ${lessonId} में आम गलतफहमियाँ:` : `Common misconceptions in Lesson ${lessonId}:`;
+  await botSay(`<p>${intro}</p>`, 500);
+  for (const m of items) {
+    const html = `
+      <p><span class="label">${t().ui.misconceptionLabel}</span></p>
+      <p>${m.student}</p>
+      <p><span class="label">${t().ui.realityLabel}</span></p>
+      <p>${m.reality}</p>
+      <p><span class="label">${t().ui.fixLabel}</span></p>
+      <div class="quote">${m.fix}</div>`;
+    await botSay(html, 1100);
+  }
+  setQuickReplies([
+    { label: t().ui.anotherQuestion, action: flowMisconception, primary: true },
+    { label: t().ui.backHome, action: returnHome, secondary: true }
+  ]);
+}
+
+/* ---------- REFLECTION ---------- */
+async function flowReflect() {
+  if (!tc().lessonChips.length) {
+    await botSay(`<p>Reflection content for this course is coming soon. Try switching to a course with full content.</p>`, 500);
+    setQuickReplies([
+      { label: "Switch course", action: flowCourseSelect, primary: true },
+      { label: t().ui.backHome, action: returnHome, secondary: true }
+    ]);
+    return;
+  }
+  await botSay(`<p>${t().reflection.start}</p>`, 500);
+  setQuickReplies(tc().lessonChips.map(l => ({
+    label: l.label,
+    action: () => reflectQ1(l.id)
+  })));
+}
+
+async function reflectQ1(lessonId) {
+  STATE.context = { intent: "reflect", lessonId, answers: {} };
+  await botSay(`<p>${t().reflection.q1}</p>`, 500);
+  setQuickReplies([
+    ...t().reflection.q1Chips.map(c => ({
+      label: c,
+      action: () => { STATE.context.answers.worked = c; reflectQ2(); }
+    }))
+  ]);
+}
+
+async function reflectQ2() {
+  await botSay(`<p>${t().reflection.q2}</p>`, 500);
+  setQuickReplies([
+    ...t().reflection.q2Chips.map(c => ({
+      label: c,
+      action: () => { STATE.context.answers.struggle = c; reflectQ3(); }
+    }))
+  ]);
+}
+
+async function reflectQ3() {
+  await botSay(`<p>${t().reflection.q3}</p>`, 500);
+  $("input-text").placeholder = t().reflection.q3Placeholder;
+  $("input-text").focus();
+  // Allow either typed note or "skip" via a chip
+  const skipLabel = STATE.lang === "es" ? "Saltar" : STATE.lang === "hi" ? "छोड़ें" : "Skip";
+  setQuickReplies([
+    { label: skipLabel, action: () => finishReflect(""), secondary: true }
+  ]);
+  STATE.context.awaitingFreeNote = true;
+}
+
+async function finishReflect(note) {
+  STATE.context.answers.note = note;
+  STATE.context.awaitingFreeNote = false;
+  $("input-text").placeholder = t().ui.placeholder;
+  // Save
+  STATE.lastLessonTaught = String(STATE.context.lessonId);
+  STATE.lastCourseTaught = STATE.courseId;
+  STATE.pendingNote = note ? `${t().reflection.q3} ${note}` : null;
+  localStorage.setItem("lastLessonTaught", STATE.lastLessonTaught);
+  localStorage.setItem("lastCourseTaught", STATE.courseId);
+  if (STATE.pendingNote) localStorage.setItem("pendingNote", STATE.pendingNote);
+  else localStorage.removeItem("pendingNote");
+  await botSay(`<p>${t().reflection.thanks}</p>`, 700);
+  showToast(t().ui.reflectionSaved);
+  const nextLesson = Math.min(tc().lessonChips.length, Number(STATE.context.lessonId) + 1);
+  setQuickReplies([
+    { label: `${t().ui.showLessonPrep}: L${nextLesson}`, action: () => showPreflight(nextLesson), primary: true },
+    { label: t().ui.backHome, action: returnHome, secondary: true }
+  ]);
+}
+
+/* ---------- HOME / RESET ---------- */
+async function returnHome() {
+  await botSay(`<p>${t().helpers.backToMenu}</p>`, 400);
+  showHomeMenu();
+}
+
+function resetConversation() {
+  STATE.context = null;
+  STATE.chat = [];
+  startConversation();
+}
+
+/* ============================================================
+   FREE-TEXT MATCHING
+   ============================================================ */
+function matchFreeText(input) {
+  const txt = input.toLowerCase();
+  // Reflection note?
+  if (STATE.context && STATE.context.awaitingFreeNote) {
+    finishReflect(input);
+    return true;
+  }
+  // Lesson references
+  let lessonId = null;
+  const maxLesson = STATE.courseId ? tc().lessonChips.length : 5;
+  for (let i = 1; i <= maxLesson; i++) {
+    if (txt.includes(`lesson ${i}`) || txt.includes(`l${i}`) || txt.includes(`lección ${i}`) || txt.includes(`पाठ ${i}`)) {
+      lessonId = i; break;
+    }
+  }
+  // Intent words
+  const preflightWords = ["pre-flight", "preflight", "prep", "tomorrow", "preparation", "preparar", "preparación", "तैयार"];
+  const conceptWords = ["explain", "what is", "what's", "define", "vocabulary", "vocab", "explica", "qué es", "definir", "vocabulario", "समझ", "क्या है", "शब्दावली"];
+  const misconceptionWords = ["misconception", "wrong", "mistake", "confused", "error", "confusión", "गलतफहमी", "गलत"];
+  const studentQWords = ["student asked", "kid asked", "asked me", "estudiante preguntó", "preguntó", "छात्र ने पूछा", "पूछा"];
+  const reflectWords = ["reflect", "after class", "how it went", "reflexionar", "después de clase", "विचार", "कक्षा के बाद"];
+  if (preflightWords.some(w => txt.includes(w))) {
+    if (lessonId) { showPreflight(lessonId); return true; }
+    flowPreflight(); return true;
+  }
+  if (studentQWords.some(w => txt.includes(w))) {
+    if (lessonId) { flowInMomentForLesson(lessonId); return true; }
+    flowInMoment(); return true;
+  }
+  if (misconceptionWords.some(w => txt.includes(w))) {
+    if (lessonId) { showMisconceptions(lessonId); return true; }
+    flowMisconception(); return true;
+  }
+  if (reflectWords.some(w => txt.includes(w))) {
+    flowReflect(); return true;
+  }
+  if (conceptWords.some(w => txt.includes(w))) {
+    // Try to match a specific concept term
+    for (const c of tc().concepts) {
+      if (txt.includes(c.term.toLowerCase())) {
+        showConceptDetail(c.id); return true;
+      }
+    }
+    flowConcept(); return true;
+  }
+  // No match — friendly fallback
+  fallbackResponse();
+  return false;
+}
+
+async function fallbackResponse() {
+  await botSay(`<p>${t().helpers.noMatch}</p>`, 600);
+  showHomeMenu();
+}
+
+/* ============================================================
+   ONBOARDING TAB
+   ============================================================ */
+function renderOnboarding() {
+  const view = $("onboarding-view");
+  // Use tc() if a course is selected; otherwise show a placeholder
+  const o = STATE.courseId ? tc().onboarding : { banner: "Pick a course to see its resources.", cards: [] };
+  view.innerHTML = `
+    <div class="onb-note">${o.banner}</div>
+    ${o.cards.map(c => `
+      <div class="onb-card" data-card="${c.id}">
+        <div class="onb-icon">${c.icon}</div>
+        <div>
+          <div class="onb-title">${c.title}</div>
+          <div class="onb-desc">${c.desc}</div>
+        </div>
+      </div>
+    `).join("")}
+  `;
+  view.querySelectorAll(".onb-card").forEach(card => {
+    card.addEventListener("click", () => onboardingCardClicked(card.dataset.card));
+  });
+}
+
+async function onboardingCardClicked(cardId) {
+  // Switch to chat tab and surface the relevant content
+  setTab("chat");
+  await wait(200);
+  const detail = STATE.courseId ? tc().onboardingDetail : {};
+  const content = detail[cardId];
+  if (!content) {
+    await botSay(`<p>${t().helpers.noMatch}</p>`, 500);
+    showHomeMenu();
+    return;
+  }
+  if (cardId === "lesson-plan") {
+    await botSay(content, 600);
+    setQuickReplies([
+      ...tc().lessonChips.map(l => ({ label: l.label, action: () => showPreflight(l.id) })),
+      { label: t().ui.backHome, action: returnHome, secondary: true }
+    ]);
+  } else {
+    await botSay(content, 900);
+    setQuickReplies([
+      { label: t().ui.backHome, action: returnHome, primary: true }
+    ]);
+  }
+}
+
+function setTab(tab) {
+  STATE.tab = tab;
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  if (tab === "chat") {
+    $("chat").classList.remove("hidden");
+    $("onboarding-view").classList.add("hidden");
+    $("quick-replies").style.display = "";
+    $("input-form").style.display = "";
+  } else {
+    $("chat").classList.add("hidden");
+    $("onboarding-view").classList.remove("hidden");
+    $("quick-replies").style.display = "none";
+    $("input-form").style.display = "none";
+    renderOnboarding();
+  }
+}
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+function setLang(lang) {
+  STATE.lang = lang;
+  localStorage.setItem("teacherAssistantLang", lang);
+  document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === lang));
+  renderHeader();
+  // Restart conversation in new language
+  resetConversation();
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(text) {
+  const t = $("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init() {
+  // Restore pending note and last course
+  STATE.pendingNote = localStorage.getItem("pendingNote");
+  STATE.lastCourseTaught = localStorage.getItem("lastCourseTaught");
+  renderHeader();
+  // Wire language buttons
+  document.querySelectorAll(".lang-btn").forEach(b => {
+    b.addEventListener("click", () => setLang(b.dataset.lang));
+  });
+  // Wire tabs
+  document.querySelectorAll(".tab").forEach(b => {
+    b.addEventListener("click", () => setTab(b.dataset.tab));
+  });
+  // Wire reset
+  $("reset-btn").addEventListener("click", () => {
+    if (STATE.tab !== "chat") setTab("chat");
+    localStorage.removeItem("lastLessonTaught");
+    localStorage.removeItem("pendingNote");
+    localStorage.removeItem("teacherAssistantCourse");
+    localStorage.removeItem("lastCourseTaught");
+    STATE.lastLessonTaught = null;
+    STATE.pendingNote = null;
+    STATE.courseId = null;
+    STATE.lastCourseTaught = null;
+    resetConversation();
+  });
+  // Wire input form
+  $("input-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const val = $("input-text").value.trim();
+    if (!val) return;
+    appendBubble("out", escapeHtml(val));
+    $("input-text").value = "";
+    matchFreeText(val);
+  });
+  // Start
+  startConversation();
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
