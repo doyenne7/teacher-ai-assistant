@@ -2381,7 +2381,7 @@ async function showPreflight(lessonId) {
     label: fu,
     action: () => handlePreflightFollowUp(lessonId, fu)
   }));
-  followUps.push({ label: t().ui.backHome, action: returnHome, secondary: true });
+  followUps.push(...backChips("lesson list", flowPreflight));
   setQuickReplies(followUps);
 }
 
@@ -2412,7 +2412,7 @@ async function showLessonVocab(lessonId) {
   await botSay(`<p>${vocabIntros[STATE.lang]}</p>`, 400);
   setQuickReplies([
     ...relevant.map(c => ({ label: c.term, action: () => showConceptDetail(c.id) })),
-    { label: t().ui.backHome, action: returnHome, secondary: true }
+    ...backChips("lesson prep", () => showPreflight(lessonId)),
   ]);
 }
 
@@ -2445,7 +2445,7 @@ async function flowInMomentForLesson(lessonId) {
   await botSay(`<p>${intros[STATE.lang]}</p>`, 600);
   setQuickReplies([
     ...qs.map((q, idx) => ({ label: q.q, action: () => showStudentAnswer(lessonId, idx) })),
-    { label: t().ui.backHome, action: returnHome, secondary: true }
+    ...backChips("lesson list", flowInMoment),
   ]);
 }
 
@@ -2454,8 +2454,8 @@ async function showStudentAnswer(lessonId, qIdx) {
   await botSay(item.a, 1100);
   setQuickReplies([
     { label: t().ui.thatHelped, action: returnHome, primary: true },
-    { label: t().ui.anotherQuestion, action: () => flowInMomentForLesson(lessonId) },
-    { label: t().ui.backHome, action: returnHome, secondary: true }
+    { label: "← More questions for this lesson", action: () => flowInMomentForLesson(lessonId) },
+    { label: "← Main menu", action: returnHome, secondary: true },
   ]);
 }
 
@@ -2491,8 +2491,7 @@ async function showConceptDetail(conceptId) {
     <p><strong>${exLabel}:</strong> ${c.example}<br><strong>${nonLabel}:</strong> ${c.nonexample}</p>`;
   await botSay(html, 900);
   setQuickReplies([
-    { label: t().ui.anotherQuestion, action: flowConcept, primary: true },
-    { label: t().ui.backHome, action: returnHome, secondary: true }
+    ...backChips("concepts", flowConcept),
   ]);
 }
 
@@ -2528,8 +2527,7 @@ async function showMisconceptions(lessonId) {
     await botSay(html, 1100);
   }
   setQuickReplies([
-    { label: t().ui.anotherQuestion, action: flowMisconception, primary: true },
-    { label: t().ui.backHome, action: returnHome, secondary: true }
+    ...backChips("lesson list", flowMisconception),
   ]);
 }
 
@@ -2602,6 +2600,15 @@ async function finishReflect(note) {
     { label: `${t().ui.showLessonPrep}: L${nextLesson}`, action: () => showPreflight(nextLesson), primary: true },
     { label: t().ui.backHome, action: returnHome, secondary: true }
   ]);
+}
+
+/* ---------- NAV HELPER ---------- */
+// Returns a standard two-level back pair: [← Back to <flow>] [← Main menu]
+function backChips(flowLabel, flowAction) {
+  return [
+    { label: `← Back to ${flowLabel}`, action: flowAction },
+    { label: "← Main menu", action: returnHome, secondary: true },
+  ];
 }
 
 /* ---------- HOME / RESET ---------- */
