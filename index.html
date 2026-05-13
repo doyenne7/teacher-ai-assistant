@@ -43,8 +43,43 @@
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   }
+  /* ===== COURSE BAR ===== */
+  .course-bar {
+    background: #054b43;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  }
+  .course-bar-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .course-select {
+    flex: 1;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 28px 5px 10px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'><path d='M1 1l4 4 4-4' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    min-width: 0;
+  }
+  .course-select:focus { outline: none; background-color: rgba(255,255,255,0.2); }
+  .course-select option { background: #054b43; color: #fff; }
   .avatar {
     width: 40px;
     height: 40px;
@@ -390,6 +425,10 @@
       <button class="header-btn" id="reset-btn" title="Reset conversation">↺</button>
     </div>
   </header>
+  <div class="course-bar">
+    <span class="course-bar-label">📚 Course:</span>
+    <select id="course-select" class="course-select" aria-label="Select course"></select>
+  </div>
   <nav class="tabs">
     <button class="tab active" data-tab="chat" id="tab-chat">💬 Just-in-time help</button>
     <button class="tab" data-tab="onboarding" id="tab-onboarding">📚 Get started</button>
@@ -447,7 +486,6 @@ const CONTENT = {
       { id: "concept", label: "💡 Explain a concept", desc: "Vocab & ideas, kid-friendly" },
       { id: "misconception", label: "⚠️ Common misconceptions", desc: "What students get wrong" },
       { id: "reflect", label: "📝 Reflect on a lesson", desc: "After class" },
-      { id: "switchCourse", label: "🔄 Switch course", desc: "Change to a different course" },
     ],
     pickLessonPrompt: "Which lesson?",
     pickCoursePrompt: "Which course are you teaching?",
@@ -1340,7 +1378,6 @@ const CONTENT = {
       { id: "concept", label: "💡 Explicar un concepto", desc: "Vocabulario e ideas, para niños" },
       { id: "misconception", label: "⚠️ Errores comunes", desc: "Lo que los estudiantes malinterpretan" },
       { id: "reflect", label: "📝 Reflexionar sobre una lección", desc: "Después de clase" },
-      { id: "switchCourse", label: "🔄 Cambiar curso", desc: "Cambiar a un curso diferente" },
     ],
     pickLessonPrompt: "¿Qué lección?",
     pickCoursePrompt: "¿Qué curso estás enseñando?",
@@ -1735,7 +1772,6 @@ const CONTENT = {
       { id: "concept", label: "💡 कोई अवधारणा समझाएं", desc: "शब्दावली और विचार, बच्चों के लिए" },
       { id: "misconception", label: "⚠️ आम गलतफहमियाँ", desc: "जो छात्र गलत समझते हैं" },
       { id: "reflect", label: "📝 पाठ पर विचार करें", desc: "कक्षा के बाद" },
-      { id: "switchCourse", label: "🔄 कोर्स बदलें", desc: "किसी दूसरे कोर्स पर जाएँ" },
     ],
     pickLessonPrompt: "कौन सा पाठ?",
     pickCoursePrompt: "आप कौन सा कोर्स पढ़ा रहे हैं?",
@@ -2138,6 +2174,30 @@ function renderHeader() {
   $("input-text").placeholder = t().ui.placeholder;
   $("reset-btn").title = t().ui.resetTitle;
   document.documentElement.lang = STATE.lang === "hi" ? "hi" : STATE.lang;
+  renderCourseDropdown();
+}
+
+function renderCourseDropdown() {
+  const sel = $("course-select");
+  const courses = CONTENT.en.courses;
+  sel.innerHTML = "";
+  // Placeholder when nothing is selected
+  if (!STATE.courseId) {
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = "— Select a course —";
+    opt.disabled = true;
+    opt.selected = true;
+    sel.appendChild(opt);
+  }
+  courses.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    const stub = (c.id === "how-ai-works" || c.id === "foundations-gen-ai");
+    opt.textContent = stub ? `${c.name} (coming soon)` : c.name;
+    if (c.id === STATE.courseId) opt.selected = true;
+    sel.appendChild(opt);
+  });
 }
 
 function appendDayDivider() {
@@ -2717,6 +2777,15 @@ function init() {
   // Wire tabs
   document.querySelectorAll(".tab").forEach(b => {
     b.addEventListener("click", () => setTab(b.dataset.tab));
+  });
+  // Wire course dropdown
+  $("course-select").addEventListener("change", e => {
+    const courseId = e.target.value;
+    if (!courseId || courseId === STATE.courseId) return;
+    STATE.courseId = courseId;
+    localStorage.setItem("teacherAssistantCourse", courseId);
+    if (STATE.tab !== "chat") setTab("chat");
+    resetConversation();
   });
   // Wire reset
   $("reset-btn").addEventListener("click", () => {
