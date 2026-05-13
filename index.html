@@ -1577,370 +1577,512 @@ const CONTENT = {
     {
       id: "foundations-gen-ai",
       name: "Foundations of Generative AI",
-      badge: "6 lessons · Grades 6–9",
+      badge: "11 lessons · Grades 7–10",
       greetings: {
         first: [
-          "Hi! I'm your teaching assistant for <strong>Foundations of Generative AI</strong> — 6 lessons for middle/high school. 👋",
-          "This course explores how generative AI works, how to use it effectively, and how to think critically about it. What do you need?"
+          "Hi! I'm your teaching assistant for <strong>Foundations of Generative AI</strong> — 11 lessons for middle and high school. 👋",
+          "This course demystifies how generative AI works: from input and training data through embeddings, neural networks, attention, and outputs. What do you need right now?"
         ],
-        returning: ["Welcome back! 👋 Last time you taught <strong>{lastLesson}</strong>. How can I help?"]
+        returning: ["Welcome back! 👋 Last time you taught <strong>{lastLesson}</strong>. How can I help?"],
       },
       lessonChips: [
-        { id: 1, label: "L1 · What is Generative AI?" },
-        { id: 2, label: "L2 · How GenAI Generates Text" },
-        { id: 3, label: "L3 · AI-Generated Images" },
-        { id: 4, label: "L4 · Prompting Strategies" },
-        { id: 5, label: "L5 · Reliability and Misinformation" },
-        { id: 6, label: "L6 · Ethics and Responsible Use" },
+        { id: 1,  label: "L1 · Introduction to Generative AI" },
+        { id: 2,  label: "L2 · Input & Training Data" },
+        { id: 3,  label: "L3 · Bias in the Machine" },
+        { id: 4,  label: "L4 · Understanding Embeddings" },
+        { id: 5,  label: "L5 · Embeddings: How They're Created" },
+        { id: 6,  label: "L6 · Understanding Neural Networks" },
+        { id: 7,  label: "L7 · Neural Networks: How They're Trained" },
+        { id: 8,  label: "L8 · Attention Is All You Need" },
+        { id: 9,  label: "L9 · Outputs & Probabilities" },
+        { id: 10, label: "L10 · Hallucinations and Fabrications" },
+        { id: 11, label: "L11 · Project: Demystifying Gen AI" },
       ],
       preflight: {
         1: {
-          header: "Lesson 1 · What is Generative AI? · 45 min",
+          header: "Lesson 1 · Introduction to Generative AI · 45 min",
           body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> Students explore what generative AI is, how it differs from other software, and what kinds of content it can generate.</p>
-        <p><strong>New vocab (4):</strong> Generative AI, Large Language Model (LLM), Input, Output</p>
-        <p><strong>Activities:</strong></p>
-        <ul>
-          <li>Warm-up: Students share examples of AI-generated content they've encountered</li>
-          <li>Main: Explore different types of generative AI — text, image, audio, code</li>
-          <li>Discussion: "What makes generative AI different from a search engine?"</li>
-          <li>Quick write: One thing that surprised you about generative AI</li>
-        </ul>
-        <p><strong>Tech check:</strong> If using a live AI tool for demo, test access on school network beforehand.</p>
-        <p><strong>⚡ Watch for:</strong> Students who think AI "knows" things — redirect to the idea that it <em>generates</em> based on patterns, not stored facts.</p>`,
-          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "Good discussion starters"]
+            <p><strong>What you'll teach:</strong> Students build a mental model of what generative AI is and how it fits into the broader AI landscape. The ISPO framework (Input → Storage → Processing → Output) will be used throughout the course as a graphic organizer.</p>
+            <p><strong>New vocab (3):</strong> Artificial Intelligence, Large Language Model, Model</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Warm-up: Students brainstorm what they already know/think about generative AI</li>
+              <li>Main: Introduce the AI types hierarchy (narrow AI → general AI) and where LLMs fit in</li>
+              <li>Introduce the ISPO graphic organizer — students will add to it each lesson</li>
+              <li>Wrap-up: Exit ticket — "What is one thing you want to understand better about generative AI?"</li>
+            </ul>
+            <p><strong>⚡ Watch for:</strong> Students often conflate "AI" with "ChatGPT." Broaden the frame early — generative AI is one category, LLMs are one type within it.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to introduce the ISPO framework"]
         },
         2: {
-          header: "Lesson 2 · How GenAI Generates Text · 45 min",
+          header: "Lesson 2 · Input & Training Data · 45 min",
           body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> The mechanics behind LLMs — how they predict text token by token, what training involves, and why they sometimes get things wrong.</p>
-        <p><strong>New vocab (4):</strong> Token, Prediction, Temperature, Context window</p>
-        <p><strong>Activities:</strong></p>
-        <ul>
-          <li>Unplugged: "Next word" game — students predict the next word in a sentence, discuss how AI does the same</li>
-          <li>Main: Experiment with AI text generation — observe how changing the prompt changes the output</li>
-          <li>Discussion: Why does the same prompt sometimes give different answers?</li>
-        </ul>
-        <p><strong>⚡ Watch for:</strong> Students thinking AI "chooses" words intentionally — clarify that it's probability, not intent.</p>`,
-          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to explain tokens simply"]
+            <p><strong>What you'll teach:</strong> What goes into training a generative AI model — the types of data, how it's curated, and why the input shapes what the model can do.</p>
+            <p><strong>New vocab (2):</strong> Training Data, Input</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Warm-up: Scrabble words activity — students explore what "valid" data means and how rules are defined</li>
+              <li>Main: RecipeBot posters activity — students analyze what training data a recipe-generating AI would need</li>
+              <li>ISPO update: Students fill in the "Input" and "Storage" sections of their graphic organizer</li>
+              <li>Discussion: What happens if the training data only includes recipes from one country?</li>
+            </ul>
+            <p><strong>⚡ Watch for:</strong> Students assume training data is "everything on the internet." Ground them in the idea that data is carefully (or carelessly) selected — and that selection matters enormously.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to run the RecipeBot activity"]
         },
         3: {
-          header: "Lesson 3 · AI-Generated Images · 45 min",
+          header: "Lesson 3 · Bias in the Machine · 45 min",
           body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> How text-to-image AI works (diffusion models), what it can and can't do, and the ethical questions around AI-generated images.</p>
-        <p><strong>New vocab (3):</strong> Diffusion model, Text-to-image, Deepfake</p>
-        <p><strong>Activities:</strong></p>
-        <ul>
-          <li>Warm-up: Can students spot AI-generated images vs. real photos?</li>
-          <li>Main: Explore how text prompts shape generated images — specificity, style, subject</li>
-          <li>Discussion: Who owns AI-generated images? What are the risks of realistic AI images?</li>
-        </ul>
-        <p><strong>Tech check:</strong> Check school policy on AI image tools before the lesson. Some schools restrict these.</p>
-        <p><strong>⚡ Watch for:</strong> Students wanting to generate images of real people — set clear expectations about acceptable use upfront.</p>`,
-          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to handle deepfake discussion"]
+            <p><strong>What you'll teach:</strong> How bias enters generative AI through training data, and how to recognize and begin to address it. Dr. Deborah Raji's work is introduced as a real-world example.</p>
+            <p><strong>New vocab (1):</strong> Bias</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Main: RecipeBot Data Curation activity — students act as data curators and discover how their choices introduce bias</li>
+              <li>Video: Dr. Deborah Raji on AI auditing and algorithmic bias</li>
+              <li>Discussion: Who is responsible when biased AI causes harm?</li>
+              <li>ISPO update: Students annotate the "Input" section with bias risks</li>
+            </ul>
+            <p><strong>Heads up:</strong> This lesson can bring up strong reactions — especially around race, gender, or socioeconomic bias. Be ready to hold space for those conversations without needing to resolve them.</p>
+            <p><strong>⚡ Watch for:</strong> Students thinking bias is always intentional. Emphasize: bias is often accidental, and that's exactly why systematic auditing (like Dr. Raji's work) matters.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to discuss Dr. Raji's work with students"]
         },
         4: {
-          header: "Lesson 4 · Prompting Strategies · 45 min",
+          header: "Lesson 4 · Understanding Embeddings · 45 min",
           body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> How to craft effective prompts using the TCRFT framework: Task, Context, Reference, Format, Tone.</p>
-        <p><strong>New vocab (2):</strong> Prompt, Prompt engineering</p>
-        <p><strong>Activities:</strong></p>
-        <ul>
-          <li>Warm-up: Compare a vague prompt vs. a specific one — which gives better results?</li>
-          <li>Main: Apply TCRFT framework — students iteratively improve a prompt for a real task</li>
-          <li>Challenge: Can you get AI to write something that sounds exactly like a specific audience?</li>
-        </ul>
-        <p><strong>⚡ Watch for:</strong> Students thinking longer prompts are always better — emphasize relevance over length. Every word in a prompt should earn its place.</p>`,
-          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to model TCRFT framework"]
+            <p><strong>What you'll teach:</strong> How AI represents meaning as numbers — the concept of embeddings. Students use a character quiz to explore how personality traits can be mapped to numerical coordinates.</p>
+            <p><strong>New vocab (1):</strong> Embedding</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Warm-up: Character quiz — students describe fictional characters using personality traits</li>
+              <li>Main: Personality traits as numbers — mapping characters onto a 2D coordinate space</li>
+              <li>Key insight: If similar characters cluster together, the "distance" in that space has meaning</li>
+              <li>ISPO update: Students add "Storage" — how embeddings represent knowledge</li>
+            </ul>
+            <p><strong>⚡ Watch for:</strong> Students often think computers "understand" words. Use the coordinate analogy: AI doesn't know what "brave" means — it knows that "brave" and "courageous" live close together in a high-dimensional space.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to explain coordinate distance"]
         },
         5: {
-          header: "Lesson 5 · Reliability and Misinformation · 45 min",
+          header: "Lesson 5 · Embeddings: How They're Created · 45 min",
           body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> AI hallucinations, why they happen, how to detect them, and the real-world risks of AI-generated misinformation.</p>
-        <p><strong>New vocab (3):</strong> Hallucination, Misinformation, Fact-checking</p>
-        <p><strong>Activities:</strong></p>
-        <ul>
-          <li>Warm-up: Students ask AI a question about local news or recent events — analyze the response</li>
-          <li>Main: Case studies — real examples of AI hallucinations causing harm (legal, medical, journalistic)</li>
-          <li>Skill-building: Develop a personal fact-checking checklist for AI outputs</li>
-        </ul>
-        <p><strong>⚡ Watch for:</strong> Students assuming AI is like a search engine pulling real facts. Keep emphasizing: AI generates plausible text, not verified facts.</p>`,
-          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "Real hallucination examples to share"]
+            <p><strong>What you'll teach:</strong> How embeddings are actually built from patterns in language — through context and co-occurrence. Students work with a made-up language (Klempin) to discover embedding logic from scratch.</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Warm-up: Klempin language activity — students infer meaning of made-up words from context only</li>
+              <li>Main: Two-passage activity — students compare how the same word's meaning shifts across contexts</li>
+              <li>Key insight: "You shall know a word by the company it keeps" — embeddings are built from co-occurrence patterns</li>
+            </ul>
+            <p><strong>⚡ Watch for:</strong> Students thinking embeddings are "looked up" — they're computed from patterns in massive text corpora. No human assigns the numbers.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to run the Klempin activity"]
         },
         6: {
-          header: "Lesson 6 · Ethics and Responsible Use · 45 min",
+          header: "Lesson 6 · Understanding Neural Networks · 45 min",
           body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> The ethical landscape of generative AI — authorship, copyright, consent, environmental impact, and equitable access.</p>
-        <p><strong>New vocab (3):</strong> Copyright, Consent, Digital equity</p>
-        <p><strong>Activities:</strong></p>
-        <ul>
-          <li>Warm-up: Values sort — students rank what matters most when using AI (accuracy, fairness, creativity, attribution)</li>
-          <li>Main: Rotating discussion stations — authorship, environmental cost, access, misinformation</li>
-          <li>Wrap-up: Students write their personal "responsible AI" pledge</li>
-        </ul>
-        <p><strong>⚡ Watch for:</strong> Students treating ethics as abstract. Ground every principle in a specific scenario: "In this case, with this AI tool, used this way — is that okay?"</p>`,
-          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to run discussion stations"]
-        }
+            <p><strong>What you'll teach:</strong> How neural networks process inputs through layers of weighted connections to produce outputs. The cafeteria recommender is the central metaphor.</p>
+            <p><strong>New vocab (1):</strong> Neural Network</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Main: Cafeteria recommender activity — students model a simple neural network that recommends lunch based on past preferences</li>
+              <li>Concept: Input layer → Hidden layers → Output layer; how weights amplify or suppress signals</li>
+              <li>ISPO update: Students add "Processing" — the neural network box</li>
+            </ul>
+            <p><strong>⚡ Watch for:</strong> Students often think neural networks "think" or "decide." Keep redirecting: it's math — weighted sums and activation functions. The "intelligence" is emergent from many simple operations.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to explain hidden layers without math"]
+        },
+        7: {
+          header: "Lesson 7 · Neural Networks: How They're Trained · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> How neural networks learn — adjusting weights based on errors. Students experience this through games.</p>
+            <p><strong>New vocab (1):</strong> Supervised Learning</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Warm-up: Green Glass Door game — students discover the rule through trial, error, and feedback (mirrors how neural nets adjust weights)</li>
+              <li>Main: Learning a Language activity — students simulate adjusting "weights" as they get feedback on guesses</li>
+              <li>Key insight: Training = adjusting weights to minimize error. Each mistake makes the model slightly better.</li>
+            </ul>
+            <p><strong>⚡ Watch for:</strong> Students think training "programs" the right answers in. Clarify: training adjusts weights; the model finds the pattern by itself through thousands of iterations.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to run the Green Glass Door game"]
+        },
+        8: {
+          header: "Lesson 8 · Attention Is All You Need · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> The attention mechanism — how transformers decide which words to "pay attention to" when processing language. This is what makes LLMs dramatically better than earlier models.</p>
+            <p><strong>New vocab (1):</strong> Attention</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Warm-up: Duck/rabbit optical illusion — same image, different focus = different interpretation. This is the intuition for attention.</li>
+              <li>Main: Ambiguous "bat" sentence activity — students figure out what a word means by attending to context words. AI does this too.</li>
+              <li>Key insight: Attention assigns "importance scores" to words in context. "I hit the ball with my <u>bat</u>" — "ball" and "hit" get high attention scores when processing "bat."</li>
+            </ul>
+            <p><strong>⚡ Watch for:</strong> Students confusing attention with memory. Attention is about relevance within the current input — not stored knowledge.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to explain transformers without getting into math"]
+        },
+        9: {
+          header: "Lesson 9 · Outputs & Probabilities · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> How generative AI produces outputs — by sampling from probability distributions over possible next words/tokens. Outputs are never deterministic.</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Warm-up: Fortunately/Unfortunately game — students add to a story using constraints, similar to how AI predicts next tokens</li>
+              <li>Main: Mad Lib Widget — students experience how changing probabilities changes AI outputs</li>
+              <li>ISPO update: Students complete the "Output" section of their graphic organizer</li>
+              <li>Key insight: "Temperature" controls randomness. High temperature = more surprising outputs. Low = more predictable.</li>
+            </ul>
+            <p><strong>⚡ Watch for:</strong> Students think AI "knows the right answer." Reframe: AI assigns probabilities to all possible next tokens and samples from that distribution — no single correct answer exists in the model.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to explain temperature/randomness"]
+        },
+        10: {
+          header: "Lesson 10 · Hallucinations and Fabrications · 45 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> Why generative AI produces false information confidently — and what students can do about it. Students act as AI auditors.</p>
+            <p><strong>New vocab (1):</strong> Hallucinations</p>
+            <p><strong>Activities:</strong></p>
+            <ul>
+              <li>Main: AI Auditor activity — students are given AI-generated text and must identify which claims are fabricated and why</li>
+              <li>Video: Dr. Deborah Raji (revisited) on auditing AI systems at scale</li>
+              <li>Discussion: What responsibility do AI companies have when their models hallucinate about real people?</li>
+            </ul>
+            <p><strong>Key insight:</strong> Hallucinations aren't bugs — they're a natural consequence of how LLMs work (predicting plausible next tokens, not retrieving facts). Understanding this changes how you use AI.</p>
+            <p><strong>⚡ Watch for:</strong> Students thinking hallucinations are rare. They're common — especially for specific names, dates, statistics, and citations. Build the habit of verification.</p>`,
+          followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to run the AI Auditor activity"]
+        },
+        11: {
+          header: "Lesson 11 · Project: Demystifying Generative AI · 90 min",
+          body: `<p><span class="label">Pre-flight</span></p>
+            <p><strong>What you'll teach:</strong> A 90-minute capstone. Students read opinion articles containing AI misconceptions, then write structured rebuttals using course vocabulary.</p>
+            <p><strong>Project structure:</strong></p>
+            <ul>
+              <li><strong>Part 1 (~20 min):</strong> Read 2–3 short opinion articles with AI misconceptions. Students annotate claims they can now evaluate.</li>
+              <li><strong>Part 2 (~40 min):</strong> Write a structured rebuttal — identify the misconception, explain the accurate concept using course vocab, provide an example.</li>
+              <li><strong>Part 3 (~30 min):</strong> Gallery walk / share-out. Peer feedback using the rebuttal rubric.</li>
+            </ul>
+            <p><strong>Rubric elements:</strong> Accurate use of course vocabulary, specific example or analogy, logical argument structure, connection to ISPO framework.</p>
+            <p><strong>⚡ Heads up:</strong> Students who struggled with the ISPO graphic organizer will need scaffolding — have their completed organizers available.</p>`,
+          followUps: ["Rubric details", "Common student questions", "Sample misconception articles to use", "How to facilitate the gallery walk"]
+        },
       },
       studentQs: {
         1: [
-          {
-            q: "Is ChatGPT the same as generative AI?",
-            a: `<p>ChatGPT is one example of generative AI. The category includes image generators, music AI, code generators, and more.</p>
+          { q: "What makes AI 'generative'?",
+            a: `<p>Generative AI creates new content — text, images, code, audio — rather than just classifying or retrieving existing content.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"ChatGPT is to generative AI what Kleenex is to tissues — a brand name that became the category name. There are dozens of generative AI tools for text, images, audio, and code."</div>`
-          },
-          {
-            q: "Does generative AI actually understand what it's saying?",
-            a: `<p>No — it generates statistically likely responses based on patterns in training data. There's no understanding or awareness behind it.</p>
+            <div class="quote">"A search engine finds something that already exists. Generative AI produces something new every time — a sentence no one has written before, a picture no one has taken. It generates, not just retrieves."</div>` },
+          { q: "Is ChatGPT the only generative AI?",
+            a: `<p>No — there are many: Claude, Gemini, Llama, Midjourney (images), Suno (music). LLMs are one type of generative AI.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"It's like a very sophisticated autocomplete. It learned what words tend to follow other words across billions of sentences. Fluent output ≠ understanding."</div>`
-          },
-          {
-            q: "Can AI be creative?",
-            a: `<p>AI can produce novel combinations of patterns it learned — which looks like creativity. But it's recombination, not imagination.</p>
+            <div class="quote">"Think of it like 'smartphone.' ChatGPT is one brand. Generative AI is the whole category — text, images, code, music, video, and more."</div>` },
+          { q: "How is a 'model' different from the AI tool I use?",
+            a: `<p>The model is the mathematical system trained on data. The tool (like ChatGPT) is the interface built on top of it.</p>
             <p><span class="label">Behind the scenes</span></p>
-            <p>This is a great discussion hook. Ask students: "Does creativity require intention? Emotion? Experience? Does AI have any of those?" There's no right answer — that's the point.</p>`
-          }
+            <p>Analogy: the model is the engine; the product is the car. GPT-4 is the model. ChatGPT is the car. Different products can be built on the same underlying model.</p>` },
         ],
         2: [
-          {
-            q: "Why does AI sometimes make things up?",
-            a: `<p>Because it's trained to generate plausible text, not verified facts. It predicts what should come next — not what's true.</p>
+          { q: "How much data does it take to train an LLM?",
+            a: `<p>Modern LLMs train on hundreds of billions to trillions of words — a large fraction of text available on the internet.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"AI has no built-in fact-checker. It generates text that sounds right based on patterns — and sometimes those patterns lead it confidently to a wrong answer. That's what a hallucination is."</div>`
-          },
-          {
-            q: "Why does the same prompt give different answers?",
-            a: `<p>Because AI samples from a probability distribution — it doesn't always pick the single most likely word. This randomness is controlled by a "temperature" setting.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Think of a weighted bag of words. AI picks from the bag — usually the most likely word, but sometimes a less likely one. That's why you get variation. Higher temperature = more surprising outputs."</div>`
-          },
-          {
-            q: "How was the AI trained?",
-            a: `<p>On massive amounts of text from the internet, books, and other sources — then refined with human feedback to be more helpful and less harmful.</p>
+            <div class="quote">"If you read one book a week from age 5 to 80, that's about 4,000 books. GPT-4 trained on the equivalent of hundreds of millions of books. The scale is almost impossible to imagine."</div>` },
+          { q: "Do AI companies ask permission to use training data?",
+            a: `<p>Often not — this is one of the most contested legal and ethical questions in AI right now.</p>
             <p><span class="label">Behind the scenes</span></p>
-            <p>RLHF (Reinforcement Learning from Human Feedback) is the key refinement step. Human raters evaluated AI responses; the model learned to produce responses humans rated more highly. This shapes tone and style as much as content.</p>`
-          }
+            <p>Many AI companies scraped publicly available web text without explicit permission from creators. Lawsuits from authors, journalists, and artists are ongoing. There is no settled law yet.</p>` },
+          { q: "What's the difference between training data and a prompt?",
+            a: `<p>Training data is what the model learned from (massive, pre-training). A prompt is what you give at runtime to guide output.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"Training data is everything you studied in school over 12 years. A prompt is the specific question on today's test. The model's 'knowledge' comes from training — not from what you type."</div>` },
         ],
         3: [
-          {
-            q: "How does AI make images from words?",
-            a: `<p>Through diffusion — starting with random noise and gradually refining it toward an image that matches the text description, guided by what it learned during training.</p>
+          { q: "If bias comes from the data, why not just use better data?",
+            a: `<p>Better data helps, but bias also comes from design choices, evaluation metrics, and deployment context — not only the data itself.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Imagine starting with a photo covered in static, and slowly clearing the static to reveal a picture that matches your description. That's roughly how diffusion models work — they learn which 'static patterns' to reveal for which descriptions."</div>`
-          },
-          {
-            q: "Can I use AI images for my project?",
-            a: `<p>Depends on the tool's terms of service, your school's policy, and how you use it. Attribution practices are still evolving.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Different tools have different rules. Some say you own what you generate; some say you don't. Some schools prohibit AI-generated images entirely. Always check the rules before using AI content — and always be transparent that it's AI-generated."</div>`
-          },
-          {
-            q: "Are deepfakes illegal?",
-            a: `<p>Creating non-consensual deepfakes of real people is illegal in many places and always unethical. Creating fictional deepfakes varies by jurisdiction and use.</p>
+            <div class="quote">"Who collects the data, what they decide to include, what 'good' looks like in the model's training signal — all of those are human decisions that can introduce bias even with 'clean' data."</div>` },
+          { q: "What does Dr. Deborah Raji actually do?",
+            a: `<p>She's an AI researcher who audits AI systems to find algorithmic bias — including the landmark Gender Shades study revealing major facial recognition failures for darker-skinned women.</p>
             <p><span class="label">Behind the scenes</span></p>
-            <p>Keep this discussion focused on ethics, not just legality. Even if something is legal, is it right? Non-consensual realistic images of real people are harmful regardless of legal status.</p>`
-          }
+            <p>Raji and Joy Buolamwini showed that commercial facial recognition from IBM, Microsoft, and Face++ had error rates up to 34% higher for darker-skinned women than lighter-skinned men — despite being marketed as general-purpose tools.</p>` },
+          { q: "Can bias ever be completely removed from AI?",
+            a: `<p>No — every dataset reflects the world as it is, and the world has historical inequities baked in. The goal is mitigation, transparency, and accountability.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"We can't make AI perfectly unbiased any more than we can make a mirror accurate if what it's reflecting is distorted. The goal is to know where the distortions are, minimize them, and be honest about what remains."</div>` },
         ],
         4: [
-          {
-            q: "Is prompt engineering a real job?",
-            a: `<p>Yes — though it's evolving rapidly. As AI models improve, some prompt engineering skills become less necessary, while others (clear communication, critical evaluation) remain essential.</p>
+          { q: "How can a computer 'understand' similarity without knowing meaning?",
+            a: `<p>It doesn't understand — it measures distance. Words that appear in similar contexts get placed close together in vector space. The model never 'knows' what words mean.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"The specific skill of 'writing AI prompts' may become less specialized as AI gets better at understanding vague requests. But the underlying skill — knowing what you want and communicating it clearly — will always matter."</div>`
-          },
-          {
-            q: "Why doesn't AI understand what I mean if I write it differently?",
-            a: `<p>AI is sensitive to phrasing — different words activate different patterns. Small changes in wording can significantly change outputs.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"This is why prompting is a skill. 'Write a poem' vs. 'Write a 4-line rhyming poem for a 10-year-old about friendship' gets very different results. The more specific your language, the more control you have."</div>`
-          },
-          {
-            q: "Can AI improve its own prompts?",
-            a: `<p>Yes — you can ask AI to help you improve your prompt. This is called meta-prompting.</p>
+            <div class="quote">"Imagine plotting cities on a map. You can tell Paris and Lyon are closer than Paris and Tokyo — without knowing anything about France. That's what embeddings do with words."</div>` },
+          { q: "Why are embeddings useful for AI?",
+            a: `<p>They let AI do math on meaning — finding similar concepts, analogies, and relationships that would be impossible with raw text.</p>
             <p><span class="label">Behind the scenes</span></p>
-            <p>Try it in class: give AI a weak prompt, then ask "How could I rewrite this prompt to get a better result?" The AI often gives useful suggestions. It's a great way to teach iterative thinking.</p>`
-          }
+            <p>The famous example: king − man + woman ≈ queen. That arithmetic works because embeddings capture gender and royalty as directions in vector space.</p>` },
+          { q: "How many dimensions does an embedding have?",
+            a: `<p>Modern LLMs use hundreds to thousands of dimensions. Each loosely corresponds to some feature, but most are uninterpretable by humans.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>GPT-4 likely uses embeddings with ~12,288 dimensions. Visualization tools like t-SNE compress these into 2D, but something is always lost in that compression.</p>` },
         ],
         5: [
-          {
-            q: "How do I know if what AI told me is true?",
-            a: `<p>Treat all AI-generated factual claims as unverified until you check them against a reliable source.</p>
+          { q: "Who decides what the numbers in an embedding mean?",
+            a: `<p>Nobody — the numbers emerge from the training process. The model figures out which numerical relationships best predict the training data.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Use the SIFT method: Stop before sharing, Investigate the source, Find better coverage, Trace claims to their origin. These work for AI output just like social media posts."</div>`
-          },
-          {
-            q: "Why does AI sound so confident even when it's wrong?",
-            a: `<p>Because confidence isn't built into AI — it just generates text that follows the pattern of confident writing. It doesn't know when it's uncertain.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"AI was trained on text written by humans who are often confident. So it learned to sound confident. That's a style thing, not an accuracy thing. The most dangerous AI outputs are wrong AND confident."</div>`
-          },
-          {
-            q: "Has AI misinformation caused real harm?",
-            a: `<p>Yes — in legal cases (fake citations), healthcare (false medical information), journalism, and elections.</p>
+            <div class="quote">"Nobody said 'dimension 47 = royalty.' The model discovered that grouping certain words together in a particular direction helped it predict text better. The structure emerges — it's not designed."</div>` },
+          { q: "Does the same word always get the same embedding?",
+            a: `<p>In older models (word2vec), yes. In modern LLMs, no — the embedding changes based on context. "Bank" near "river" gets a different embedding than "bank" near "money."</p>
             <p><span class="label">Behind the scenes</span></p>
-            <p>Well-documented examples: lawyers citing non-existent court cases generated by ChatGPT (2023); AI-generated political images spreading during election campaigns. These are real, recent, and easy to discuss without being alarmist.</p>`
-          }
+            <p>These are called contextual embeddings. It's one reason modern LLMs handle ambiguous language much better than earlier systems.</p>` },
+          { q: "How is the Klempin activity related to real embeddings?",
+            a: `<p>When you figured out Klempin words from context, you were doing exactly what an embedding model does at scale — inferring meaning from patterns of co-occurrence.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"You didn't look up Klempin in a dictionary — you saw what words appeared near it and inferred meaning. An LLM does that with every word in training data, across hundreds of billions of examples."</div>` },
         ],
         6: [
-          {
-            q: "Is using AI cheating?",
-            a: `<p>It depends entirely on context, disclosure, and how it's used. Using AI to skip thinking is different from using it as a thinking tool.</p>
+          { q: "Why are they called 'neural' networks?",
+            a: `<p>They're loosely inspired by how neurons connect in the brain — but they're much simpler, and the analogy shouldn't be taken too literally.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"A calculator isn't cheating in math class — unless the point of the lesson is doing arithmetic by hand. AI isn't cheating — unless you're using it to bypass exactly the thinking the assignment was designed to develop."</div>`
-          },
-          {
-            q: "Does AI use a lot of energy?",
-            a: `<p>Yes — training large AI models uses enormous amounts of energy. Running queries uses less, but at global scale, the footprint is significant.</p>
+            <div class="quote">"A neural network borrows the idea of connected nodes passing signals. But calling it 'brain-like' is like calling a plane 'bird-like.' It flies, but very differently. Don't let the name make you think AI works like a brain."</div>` },
+          { q: "What do the 'weights' in a neural network do?",
+            a: `<p>Weights control how much each connection matters — amplifying or suppressing signals as they pass from layer to layer.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>Think of a mixing board. Each dial controls how loud one instrument is. During training, the model adjusts all the dials to minimize error between predicted and actual outputs. LLMs have hundreds of billions of these "dials."</p>` },
+          { q: "What happens in the hidden layers?",
+            a: `<p>Hidden layers build increasingly abstract representations — from simple features to complex patterns.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Training GPT-4 reportedly used as much energy as hundreds of US homes use in a year. Each query is small — but billions of queries add up. It's worth asking: is this use of AI worth its environmental cost?"</div>`
-          },
-          {
-            q: "Who has access to AI and who doesn't?",
-            a: `<p>Access to powerful AI tools is unequal — divided by income, language, internet access, and geography.</p>
+            <div class="quote">"In an image network, early layers detect edges, middle layers detect shapes, deep layers detect objects. In a language model, early layers handle grammar, deeper layers handle meaning and context."</div>` },
+        ],
+        7: [
+          { q: "What exactly gets adjusted when a neural network 'trains'?",
+            a: `<p>The weights — the numbers on every connection. Backpropagation figures out how to adjust each weight to reduce prediction error.</p>
             <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Most advanced AI tools are in English and require fast internet and often payment. If AI reshapes education and work, who gets left behind when access is unequal? That's a digital equity question — and it's as important as any technical question."</div>`
-          }
-        ]
+            <div class="quote">"Imagine a game where you move each dial a tiny bit, and after each turn you see if your score went up or down. Backpropagation is the smart algorithm that figures out which direction to move each dial."</div>` },
+          { q: "How long does training take?",
+            a: `<p>Large LLMs take weeks to months on thousands of specialized chips, costing tens to hundreds of millions of dollars.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>GPT-4's training reportedly cost over $100M. This is why only a handful of companies can train frontier models. Fine-tuning an existing model is much cheaper and more accessible.</p>` },
+          { q: "Can a neural network 'forget' what it learned?",
+            a: `<p>Yes — this is called catastrophic forgetting. If you retrain on new data, the model can overwrite previous learning.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>This is one reason AI companies don't just keep "updating" models — you risk degrading old capabilities. Techniques like RLHF and fine-tuning are designed to add capabilities without destroying existing knowledge.</p>` },
+        ],
+        8: [
+          { q: "What does 'attention' mean in AI?",
+            a: `<p>Attention is a mechanism that helps the model decide which parts of the input are most relevant when producing each part of the output.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"When reading 'She picked up the bat and hit the ball,' you automatically pay more attention to 'ball' and 'hit' when figuring out 'bat.' LLMs learn to assign relevance scores the same way."</div>` },
+          { q: "What is a transformer?",
+            a: `<p>A transformer is a neural network architecture that uses attention to process entire sequences at once. All modern LLMs are transformers.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>"Attention Is All You Need" (2017) introduced transformers. Before them, language models processed text sequentially and struggled with long-range dependencies — transformers solved that.</p>` },
+          { q: "Is attention the same as memory?",
+            a: `<p>No — attention operates within a context window (what's currently in the prompt). Memory would be persistent across conversations — most LLMs don't have that by default.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"Attention is like a spotlight — it focuses on what's relevant in THIS conversation. Memory would be a notebook you carry session to session. Most LLMs are spotlight-only."</div>` },
+        ],
+        9: [
+          { q: "Why does AI give different answers to the same question?",
+            a: `<p>Because output is sampled from a probability distribution — not retrieved as a fixed answer. Unless temperature is 0, there's always randomness.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"AI doesn't look up 'the answer.' It assigns probabilities to every possible next word and then picks one — sometimes the most likely, sometimes a less likely one. Same prompt, different sample."</div>` },
+          { q: "What is 'temperature' in AI?",
+            a: `<p>Temperature controls randomness. High temperature = more surprising, creative outputs. Low = more predictable, focused outputs.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>At temperature 0, the model always picks the highest-probability token. At higher temperatures, lower-probability tokens get more chances. Creative writing tools use higher temperatures; factual Q&A uses lower.</p>` },
+          { q: "What's a token?",
+            a: `<p>A token is the basic unit AI processes — roughly a word or word fragment. "Unbelievable" might be 1–3 tokens depending on the model.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"Tokens are AI's syllables — the small chunks it processes one at a time. AI generates text token by token, picking the next one based on all the tokens before it."</div>` },
+        ],
+        10: [
+          { q: "Why does AI make up facts it couldn't possibly know?",
+            a: `<p>Because the model is always predicting a plausible next token, not retrieving a stored fact. When it doesn't 'know' something, it still generates what sounds right.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"AI never says 'I don't know' the way a person would — unless specifically trained to. Instead, it generates whatever continuation sounds most likely. That can produce confidently stated nonsense."</div>` },
+          { q: "Can hallucinations be fixed?",
+            a: `<p>Reduced, but not eliminated. Techniques like retrieval-augmented generation (RAG) help, but no current approach removes hallucinations entirely.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>RAG grounds the model by giving it actual documents to reference, reducing reliance on memorized patterns. It's why some AI tools work better when given access to current information.</p>` },
+          { q: "Has AI hallucination caused real harm?",
+            a: `<p>Yes — in law, medicine, and journalism, with documented cases of serious consequence.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>Two lawyers were sanctioned in 2023 for citing AI-fabricated court cases in a federal filing. Medical misinformation from AI has spread online. The stakes scale with the trust placed in AI output — which is why auditing matters.</p>` },
+        ],
+        11: [
+          { q: "How do I know if my rebuttal is accurate?",
+            a: `<p>Use specific vocabulary from the course and tie it to a concrete example from a lesson — the ISPO framework, an activity, or a real-world case.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"If your rebuttal could have been written before you took this course — if it's just 'AI isn't perfect' — it's not using course knowledge. Cite a specific mechanism: embeddings, attention, hallucinations. Specificity is proof of understanding."</div>` },
+          { q: "What if the article I'm rebutting has some true points?",
+            a: `<p>Acknowledge them — a strong rebuttal recognizes what's valid before correcting what's wrong.</p>
+            <p><span class="label">Behind the scenes</span></p>
+            <p>"This claim is partly right — AI can be creative — but it's misleading because it omits how AI outputs are actually produced." Partial rebuttals that show nuance are stronger than all-or-nothing dismissals.</p>` },
+          { q: "Do I have to disagree with the whole article?",
+            a: `<p>No — focus on the specific claim that involves a misconception about how generative AI works.</p>
+            <p><span class="label">Say to your class</span></p>
+            <div class="quote">"Pick one factual claim about how AI works that you now know is wrong or misleading, and correct it with specifics. One well-argued rebuttal beats a vague critique of the whole piece."</div>` },
+        ],
       },
       concepts: [
-        { id: "gen-ai", term: "Generative AI", lessons: [1,2,3,4,5,6],
-          adult: "AI systems that create new content — text, images, audio, code — by learning patterns from large datasets.",
-          kid: "AI that makes new things — like writing a story, drawing a picture, or composing music — by learning from millions of examples.",
-          example: "ChatGPT writing an essay, DALL-E generating an image from a description.",
-          nonexample: "A spam filter classifying emails — that's predictive AI, not generative." },
-        { id: "llm-gen", term: "Large Language Model (LLM)", lessons: [1,2],
-          adult: "An AI trained on massive amounts of text to generate and understand language by predicting likely sequences of words.",
-          kid: "An AI that learned from billions of sentences and got really good at predicting what word comes next.",
-          example: "GPT-4, Claude, Gemini — all LLMs.",
-          nonexample: "A grammar checker using fixed rules — no learning, no prediction." },
-        { id: "token-gen", term: "Token", lessons: [2],
-          adult: "The basic unit LLMs process — roughly a word or word-fragment. Models generate output token by token.",
-          kid: "A chunk of text the AI processes at a time — usually a word or part of a word. AI reads and writes in tokens, not letters.",
-          example: "'Unbelievable' might be split into 'Un', 'believ', 'able' — three tokens.",
-          nonexample: "A full sentence processed all at once — AI doesn't work that way." },
-        { id: "diffusion", term: "Diffusion Model", lessons: [3],
-          adult: "An AI architecture for image generation that learns to reverse a noise-adding process to create images from text descriptions.",
-          kid: "The technology behind AI image generators — it starts with random visual noise and slowly refines it into a picture that matches your description.",
-          example: "DALL-E and Stable Diffusion use diffusion models to turn text prompts into images.",
-          nonexample: "An AI that retrieves existing images from a database — that's search, not generation." },
-        { id: "prompt-gen", term: "Prompt", lessons: [4],
-          adult: "The instruction or input you give a generative AI to produce a specific output.",
-          kid: "What you type to the AI — like instructions for what you want it to make or say.",
-          example: "'Write a haiku about autumn rain, in a melancholy tone, for a middle school poetry anthology.'",
-          nonexample: "'Write something' — too vague to direct the AI meaningfully." },
-        { id: "hallucination-gen", term: "Hallucination", lessons: [5],
-          adult: "When a generative AI confidently produces false information — invented facts, fake citations, or fabricated events.",
-          kid: "When AI makes something up and says it like it's true. The AI doesn't know it's wrong.",
-          example: "AI inventing a scientific paper citation that doesn't exist, complete with a fake journal and fake authors.",
-          nonexample: "AI giving an opinion — opinions can't be 'hallucinations' since they're not factual claims." },
-        { id: "deepfake-gen", term: "Deepfake", lessons: [3,6],
-          adult: "AI-generated media — usually images or video — that realistically depicts real people saying or doing things they never did.",
-          kid: "Fake but very realistic AI-made videos or photos of real people. Often used to spread misinformation or harm reputations.",
-          example: "An AI-generated video of a public figure giving a speech they never gave.",
-          nonexample: "A clearly labeled AI art portrait of a historical figure — it's fictional and transparent." },
-        { id: "copyright-gen", term: "Copyright", lessons: [6],
-          adult: "Legal protection for original creative works giving creators exclusive rights to use and distribute their work.",
-          kid: "The legal rule that says you own creative work you make — and others have to ask permission to use it.",
-          example: "A song you write is automatically copyrighted; no one can use it commercially without your permission.",
-          nonexample: "Facts or ideas — those can't be copyrighted, only the specific expression of them." },
-        { id: "digital-equity-gen", term: "Digital Equity", lessons: [6],
-          adult: "The principle that all people should have equal access to information technology — including hardware, internet, and digital literacy.",
-          kid: "Making sure everyone gets a fair chance to use technology — not just people who can afford it or live somewhere with good internet.",
-          example: "Free public library computers and WiFi help close the digital equity gap.",
-          nonexample: "Assuming everyone has a smartphone and fast home internet — that leaves many people out." },
-        { id: "misinformation-gen", term: "Misinformation", lessons: [5,6],
-          adult: "False or inaccurate information, regardless of intent — distinct from disinformation, which is deliberately deceptive.",
-          kid: "Wrong information that spreads — sometimes on purpose, sometimes by accident. AI can create misinformation without trying to.",
-          example: "An AI-generated article with invented statistics that gets shared as true.",
-          nonexample: "A clearly labeled satire piece — readers know it's not meant to be taken literally." }
+        { id: "gen-ai-fga", term: "Generative AI", lessons: [1,2,9],
+          adult: "AI systems that produce new content — text, images, code, audio — by learning patterns from large datasets.",
+          kid: "AI that makes new things instead of just finding existing ones. It writes, draws, and composes based on patterns it learned.",
+          example: "ChatGPT writing a poem it has never written before; Midjourney generating an image no one has painted.",
+          nonexample: "A search engine finding existing web pages — that's retrieval, not generation." },
+        { id: "llm-fga", term: "Large Language Model (LLM)", lessons: [1,2,8,9],
+          adult: "A neural network trained on massive text datasets to generate, summarize, translate, and reason about language.",
+          kid: "An AI trained on huge amounts of text that got really good at predicting what words come next — and can use that to answer questions, write, and more.",
+          example: "GPT-4, Claude, Gemini — these are all LLMs.",
+          nonexample: "A spell-checker — it follows fixed rules, not learned patterns from billions of words." },
+        { id: "model-fga", term: "Model", lessons: [1,6,7],
+          adult: "The mathematical structure produced by training — the set of weights and parameters that define how an AI processes inputs and produces outputs.",
+          kid: "The 'brain' of the AI — the thing it built from all its practice. The learned pattern, not the interface you use.",
+          example: "GPT-4 is a model. The billions of numbers (weights) inside it are what make it work.",
+          nonexample: "The ChatGPT website — that's an interface built on top of a model, not the model itself." },
+        { id: "bias-fga", term: "Bias (in AI)", lessons: [3],
+          adult: "Systematic errors in AI outputs that unfairly favor or disadvantage certain groups, usually because training data reflects historical inequities.",
+          kid: "When AI gives unfair results because the examples it learned from didn't represent everyone equally.",
+          example: "A facial recognition system with much higher error rates for darker-skinned women than lighter-skinned men.",
+          nonexample: "A single random wrong answer — that's an error, not systematic bias." },
+        { id: "embedding-fga", term: "Embedding", lessons: [4,5],
+          adult: "A numerical representation of a word, phrase, or concept as a point in high-dimensional space, where similar meanings are placed close together.",
+          kid: "Turning words into coordinates on a map where similar words live near each other — so AI can do math with meaning.",
+          example: "'King' and 'queen' are close in the 'royalty' direction; 'king' and 'man' are close in the 'gender' direction.",
+          nonexample: "Just the word 'king' as text — that's a string, not an embedding." },
+        { id: "neural-net-fga", term: "Neural Network", lessons: [6,7],
+          adult: "A computing architecture made of layers of connected nodes that transform inputs into outputs through learned weights.",
+          kid: "A system of connected switches that passes signals through layers, adjusting how strong each connection is until it gets good at a task.",
+          example: "An image classifier: input (pixels) → hidden layers (edges, shapes) → output (cat or dog).",
+          nonexample: "A decision tree — that uses hand-written rules, not learned weighted connections." },
+        { id: "supervised-fga", term: "Supervised Learning", lessons: [7],
+          adult: "A training approach where a model learns from labeled examples — each input is paired with a correct answer that guides weight adjustments.",
+          kid: "Teaching AI by showing it examples and telling it the right answer, so it can learn the pattern.",
+          example: "Training a spam filter with thousands of emails labeled 'spam' or 'not spam.'",
+          nonexample: "Unsupervised learning — where AI finds patterns in data with no labels provided." },
+        { id: "attention-fga", term: "Attention (mechanism)", lessons: [8],
+          adult: "A neural network component that allows a model to focus on the most relevant parts of its input when producing each part of its output.",
+          kid: "The part of the AI that decides which words to pay attention to when figuring out what to say next.",
+          example: "Processing 'She hit the ball with her bat' — high attention on 'ball' and 'hit' when determining 'bat' means sports equipment.",
+          nonexample: "Reading every word equally without context-based focus — that's what older AI models did, and they were much weaker." },
+        { id: "hallucinations-fga", term: "Hallucinations", lessons: [10],
+          adult: "When an AI model generates false or fabricated information presented confidently as if it were true.",
+          kid: "When AI makes something up and states it as a fact — without knowing it's wrong.",
+          example: "An LLM citing a research paper with a real-sounding title that doesn't exist, with fake authors and journal names.",
+          nonexample: "An AI saying 'I'm not sure about that' — that's honest uncertainty, not a hallucination." },
       ],
       misconceptions: {
         1: [
-          { student: "Generative AI is just autocomplete.",
-            reality: "Autocomplete predicts a few words. LLMs generate coherent long-form text, reasoning, and creative content at a fundamentally different scale.",
-            fix: `"Autocomplete on your phone predicts the next word from recent context. GPT-4 can write a research paper, debug code, or explain quantum physics. Same basic idea — wildly different capability and complexity."` },
-          { student: "AI generates content by searching the internet.",
-            reality: "AI generates from learned patterns, not live searches. It doesn't look things up — it predicts.",
-            fix: `"After training, most AI tools are disconnected from the internet. They don't search — they generate based on what they learned. That's why they can be confidently wrong about recent events."` }
+          { student: "Generative AI 'knows' things the way humans know things.",
+            reality: "LLMs predict statistically likely text — they don't store or retrieve facts the way memory works.",
+            fix: `"When AI tells you the capital of France, it's not remembering Paris — it's producing the token that most often follows that prompt in training data. No understanding, just statistical association."` },
+          { student: "All AI is the same thing.",
+            reality: "AI is a broad field. Generative AI is one category. LLMs are one type of generative AI.",
+            fix: `"'AI' is like 'vehicle.' An LLM is a specific type — like an electric car. ChatGPT is a specific product, like a Tesla. They're related but not interchangeable."` },
         ],
         2: [
-          { student: "AI picks the best word every time.",
-            reality: "AI samples from a probability distribution — it doesn't always pick the top-ranked word.",
-            fix: `"If AI always picked the most likely word, every output would be identical and boring. The randomness is intentional — it creates variety. You can adjust it with temperature settings."` },
-          { student: "Longer context always helps AI give better answers.",
-            reality: "AI has a context window limit, and irrelevant context can dilute or confuse outputs.",
-            fix: `"Relevant context helps. But a 10-page document when you need a one-paragraph answer can confuse AI. Quality and relevance of context beats sheer length."` }
+          { student: "AI was trained on 'everything' — so it knows everything.",
+            reality: "Training data has a knowledge cutoff, significant gaps (especially non-English sources), and misses vast amounts of human knowledge.",
+            fix: `"The training data was collected up to a certain date. After that, the model doesn't update. And huge amounts of knowledge were missing — especially oral traditions and non-English sources."` },
+          { student: "Training data is just text from the internet.",
+            reality: "Training corpora are assembled from many sources with significant curation decisions — choices that shape what the model knows and what it gets wrong.",
+            fix: `"The data curation team decided what to include. Those choices baked in assumptions about what knowledge is valuable. The internet skews toward certain languages and cultures — and so do models trained on it."` },
         ],
         3: [
-          { student: "AI images are always obviously fake.",
-            reality: "State-of-the-art AI images are often indistinguishable from real photos.",
-            fix: `"Show students a side-by-side of a professional photo and a high-quality AI image. Ask them to guess which is which. This is why media literacy — not just detection skills — matters."` }
+          { student: "AI bias is a technical problem engineers can simply fix.",
+            reality: "Bias is also a social and organizational problem. Even perfect data curation involves human values.",
+            fix: `"Engineers can adjust data and algorithms. But deciding what 'fair' means for your community — that's a values question no algorithm can answer alone. Technical fixes need policy, diverse teams, and community input."` },
+          { student: "If the training data is large enough, bias averages out.",
+            reality: "Larger datasets amplify biases if the underlying distribution is skewed — more data doesn't fix systematic underrepresentation.",
+            fix: `"Imagine a dataset that's 90% one group. Training on more of that data makes the model better at that group and still bad at others. Scale doesn't fix the imbalance."` },
         ],
         4: [
-          { student: "A good prompt is a long prompt.",
-            reality: "Effective prompts are specific and relevant — not necessarily long.",
-            fix: `"Every word in a prompt should earn its place. Irrelevant details can confuse AI just like they'd confuse a person. Specific beats long."` }
+          { student: "AI 'understands' word meanings.",
+            reality: "AI represents words as numbers based on co-occurrence patterns — there's no semantic understanding, only mathematical proximity.",
+            fix: `"The model never looks up what 'brave' means. It learned that 'brave' appears near 'courageous' and 'hero' in training data — so they end up close in embedding space. It's geometry, not comprehension."` },
         ],
         5: [
-          { student: "If AI sounds confident, it's probably right.",
-            reality: "Confidence is a stylistic feature of AI output, not an accuracy signal.",
-            fix: `"AI learned from text written by confident humans. So it sounds confident — regardless of accuracy. The most dangerous AI outputs are wrong AND confident. Never use tone as a reliability signal."` }
+          { student: "Someone programmed what each embedding dimension means.",
+            reality: "Embedding dimensions emerge from training — they're not assigned by humans and most are uninterpretable.",
+            fix: `"Nobody said 'dimension 47 = royalty.' The model discovered that grouping certain words in a particular direction helped it predict text. The structure is learned, not designed."` },
         ],
         6: [
-          { student: "Using AI for schoolwork is always wrong.",
-            reality: "It depends entirely on the assignment, the disclosed use, and how it's used.",
-            fix: `"Using AI to generate an essay you submit as your own thinking — probably not okay. Using AI to brainstorm ideas you then develop yourself — might be fine. Context and transparency are everything."` },
-          { student: "AI affects everyone equally.",
-            reality: "AI benefits and harms are unevenly distributed across income, language, geography, and demographics.",
-            fix: `"Who has access to the best AI tools? Who is most harmed by biased AI in hiring or lending? Who is most at risk from AI misinformation? The answers to these are rarely 'everyone equally.'"` }
-        ]
+          { student: "Neural networks work like human brains.",
+            reality: "Neural networks are loosely inspired by neuroscience but operate very differently — they're mathematical functions, not biological systems.",
+            fix: `"The 'neural' in neural network is a metaphor. Real neurons are electrochemical systems with complex biology. AI nodes do simple math: multiply, add, apply a function. The similarity ends at 'connected nodes.'"` },
+        ],
+        7: [
+          { student: "Training 'programs' the right answers into the model.",
+            reality: "Training adjusts weights to minimize error — the model finds patterns by itself. No answers are explicitly stored.",
+            fix: `"No one wrote 'Paris is the capital of France' into the model. It trained on millions of sentences where those words appeared together until the weights produced that output reliably."` },
+        ],
+        8: [
+          { student: "AI attention works like human attention (focus, concentration).",
+            reality: "AI attention is a mathematical relevance score computed over the current input — not cognitive focus or consciousness.",
+            fix: `"AI attention doesn't 'try harder' or 'concentrate.' It's a matrix multiplication producing relevance scores for each token relative to every other token. Fast, mechanical, nothing like how you focus."` },
+        ],
+        9: [
+          { student: "AI has a single 'right answer' it's trying to produce.",
+            reality: "AI samples from a probability distribution — many possible next tokens each have an assigned probability.",
+            fix: `"For every position in the output, the model computes probabilities over its entire vocabulary (~50,000 tokens) and samples from that distribution. The answer is probabilistic, not deterministic."` },
+        ],
+        10: [
+          { student: "I can tell when AI is hallucinating because it sounds wrong.",
+            reality: "Hallucinations are indistinguishable from accurate outputs by style — AI always sounds 'confident.'",
+            fix: `"AI doesn't hedge or signal uncertainty unless specifically trained to. The writing quality of a hallucination is exactly the same as accurate output. Verification is the only reliable check."` },
+        ],
+        11: [
+          { student: "A good rebuttal just says 'AI isn't perfect.'",
+            reality: "A strong rebuttal names a specific mechanism from the course and explains why the article's claim misrepresents how generative AI works.",
+            fix: `"'AI isn't perfect' is not a rebuttal — it's a shrug. A rebuttal says: 'This article claims AI understands meaning. That's wrong, because AI uses embeddings — mathematical proximity, not comprehension — and here's why that matters.'"` },
+        ],
       },
       onboarding: {
         banner: "Resources for Foundations of Generative AI. Tap any card to explore in chat.",
         cards: [
-          { id: "start", icon: "🚀", title: "Where to start", desc: "5-minute orientation: what this 6-lesson course covers and how to prepare." },
-          { id: "syllabus", icon: "📋", title: "Course overview", desc: "All 6 lessons at a glance — timing, key concepts, and discussion themes." },
-          { id: "lesson-plan", icon: "📖", title: "See a lesson plan", desc: "Walk through any lesson's pre-flight, activities, and watch-fors." },
-          { id: "sample", icon: "🎬", title: "Try a sample activity", desc: "Which activities to try yourself so you're ready for student questions." },
-          { id: "evaluate", icon: "✅", title: "How to evaluate", desc: "Exit ticket strategies and the Lesson 6 responsible AI pledge rubric." },
-          { id: "section", icon: "👩‍🏫", title: "Create a class section", desc: "Set up your section on Code.org for Foundations of Generative AI." },
+          { id: "start",       icon: "🚀", title: "Where to start",     desc: "5-minute orientation: what this 11-lesson course covers and what students will be able to do." },
+          { id: "syllabus",    icon: "📋", title: "Course overview",    desc: "All 11 lessons at a glance — ISPO framework, key vocab, and week-by-week pacing." },
+          { id: "lesson-plan", icon: "📖", title: "See a lesson plan",  desc: "Walk through any lesson's pre-flight, activities, and watch-fors." },
+          { id: "sample",      icon: "🎬", title: "Key activities",     desc: "The must-try activities before you teach: RecipeBot, Klempin, Green Glass Door." },
+          { id: "evaluate",    icon: "✅", title: "Capstone project",   desc: "Overview of the L11 Demystifying Generative AI rebuttal project and rubric." },
+          { id: "section",     icon: "👩‍🏫", title: "Create a class section", desc: "Set up your section on Code.org for Foundations of Generative AI." },
         ]
       },
       onboardingDetail: {
         start: `<p><span class="label">Where to start</span></p>
-      <p>The course is <strong>6 lessons × 45 min</strong>, for Grades 6–9. No coding background needed.</p>
-      <p><strong>Your first 30 minutes of prep:</strong></p>
-      <ul>
-        <li>Read the Lesson 1 pre-flight in this chat (5 min)</li>
-        <li>Interact with a generative AI tool yourself — ask it something, notice how it responds (15 min)</li>
-        <li>Set up a class section on Code.org (10 min)</li>
-      </ul>
-      <p>That's it. You're ready for Day 1.</p>`,
+          <p><strong>11 lessons × 45 min</strong> (Lesson 11 is 90 min), Grades 7–10. No coding background needed.</p>
+          <p><strong>Your first 30 minutes of prep:</strong></p>
+          <ul>
+            <li>Read the L1 pre-flight in this chat (5 min)</li>
+            <li>Try the ISPO graphic organizer yourself (10 min) — students use it all course</li>
+            <li>Set up your Code.org section (10 min)</li>
+          </ul>
+          <p>The ISPO framework (Input → Storage → Processing → Output) runs through every lesson as a graphic organizer students gradually fill in.</p>`,
         syllabus: `<p><span class="label">Course overview</span></p>
-      <ul>
-        <li><strong>L1 · What is Generative AI?</strong> — Types of GenAI, how it differs from other software</li>
-        <li><strong>L2 · How GenAI Generates Text</strong> — LLMs, tokens, probability, temperature</li>
-        <li><strong>L3 · AI-Generated Images</strong> — Diffusion models, deepfakes, image ethics</li>
-        <li><strong>L4 · Prompting Strategies</strong> — TCRFT framework, iterative refinement</li>
-        <li><strong>L5 · Reliability and Misinformation</strong> — Hallucinations, fact-checking, SIFT method</li>
-        <li><strong>L6 · Ethics and Responsible Use</strong> — Authorship, copyright, equity, environment</li>
-      </ul>`,
+          <ul>
+            <li><strong>Week 1 (L1–3):</strong> What is gen AI, training data, bias</li>
+            <li><strong>Week 2 (L4–6):</strong> Embeddings, how they're built, neural networks</li>
+            <li><strong>Week 3 (L7–9):</strong> Neural network training, attention, outputs</li>
+            <li><strong>Week 4 (L10–11):</strong> Hallucinations, capstone project (L11 = 90 min)</li>
+          </ul>
+          <p><strong>Key vocab:</strong> Artificial Intelligence, Large Language Model, Model, Bias, Embedding, Neural Network, Supervised Learning, Attention, Hallucinations</p>`,
         "lesson-plan": `<p>Pick a lesson to see its full pre-flight in chat:</p>`,
-        sample: `<p><span class="label">Try it yourself</span></p>
-      <p>Best starting points: <strong>Lesson 1</strong> — try a generative AI tool and notice what surprises you. <strong>Lesson 4</strong> — work through the TCRFT prompting framework on a real task you care about. Both take under 20 minutes and make a big difference when students ask "why does this work?"</p>`,
-        evaluate: `<p><span class="label">Evaluation tips</span></p>
-      <p><strong>L1–L5:</strong> Exit ticket — one sentence describing something that surprised them or changed how they think about AI.</p>
-      <p><strong>L6 responsible AI pledge:</strong> Evaluate for specificity (not "I'll use AI responsibly" but "I will always disclose when I use AI for schoolwork"), reasoning, and connection to course content.</p>`,
+        sample: `<p><span class="label">Must-try activities</span></p>
+          <p>Before teaching, experience these yourself:</p>
+          <ul>
+            <li><strong>L2: RecipeBot</strong> — 15 min. You'll instantly understand why data curation choices matter.</li>
+            <li><strong>L5: Klempin</strong> — 10 min. Experience exactly how embeddings learn from context.</li>
+            <li><strong>L7: Green Glass Door</strong> — 5 min. The best intuition-builder for how neural nets train.</li>
+          </ul>`,
+        evaluate: `<p><span class="label">Capstone project (L11)</span></p>
+          <p>Students read opinion articles with AI misconceptions, then write structured rebuttals.</p>
+          <p><strong>Rubric awards points for:</strong></p>
+          <ul>
+            <li>Accurate use of course vocabulary</li>
+            <li>Specific example or analogy</li>
+            <li>Logical argument structure</li>
+            <li>Connection to ISPO framework</li>
+          </ul>
+          <p><strong>Heads up:</strong> Students who need scaffolding should have their completed ISPO organizer available during L11.</p>`,
         section: `<p><span class="label">Create a class section</span></p>
-      <ol>
-        <li>Log in to <strong>studio.code.org</strong></li>
-        <li>Tap <strong>Sections</strong> → <strong>New section</strong></li>
-        <li>Choose course: <em>"Foundations of Generative AI"</em></li>
-        <li>Share the section code with your students</li>
-      </ol>`
-      }
+          <ol>
+            <li>Log in to <strong>studio.code.org</strong></li>
+            <li>Tap <strong>Sections</strong> → <strong>New section</strong></li>
+            <li>Choose course: <em>"Foundations of Generative AI"</em></li>
+            <li>Share the section code with your students</li>
+          </ol>`
+      },
     }, // end Course 4
     ], // end en.courses
     /* ---------- REFLECTION (top-level, shared across courses) ---------- */
@@ -2813,8 +2955,7 @@ function renderCourseDropdown() {
   courses.forEach(c => {
     const opt = document.createElement("option");
     opt.value = c.id;
-    const stub = (c.id === "how-ai-works" || c.id === "foundations-gen-ai");
-    opt.textContent = stub ? `${c.name} (coming soon)` : c.name;
+    opt.textContent = c.name;
     if (c.id === STATE.courseId) opt.selected = true;
     sel.appendChild(opt);
   });
