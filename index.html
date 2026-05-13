@@ -2725,9 +2725,10 @@ function renderOnboarding() {
 }
 
 async function onboardingCardClicked(cardId) {
-  // Set homeAction so every back chip in every sub-flow returns to Get started
+  // Set homeAction so every back chip in every sub-flow returns to Get started.
+  // Use showChatArea() instead of setTab("chat") to keep "Get started" tab highlighted.
   STATE.homeAction = returnToOnboarding;
-  setTab("chat");
+  showChatArea();
   await wait(200);
   const detail = STATE.courseId ? tc().onboardingDetail : {};
   const content = detail[cardId];
@@ -2764,6 +2765,16 @@ function setTab(tab) {
     $("input-form").style.display = "none";
     renderOnboarding();
   }
+}
+
+// Show chat content while keeping the Get started tab button highlighted.
+// Used when a Get started card surfaces chat content — the user is still
+// in "Get started" territory, so the tab indicator must not change.
+function showChatArea() {
+  $("chat").classList.remove("hidden");
+  $("onboarding-view").classList.add("hidden");
+  $("quick-replies").style.display = "";
+  $("input-form").style.display = "";
 }
 
 /* ============================================================
