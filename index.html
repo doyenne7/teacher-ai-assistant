@@ -2141,8 +2141,9 @@ const STATE = {
   context: null, // {intent, lessonId, ...}
   lastLessonTaught: localStorage.getItem("lastLessonTaught") || null,
   lastCourseTaught: localStorage.getItem("lastCourseTaught") || null,
-  pendingNote: null, // reflection notes from last lesson
-  generation: 0, // increments on reset/lang-switch; pending async calls check this
+  pendingNote: null,
+  homeAction: null,  // null = returnHome; set to returnToOnboarding when in Get started context
+  generation: 0,
 };
 
 /* Render helpers */
@@ -2447,7 +2448,7 @@ async function flowInMomentForLesson(lessonId, returnTo = null) {
   };
   if (!returnTo) await botSay(`<p>${intros[STATE.lang]}</p>`, 600);
   const backRow = returnTo
-    ? [{ label: "← Back to lesson prep", action: returnTo }, { label: "← Main menu", action: returnHome, secondary: true }]
+    ? [{ label: "← Back to lesson prep", action: returnTo }, { label: homeLabel(), action: homeAction(), secondary: true }]
     : backChips("lesson list", flowInMoment);
   setQuickReplies([
     ...qs.map((q, idx) => ({ label: q.q, action: () => showStudentAnswer(lessonId, idx, returnTo) })),
@@ -2460,7 +2461,7 @@ async function showStudentAnswer(lessonId, qIdx, returnTo = null) {
   await botSay(item.a, 1100);
   const backRow = returnTo
     ? [{ label: "← More questions", action: () => flowInMomentForLesson(lessonId, returnTo) }, { label: "← Back to lesson prep", action: returnTo, secondary: true }]
-    : [{ label: t().ui.thatHelped, action: returnHome, primary: true }, { label: "← More questions for this lesson", action: () => flowInMomentForLesson(lessonId) }, { label: "← Main menu", action: returnHome, secondary: true }];
+    : [{ label: t().ui.thatHelped, action: homeAction(), primary: true }, { label: "← More questions for this lesson", action: () => flowInMomentForLesson(lessonId) }, { label: homeLabel(), action: homeAction(), secondary: true }];
   setQuickReplies(backRow);
 }
 
@@ -2535,7 +2536,7 @@ async function showMisconceptions(lessonId, returnTo = null) {
     await botSay(html, 1100);
   }
   const backRow = returnTo
-    ? [{ label: "← Back to lesson prep", action: returnTo }, { label: "← Main menu", action: returnHome, secondary: true }]
+    ? [{ label: "← Back to lesson prep", action: returnTo }, { label: homeLabel(), action: homeAction(), secondary: true }]
     : backChips("lesson list", flowMisconception);
   setQuickReplies(backRow);
 }
@@ -2611,19 +2612,28 @@ async function finishReflect(note) {
   ]);
 }
 
-/* ---------- NAV HELPER ---------- */
-// Returns a standard two-level back pair: [← Back to <flow>] [← Main menu]
+/* ---------- NAV HELPERS ---------- */
+function homeAction() { return STATE.homeAction || returnHome; }
+function homeLabel()  { return STATE.homeAction ? "← Back to Get started" : "← Main menu"; }
+
+// Two-level back pair: [← Back to <flow>]  [← Main menu / ← Back to Get started]
 function backChips(flowLabel, flowAction) {
   return [
     { label: `← Back to ${flowLabel}`, action: flowAction },
-    { label: "← Main menu", action: returnHome, secondary: true },
+    { label: homeLabel(), action: homeAction(), secondary: true },
   ];
 }
 
 /* ---------- HOME / RESET ---------- */
 async function returnHome() {
+  STATE.homeAction = null;
   await botSay(`<p>${t().helpers.backToMenu}</p>`, 400);
   showHomeMenu();
+}
+
+function returnToOnboarding() {
+  STATE.homeAction = null;
+  setTab("onboarding");
 }
 
 function resetConversation() {
@@ -2715,33 +2725,29 @@ function renderOnboarding() {
 }
 
 async function onboardingCardClicked(cardId) {
-  // Switch to chat tab to surface content, but back returns to Get started tab
+  // Set homeAction so every back chip in every sub-flow returns to Get started
+  STATE.homeAction = returnToOnboarding;
   setTab("chat");
   await wait(200);
   const detail = STATE.courseId ? tc().onboardingDetail : {};
   const content = detail[cardId];
   if (!content) {
     await botSay(`<p>${t().helpers.noMatch}</p>`, 500);
-    setQuickReplies([{ label: "← Back to Get started", action: returnToOnboarding, primary: true }]);
+    setQuickReplies([{ label: homeLabel(), action: homeAction(), primary: true }]);
     return;
   }
   if (cardId === "lesson-plan") {
     await botSay(content, 600);
     setQuickReplies([
       ...tc().lessonChips.map(l => ({ label: l.label, action: () => showPreflight(l.id) })),
-      { label: "← Back to Get started", action: returnToOnboarding, secondary: true }
+      { label: homeLabel(), action: homeAction(), secondary: true }
     ]);
   } else {
     await botSay(content, 900);
-    setQuickReplies([
-      { label: "← Back to Get started", action: returnToOnboarding, primary: true }
-    ]);
+    setQuickReplies([{ label: homeLabel(), action: homeAction(), primary: true }]);
   }
 }
 
-function returnToOnboarding() {
-  setTab("onboarding");
-}
 
 function setTab(tab) {
   STATE.tab = tab;
@@ -2803,6 +2809,7 @@ function init() {
     const courseId = e.target.value;
     if (!courseId || courseId === STATE.courseId) return;
     STATE.courseId = courseId;
+    STATE.homeAction = null;
     localStorage.setItem("teacherAssistantCourse", courseId);
     if (STATE.tab !== "chat") setTab("chat");
     resetConversation();
