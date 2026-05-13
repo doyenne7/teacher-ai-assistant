@@ -1,0 +1,1447 @@
+How AI Makes Decisions
+     Teacher resources                Printing Options
+Dive into the exciting world of artificial intelligence with Code.org’s innovative module, “How AI Makes Decisions,”
+tailored for upper elementary school students! This module is named to highlight its focus on unraveling the
+processes that AI systems use to analyze training data and make decisions. In these five lessons, AI concepts are
+broken down into engaging, age-appropriate lessons that focus on the critical role of data. Students will use
+Code.org’s AI tools for fun, educational AI experiences while gaining insight into how AI works behind the scenes.
+Each lesson provides several opportunities for class discussions about AI, bias, and the impact of AI tools on daily
+life.
+
+New to teaching AI?
+
+Get started with our self-paced Professional Learning.
+
+
+                       Lesson 1:
+                                              Lesson 2:       Lesson 3: Using     Lesson 4: AI     Lesson 5: Share
+     Week 1             Making
+                                             Training AI          AI Bot         Tools in School     Your Voice
+                      Predictions
+
+
+
+
+       Key             ■ Instructional Lesson               Assessment         ✀ Unplugged Lesson
+
+
+
+
+     View calendar                       Show All Lessons               Hide All Lessons        
+
+
+     Lesson 1: Making Predictions
+
+    This lesson will introduce students to the fundamentals of Artificial Intelligence (AI) and machine learning by
+    focusing on predictive data models. Students will get hands-on practice with supervised and reinforcement
+    learning. They’ll start with data that has already been sorted and progress to making predictions on their own
+    of how to sort items on screen. In the final level, students will try their hand at sorting data on their own and
+    will enlist a partner to predict how the items have been categorized.
+
+    This hands-on experience will be complemented by discussions on the significance of data categorization
+    and the challenges posed by limited datasets. Students will explore a real-world example where AI
+    predictions have been used to help humans. The lesson aims to demystify AI technology, emphasizing its
+    pattern-based logic rather than perceiving it as magical or random.
+
+
+
+          1            How is it Sorted?
+
+
+          2            Sort It Out
+
+
+         3-5           Sorting Items
+
+
+                           3      4      5
+
+
+          6            Check for Understanding: Matching Level
+      7             Your Turn!
+
+
+
+
+ Lesson 2: Training AI
+
+In this lesson, students will learn about how the inputs they give a machine learning model directly impact
+the predictions that the model makes. First, they will learn about the difference between random predictions
+and AI predictions, before training their own AI model to make predictions on whether an item is a fish or
+trash in the ocean. Finally, students will discuss the implications of biased training data by discussing
+hypothetical scenarios.
+
+
+
+      1             Machine Learning Video
+
+
+      2             Train AI on Fish
+
+
+    3-4             Train AI on Sea Creatures
+
+
+                       3      4
+
+
+      5             Teach AI a New Word
+
+
+
+
+ Lesson 3: Using AI Bot
+
+In this lesson, students will begin thinking about how to classify real world objects by their features. They will
+build out two feature vectors (foods and emojis) in order to learn how AI makes decisions based on the
+probability of an outcome. Students will use “Dance Party: AI Edition” to see first-hand how AI can make
+tasks more efficient, but that it might come at the cost of customization. Students will consider what it
+means to collaborate and co-create with AI.
+
+
+
+      1             Food Feature Vector
+
+
+      2             Check For Understanding: Food
+
+
+      3             Emoji Feature Vector
+
+
+      4             Check For Understanding: Emojis
+
+
+      5             Video: How AI Works
+
+
+      6             Coding with AI
+ Lesson 4: AI Tools in School
+
+In this lesson, students will evaluate sample student data. They will choose a hypothetical AI tool and
+consider what training data the tool will need to successfully make a decision. Then, students will write a
+letter to the school principal explaining their opinion on using AI tools. At the end of the lesson, students will
+reflect on what they have learned about AI over the course of the 4 lessons.
+
+Students will understand that a predictive AI model is only as good as the information it was trained on.
+Therefore it is important to train the model on a large amount of data that is relevant to the task at hand.
+Also, students should recognize that there needs to be human oversight when it comes to working with AI
+to ensure that any mistakes made by AI get corrected.
+
+
+              ●
+              ✓
+      1             Student Survey
+
+
+      2             Using AI Tools in School (Online Version)
+
+
+
+
+ Lesson 5: Share Your Voice
+
+In this lesson, students will create an artifact explaining their opinion on using AI tools. They have the option
+to write a letter to the principal, make a speech or song, make a poster, create a Sprite Lab project, or code a
+poem to share their opinion. At the end of the lesson, students will reflect on what they have learned about
+AI over the course of the module.
+
+
+
+      1             Choice Level: Share Your Voice
+Lesson 1: Making Predictions
+45 minutes
+
+
+Overview                                                             Objectives
+This lesson will introduce students to the fundamentals of           Students will be able to:
+Artificial Intelligence (AI) and machine learning by focusing on
+predictive data models. Students will get hands-on practice              Explain different ways to sort the
+with supervised and reinforcement learning. They’ll start with           same set of items
+data that has already been sorted and progress to making                 Explain why a computer model might
+predictions on their own of how to sort items on screen. In the          make incorrect predictions
+final level, students will try their hand at sorting data on their       Store, sort, search, and modify data
+own and will enlist a partner to predict how the items have been
+categorized.
+
+This hands-on experience will be complemented by discussions
+                                                                     Preparation
+on the significance of data categorization and the challenges            Play through the levels on your own
+posed by limited datasets. Students will explore a real-world
+                                                                         Preview the sorting activity for
+example where AI predictions have been used to help humans.
+                                                                         students by printing and cutting out
+The lesson aims to demystify AI technology, emphasizing its
+pattern-based logic rather than perceiving it as magical or              the physical manipulatives
+random.
+
+                                                                     Links
+Standards                      Full Course Alignment
+                                                                      Heads Up! Please make a copy of any
+AI4K12 National Guidelines 2021                                       documents you plan to share with
+                                                                      students.
+       BI-3 - Computers can learn from data
+
+AI4K12 National Guidelines 2023                                      For the teachers
+       BI-5 - AI can impact society in both positive and
+                                                                         How AI Makes Predictions - Slides
+    negative ways
+                                                                         (Download)  Make a Copy
+CSTA K-12 Computer Science Standards (2017)                              [Optional] Physical Sorting
+       DA - Data & Analysis                                              Manipulatives - Resource (Download)
+                                                                           Make a Copy
+
+
+Agenda                                                               Vocabulary
+    [Optional] Context Setting (10 minutes)                              Data - Information that we collect
+                                                                         about the world
+    Warm Up (10 minutes)
+                                                                         Feature - Something that an item is or
+       Vocabulary
+                                                                         has. A feature of a triangle is that it
+       Lesson Objectives
+                                                                         has 3 sides.
+       Question of the Day
+                                                                         Predict - To make a guess based on
+       Warm Up
+                                                                         patterns in the data
+    Main Activity (30 minutes)                                           Sort - To put items into groups based
+       How Do Computers Learn                                            on their features
+       Sorting Data
+       Turn and Talk                                                           Training data - Information that has
+                                                                               been sorted, then given to a
+    Wrap Up (5 minutes)
+                                                                               computer so it can make predictions
+       Question of the Day
+
+    [Optional] Read Aloud Extensions (10 minutes)
+
+
+
+Teaching Guide
+
+[Optional] Context Setting (10 minutes)
+ Display: Show “What is AI?” slide
+
+Do This: As an optional general introduction to AI, show students this short video.
+
+Goal: Some important and relevant points to clarify before beginning this module include: AI stands for Artificial
+Intelligence. An AI machine is simply a computer that can make decisions after learning from data given to it by
+humans. A few real world examples of AI include: voice assistants like Siri or Alexa, self driving cars, and robots.
+
+ Display: Show “Discuss” slide
+
+Discuss:
+
+    What is this AI robot doing?
+    How do you think it learned how to do this?
+    What do you think would happen if you put a red block on the table?
+    What are some things this robot probably can not do?
+
+Discussion Goal: Students should notice that this robot has likely been trained how to sort between blue and green
+blocks. If it has not been taught how to sort red blocks it might incorrectly sort them into the blue or green items or
+leave it on the table. This robot likely cannot perform tasks unless they involve human-like motor skills. For example,
+this robot likely cannot generate text, speak, or see. This is a simple example of AI that directly relates to the
+activities students will be doing in upcoming lessons.
+
+
+    Teaching Tip                   
+
+ In this lesson, students will be sorting items by different features. You may want to demonstrate how to do this
+ by using physical manipulatives before students complete the levels online. You can use items that you have in
+ your classroom or print and cut out the sorting manipulatives that students will see in the following levels.
+
+
+
+
+Warm Up (10 minutes)
+
+Vocabulary
+
+ Display: Show “Vocabulary” slide
+
+Say:
+
+    Data: Information that we collect about the world.
+    Sort: To put items into groups based on their features.
+    Feature: Something that an item is or has. A feature of a triangle is that it has 3 sides.
+    Predict: To make a guess based on patterns in the data.
+    Training data: Information that has been sorted, then given to a computer so it can make predictions
+Lesson Objectives
+
+ Display: Show “Lesson Objectives” slide
+
+Say: By the end of this lesson, you will be able to:
+
+    Explain different ways to sort the same set of items
+    Explain how having more data can lead to more accurate predictions
+
+
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Say: What features help us decide how to sort a group of objects?
+
+
+Warm Up
+
+ Display: Show “Warm Up” slide
+
+Discuss: Which of these doesn’t belong? Why? Explain what feature makes it different.
+
+Do This: Have students discuss different ways of grouping these items in groups of 3 and to explain their
+reasoning. Some examples are by: shape, color, photo orientation, and toppings. You can also get students thinking
+like a computer. Ask them “How would a computer tell the difference between these four items? What would it
+need to know about each pastry?”
+
+Discussion Goal: Students should understand that there are different ways of grouping and sorting the same items
+based on their features. Challenge them to come up with as many different ways of sorting these 4 items as they
+can.
+
+
+
+Main Activity (30 minutes)
+
+How Do Computers Learn (3 minutes)
+
+ Display: Show “How do computers learn?” slide
+
+Do This: Click through the diagram, step-by-step, reading each step aloud to students.
+
+Say: Today you are going to act as the computer. Someone has already sorted the items behind the scenes. You
+have to predict what the pattern is for each level and sort the items into their correct box.
+
+
+Sorting Data (25 minutes)
+
+ Display: Show “Levels 1-6: Predict the Pattern” slide
+
+Do This: Transition students to their devices. Have them go to Level 1 and answer the multiple choice question.
+
+Goal: In Levels 1-6, students get to act as if they were AI, and make predictions about where the items should go.
+Levels 1 and 2 are examples of supervised machine learning. The inputs have been labeled, by color and by wings,
+which means that students will sort the items according to their label. Levels 3-5 are examples of reinforcement
+learning. The data is unlabeled and students have to classify it by receiving feedback on whether or not their
+prediction was correct.
+        1           How is it Sorted?
+
+
+    Teaching Tip                  
+
+ Before allowing students on their devices, consider modeling this level for the class. If students have never
+ encountered a multiple choice question on the Code.org platform before they may be unfamiliar with how it
+ works. On Level 1, instruct students to read and answer the question before clicking Run. In the following levels,
+ they will need to click Run in order to drag items around on screen.
+
+
+
+
+       2            Sort It Out
+
+
+
+
+      3-5           Sorting Items
+
+
+                        3      4       5
+
+
+
+        6           Check for Understanding: Matching Level
+
+
+ Display: Show “Level 7: Your Turn!” slide
+
+Do This: Once students have finished Levels 1-6, have them choose one of the sublevels in Level 7 Choice Level and
+pair them up with a partner. One student will sort the items in the level while the other partner has to guess the
+pattern. Then have them switch roles.
+
+
+
+       7            Your Turn!
+
+
+
+Turn and Talk (2 minutes)
+
+ Display: Show “Turn and Talk” slide
+
+Discuss: Ask students “Which level was the easiest for you to sort? Why?”
+
+Discussion Goal: Have students reflect on patterns they noticed in the data. They should be able to articulate that
+having more sorted data leads to better, more accurate predictions. A level in which items are not initially sorted
+becomes easier to sort as students begin to place items in the correct boxes.
+
+
+
+Wrap Up (5 minutes)
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Discuss: What features help us decide how to sort a group of objects?
+Discussion Goal: Students should recognize that it depends on the items. For example, they can’t always group
+items by shape if all the items are the same shape. Students should first figure out what features these items have
+in common and then determine how to sort them into multiple groups by a shared feature.
+
+If students need an example, choose one of the options in Lesson 1, Level 7. Ask students how they might sort the
+items on screen. What features do they notice the items have in common?
+    Teaching Tip                  
+
+ If you need to give students an assessment at the end of each lesson, use the Question of the Day as an
+ assessment of student learning, e.g. an exit ticket.
+
+
+ Display: Show “Reflect” slide
+
+Discuss: Here are two real world examples that use AI to sort data. Can you think of more?
+
+Discussion Goal: Discuss the two examples in this slide. [Optional: Show students the short (1 min) video about
+BakeryScan AI]. Then, see if students can come up with additional examples of how a sorting algorithm could be
+used in the real world.
+
+Some hypothetical examples: sorting between dogs and cats, laundry sorter that sorts pants/shirts/socks, sorting
+out M&Ms from the rest of the trail mix.
+
+Some real world examples: self-driving cars detecting empty crosswalks vs. a pedestrian crossing, sorting by
+trash/compost/recycling, Roomba vacuums determining if there is an obstacle or not, detecting if an email/text/call
+is spam or not.
+
+Here are some additional news examples:
+
+    Food Waste Is a Serious Problem. AI Is Trying to Solve It
+    AI system used to create a patrol route for conservationists to help prevent poaching attacks
+    AI tech can identify genetic disorders from a person's face
+    MIT AI tool can predict breast cancer up to 5 years early
+
+
+
+[Optional] Read Aloud Extensions (10 minutes)
+ Display: Show “Read Aloud Extensions” slide
+
+Do This: Here are two additional read aloud extensions to show students.
+
+    Are You My Mother? by P.D. Eastman
+    Grandma’s Button Box by Linda Aber
+
+While these books were not designed for teaching about machine learning or sorting algorithms, their content can
+be used to start a discussion about features that the different characters or buttons have. Encourage students to
+start noticing patterns around them in the classroom and beyond where items might be sorted by their features.
+
+
+
+                     This work is available under a Creative Commons License (CC BY-NC-SA 4.0).
+
+If you are interested in licensing Code.org materials for commercial purposes contact us.
+Lesson 2: Training AI
+45 minutes
+
+
+Overview                                                             Objectives
+In this lesson, students will learn about how the inputs they give   Students will be able to:
+a machine learning model directly impact the predictions that
+the model makes. First, they will learn about the difference             Explain how training a model can look
+between random predictions and AI predictions, before training           different based on someone’s opinion
+their own AI model to make predictions on whether an item is a           Explain the difference between a
+fish or trash in the ocean. Finally, students will discuss the           random prediction and an AI
+implications of biased training data by discussing hypothetical          prediction
+scenarios.                                                               Train a machine learning algorithm on
+                                                                         chosen features
+
+Standards                      Full Course Alignment
+
+                                                                     Preparation
+AI4K12 National Guidelines 2021
+       BI-3 - Computers can learn from data                              Play through the levels on your own
+
+AI4K12 National Guidelines 2023
+       BI-5 - AI can impact society in both positive and             Links
+    negative ways
+                                                                      Heads Up! Please make a copy of any
+CSTA K-12 Computer Science Standards (2017)                           documents you plan to share with
+       DA - Data & Analysis                                           students.
+
+
+                                                                     For the teachers
+Agenda
+                                                                         How AI Makes Predictions - Slides
+    Warm Up (10 minutes)                                                 (Download)  Make a Copy
+       Vocabulary
+       Lesson Objectives                                             Vocabulary
+       Question of the Day
+                                                                         Accurate - Another way to say
+       Warm Up
+                                                                         "correct"
+    Main Activity (30 minutes)                                           Artificial Intelligence (A.I.) - A way for
+       AI for Oceans                                                     computers to make decisions by
+       Turn and Talk                                                     themselves
+       Reflect                                                           Bias - Favoring some things but not
+                                                                         others, which can lead to an unfair
+    Wrap Up (5 minutes)
+                                                                         decision
+       Question of the Day
+                                                                         Data - Information that we collect
+       Wrap Up
+                                                                         about the world
+                                                                         Machine Learning - How computers
+                                                                         recognize patterns and make
+                                                                         decisions without being explicitly
+                                                                         programmed
+                                                                           Predict - To make a guess based on
+                                                                           patterns in the data
+                                                                           Training - Teaching a computer to do
+                                                                           tasks by showing it many examples
+                                                                           Training data - Information that has
+                                                                           been sorted, then given to a
+                                                                           computer so it can make predictions
+
+
+
+Teaching Guide
+
+
+Warm Up (10 minutes)
+
+Vocabulary
+
+ Display: Show “New Vocabulary” slide
+
+Say:
+
+    Machine Learning - How computers recognize patterns and make decisions
+    Artificial Intelligence - A way for computers to make decisions by themselves
+    Accurate - Another way to say “correct”
+    Bias - Favoring some things but not others, which can lead to an unfair decision
+
+
+
+Lesson Objectives
+
+ Display: Show “Lesson Objectives” slide
+
+Say: By the end of this lesson, you will be able to:
+
+    Explain the difference between a random prediction and an AI prediction
+    Train a machine learning algorithm on chosen features
+    Explain how training a model can look different based on someone’s opinion
+
+
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Say: How do computers become more accurate at making predictions?
+
+
+Warm Up
+
+ Display: Show “Warm Up” slide
+
+Do This: Generate a selection of random books using the Random Books Generator site. Show students the 6
+books that were generated, and explain that these recommendations are randomly selected from an existing list of
+books. Then, search for a student’s favorite book on Amazon and scroll down to look at Items to "Explore." For
+example, check out "More items" to explore on this search for Diary of a Wimpy Kid. If students aren’t familiar with
+Amazon, ask them what types of videos are recommended for them when they finish watching a video on YouTube.
+
+Discuss:
+    How did each site decide which books to feature?
+    Which set of books are you more likely to read?
+    How do you think these book recommendations might be different from ones given to your friend, parent,
+    teacher, or librarian?
+
+Discussion Goal: Students should be able to explain that the Random Book Generator site generates books
+randomly from an unsorted/untagged list of books. If you were to keep clicking “Generate,” it would pick 6 books
+randomly from the list each time.
+
+Context: Amazon collects data associated with each book. For example, it tracks what other books were bought by
+people who bought the book that the user searched for. It also uses a recommendation algorithm to look for similar
+books (author, grade level, content) to the book being searched for. Searching for Diary of a Wimpy Kid on Amazon
+results in recommendations for other books in the Wimpy Kid series.
+
+Students will likely find books in the random book generator that are not at the right reading level for them or that
+they don’t find interesting. In comparison, Amazon might recommend more familiar or relevant books. They should
+understand that if their parent/friend/teacher/librarian clicks “Generate” on the random book generator they are
+equally likely to get the same book recommendations. However, if their parent/friend/teacher/librarian were to type
+in their own favorite book into Amazon’s search, they would get more customized recommendations.
+    Teaching Tip                   
+
+ If you’re unable to access the Random Book Generator site or Amazon on your school’s WiFi network, show the
+ following slide in place of navigating to those websites.
+
+
+
+
+Main Activity (30 minutes)
+
+AI for Oceans (20 minutes)
+
+ Display: Show “Machine Learning” video
+
+Discuss: What does the speaker mean when she says computers learn through “trial and error” and “lots of
+practice”?
+
+Discussion Goal: Have students reflect on the previous lesson. Sometimes they made a guess about what box to
+put an item in and they were incorrect. They received feedback, then corrected their guess, and moved on to make
+a prediction about the next item. This is an example of “trial and error” or reinforcement learning. A machine learning
+model gets fed data, makes predictions, and then gets feedback based on how accurate those predictions were in
+order to make better predictions in the future.
+
+Discuss: How do you think this Bot is able to tell the difference between cars and bikes?
+
+Discussion Goal: Students should be able to explain that this bot was trained on many different images which were
+tagged as either a bicycle or a car. Some features that it might be looking for: 2 or 4 wheels, how much of the
+background is visible behind the image, windows or no windows, handlebars or no handlebars.
+
+
+
+        1            Machine Learning Video
+
+
+ Display: Show “Level 2” slide
+
+Do this: Transition students to their devices. Have them go to Level 2 and sort the items, training the algorithm to
+distinguish between fish and trash. Have students keep track of the counter in the top right corner to see how
+many images they have trained AI on. See if they can guess how many images AI will need in order to make
+accurate predictions.
+       2             Train AI on Fish
+
+
+    Teaching Tip                    
+
+ Depending on how ready your students are for independent online activities and how comfortable they are
+ reading the text on screen, you may want to complete this level as a class. Display this level for the whole class
+ to see. As you train AI Bot, have the whole class give a thumbs up or thumbs down to indicate whether the
+ model should recognize the item as a fish or not.
+
+
+ Display: Show “Levels 3-4” slide
+
+Have students complete Levels 3 and 4 on their own devices. Level 3 introduces the idea that “AI only learns what
+we teach it.” Students should be aware that we want to train our model to recognize all creatures that belong in the
+water. In Level 4, students will retrain the model to recognize fish, otters, dolphins, and other sea creatures.
+
+
+
+      3-4            Train AI on Sea Creatures
+
+
+                        3      4
+
+
+ Display: Show “Level 5” slide
+
+Have students complete Level 5 by choosing a word to teach A.I. Group students by the word they chose and have
+them compare their results. Students should start to notice that even though they chose the same word as a
+classmate, they may have labeled the fish training data differently and, as a result, their AI made different
+predictions about which fish to include.
+
+
+
+       5             Teach AI a New Word
+
+
+
+Turn and Talk (5 minutes)
+
+ Display: Show “Turn and Talk” slide
+
+Discuss:
+
+    Why might your AI predictions look different from your classmate’s AI predictions even though you trained AI
+    on the same word?
+    What features were most important to you when you were labeling fish?
+
+Discussion Goal: Students should be able to explain that their training dataset reflects their own opinions. Students
+might have different opinions about which fish looks “Fast” or “Happy” because these words are subjective,
+meaning they could be different for each person. Additionally, students might have chosen to look at certain
+features of a fish and not others, such as if it was showing its teeth or if its eyebrows were raised. AI makes
+predictions based on its training data, so students with different training datasets will likely notice different AI
+predictions.
+
+
+Reflect (5 minutes)
+
+ Display: Show “Reflect” slide
+
+Discuss:
+    What would happen if all the fish labeled 'Angry' were blue and all the fish labeled 'Awesome' were red?
+    What issues might that cause in the long run?
+
+Discussion Goal: If students were to label only blue fish as “angry” and only red fish as “awesome”, the computer
+would learn that biased pattern and might start labeling all blue fish as “angry” or all the red fish as “awesome” even
+when they're not. These inaccurate and unfair predictions, also called bias, could cause issues in the future if the
+computer learns something untrue about a particular type of fish. We can help solve this problem, by giving the
+computer training data collected from a variety of sources and making sure the data represents all types of fish.
+
+
+
+Wrap Up (5 minutes)
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Discuss: How do computers become more accurate at making predictions?
+
+Discussion Goal: Students should understand that the more data they give AI, the more accurate its predictions
+are: They should understand that tagging data can be subjective. For example, students might have different
+opinions about which fish look “silly”. Getting data from all the students in the class helps eliminate bias when using
+training data that might be based on opinions. Students should consider multiple scenarios and not make any
+assumptions about what AI knows. For example, AI doesn’t know that otters and dolphins belong in the ocean if it
+was only trained on fish. Students will get more practice doing this in the Wrap Up question.
+
+
+Wrap Up
+
+ Display: Show “Wrap Up” slide
+
+Pretend your school is using Attendance Bot, an AI device that scans the classroom and checks if a student is
+present or absent.
+
+If a student is sitting in their seat at 9:00 am, they are marked Present. Otherwise, they are marked Absent and their
+teacher, principal, and parent is notified.
+
+    What are the pros and cons of using Attendance Bot?
+    What could cause Attendance Bot to mark a Present student as Absent?
+    What should the makers of Attendance Bot consider when training their AI?
+
+Discussion Goal: Have students consider that this AI device may not always be more accurate than a teacher
+taking attendance because it can only see the class at one specific moment in time (con). On the flip side, it might
+make a teacher’s life easier because it automates a task that a teacher would have to do by hand (pro). Students
+might also consider how the AI tool can’t ask questions or see nuanced scenarios, such as a student who is present
+but not in their seat. Have students consider examples of when Attendance Bot might be wrong where a human
+would not be.
+
+Examples of when Attendance Bot might mark a present student as absent:
+
+    If the student is present but somewhere else in the classroom, e.g. at the teacher’s desk, passing out papers, in
+    another seat
+    If the student is kneeling in their chair or bending down to pick something off the floor
+    If a student is in the bathroom
+    If the student is in a wheelchair or uses a mobility device that prevents them from being able to sit in the
+    school chair
+
+The makers of Attendance Bot should consider the different scenarios above when training their AI. They might
+also want to have the Bot take attendance throughout the day to make sure that it is more accurate.
+                     This work is available under a Creative Commons License (CC BY-NC-SA 4.0).
+
+If you are interested in licensing Code.org materials for commercial purposes contact us.
+Lesson 3: Using AI Bot
+45 minutes
+
+
+Overview                                                             Objectives
+In this lesson, students will begin thinking about how to classify   Students will be able to:
+real world objects by their features. They will build out two
+feature vectors (foods and emojis) in order to learn how AI              Build out your own feature vector
+makes decisions based on the probability of an outcome.                  Experience how AI can make tasks
+Students will use “Dance Party: AI Edition” to see first-hand            more efficient
+how AI can make tasks more efficient, but that it might come at          Explain why AI may choose a different
+the cost of customization. Students will consider what it means          outcome than you
+to collaborate and co-create with AI.
+
+                                                                     Preparation
+Standards                       Full Course Alignment
+                                                                         Play through the levels on your own
+AI4K12 National Guidelines 2021
+       BI-3 - Computers can learn from data
+                                                                     Links
+AI4K12 National Guidelines 2023
+       BI-2 - Agents maintain representations of the world and        Heads Up! Please make a copy of any
+     use them for reasoning                                           documents you plan to share with
+                                                                      students.
+       BI-5 - AI can impact society in both positive and
+     negative ways
+                                                                     For the teachers
+
+                                                                         How AI Makes Predictions - Slides
+Agenda                                                                   (Download)  Make a Copy
+
+    Warm Up (10 minutes)
+                                                                     Vocabulary
+       Vocabulary
+       Lesson Objectives                                                 Artificial Intelligence (A.I.) - A way for
+       Question of the Day                                               computers to make decisions by
+       Warm Up                                                           themselves
+                                                                         Bias - Favoring some things but not
+    Main Activity (30 minutes)
+                                                                         others, which can lead to an unfair
+       Introduction to AI Dance Party
+                                                                         decision
+       Food Feature Vector
+                                                                         Data - Information that we collect
+       Independent Work Time
+                                                                         about the world
+       AI Dance Party
+                                                                         Feature Vector - Assigning a number
+       Reflect
+                                                                         value to certain features of an object
+       [Optional] Additional Context Slides
+                                                                         so that a machine can find patterns
+    Wrap Up (5 minutes)                                                  between multiple objects in the data
+       Question of the Day
+       Wrap Up
+Teaching Guide
+
+Warm Up (10 minutes)
+
+Vocabulary
+
+ Display: Show “New Vocabulary” slide
+
+Say:
+
+    Feature Vector - Assigning a number value to certain features of an object so that a machine can find patterns
+    between multiple objects in the data
+
+
+
+Lesson Objectives
+
+ Display: Show “Lesson Objectives” slide
+
+Say: By the end of this lesson, you will be able to:
+
+    Build out your own feature vector
+    Experience how AI can make tasks more efficient
+    Explain why AI may make different predictions when asked the same question
+
+
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Say: Why might AI give different answers to the same question? For example, I asked AI what colors are in a sunset.
+It told me, “Orange and red”. When my classmate asked the AI, it said, “Purple and pink.”
+
+
+Warm Up
+
+ Display: Show “Warm Up” slide
+
+Do This: Read the slide aloud.
+
+ Display: Show “Preparing the data for AI” slide
+
+Do This: Help students look at each animal’s number line. Ask if they can figure out how many employees were
+surveyed. Point out that each animal was rated by each employee on a scale from 1-10 in terms of how cute it is and
+its size.
+
+ Display: Show “How do computers learn?” slide
+
+Do This: Click through the diagram, step-by-step, reading each step aloud to students.
+
+ Display: Show “A.I.’s Training Data” slide
+
+Say: Where each animal has been placed on the graph represents the average, or “middle”, of all pet shop
+employees' opinions of that animal. We can see that all the pet store employees agreed that lizards and rats are
+small and horses are big. Most employees thought that puppies and rats were cute.
+
+Discuss: Why did AI pet picker choose a rat What else might AI pet picker choose if you asked for a house pet
+again?
+
+Discussion Goal: AI pet picker chose a rat because it is in the “house pet” section of the chart along with the other
+“small” and “cute” animals. If asked again, AI pet picker might respond with “puppy” or even “lizard”.
+ Display: Show “[Optional] Extension: Class Results for favorite pet” slide
+
+    Teaching Tip                  
+
+ This slide can be used to reinforce the idea of how AI makes predictions using probabilities. For a given prompt,
+ AI might have several options to select from. It will usually choose the most popular option (the option with the
+ highest probability) but can occasionally choose options with lower probabilities.
+
+
+
+
+Main Activity (30 minutes)
+
+Introduction to AI Dance Party (3 minutes)
+
+ Display: Show “Dance Party: AI Edition - How AI Works” video
+
+Discuss: What information was this AI Bot trained on?
+
+Discussion Goal: AI is learning to recognize different emojis and associate words with them. It’s using information
+taken from the internet to determine what words fit with each emoji.
+
+Discuss: What 3 emojis did the user choose?
+
+Discussion Goal: This is a check for understanding to make sure students understand how they will select 3
+different emojis for AI Bot.
+
+ Display: Show “How does AI make associations?” slide
+
+Say: AI only knows the information that we give it. Before we use AI Bot in Dance Party, let’s teach AI by making
+some associations of our own:
+
+   . First you’ll make a feature vector of food by its sweetness and how much you like to eat it
+   . Then you’ll make a feature vector of emojis by how colorful and happy they are.
+
+
+
+Food Feature Vector (5 minutes)
+
+ Display: Show “Level 1: Food Feature Vector” slide
+
+Do this: Do This: Transition students to their devices. Have them go to Level 1. Tell students to click the orange Run
+button under the playspace and choose a food item at the top of the screen. Have students store each food item in
+their feature vector by clicking and dragging it into the box.
+
+First, have students move the item along the horizontal “Sweetness” axis, from Not Sweet to Really Sweet. Then,
+have students move the item up the vertical “Like to eat” axis depending on how much they like the food, from Not
+for me! To Love it!
+
+
+
+        1            Food Feature Vector
+
+
+    Teaching Tip                  
+
+ Depending on how ready your students are for plotting items on a feature vector, you may want to complete
+ this level as a class first. Display this level for the whole class to see. If students disagree with where you’ve
+ placed an item, remind them that this level is based on individual opinion and they should reflect their own
+ opinions in their answers.
+Independent Work Time (10 minutes)
+
+ Display: Show “Level 2” slide
+
+Do this: Have students complete Levels 2-5 independently. In Level 5, students have the option to re-watch the
+“Dance Party: AI Edition - How AI Works” video on their own.
+
+
+
+        2            Check For Understanding: Food
+
+
+
+
+        3            Emoji Feature Vector
+
+
+
+
+        4            Check For Understanding: Emojis
+
+
+
+AI Dance Party (10 minutes)
+
+ Display: Show “Picking a Dance Party Stage” slide
+
+Do This: Read the slide aloud for students. This slide is designed to set up how AI can help us be more efficient with
+our tasks.
+
+ Display: Show “AI is here to help!” slide
+
+Say: In Level 6, you will use a block to make AI Bot generate foreground and background effects for your dance.
+You choose 3 emojis and AI Bot will choose the effects that best match those emojis.
+
+ Display: Show “How does AI choose effects?” slides
+
+Do This: Read the slides aloud. Have students choose the three palettes that they believe best represent the smiley
+face emoji or the words “happy”, “sunny”, and “bright”. Then compare their choices to AI’s choices on the next slide.
+
+
+
+        5            Video: How AI Works
+
+
+Do This: This is the same video that shows up in the slides at the beginning of the Main Activity. If you haven’t
+already, play the video for students or give students the option to watch it on their own.
+
+ Display: Show “Level 6: Coding with AI” slide
+
+Do This: Open Level 6 on your screen and display it to the whole class. Model how the AI block works: Choose one
+of the songs from the level and click Play. Survey students to see what emojis they would choose based on the
+song. Point out how choosing an emoji to match the mood of the song is subjective and students can have
+different answers. Based on which 3 emojis are chosen, AI Bot might recommend different background effects for
+the same song.
+
+Click “Generate” and see what effects get chosen. Explain that if students don’t like the effects, they can
+Regenerate effects using the same 3 emojis, Use the code and update the dropdown fields themselves, or Start
+over with 3 new emojis.
+
+
+
+        6            Coding with AI
+Reflect (2 minutes)
+
+ Display: Show “Do you prefer selecting the effects or having AI select the effects for your dancer’s stage?
+Why?” slide
+
+Discussion Goal: Have students reflect on the pros and cons of each option. By selecting the effects themselves,
+they can create any combination they want but it’s often tedious to click each option from the dropdown menu.
+Having AI select the effects based on 3 emojis is easier, but may not yield the exact results that students want.
+One potential solution is for students to work with AI by having it create a first draft and having students edit the
+results. In this case, students can have AI generate the effects and then they can click “Use code” and make any
+adjustments.
+
+
+[Optional] Additional Context Slides
+
+ Display: Show “Additional Context” slides These slides are optional. They provide a more detailed explanation of
+how AI Bot makes its decisions. You may want to encourage students to click on the bar graph to see how AI Bot
+chose effects based on their emoji selection.
+
+
+
+Wrap Up (5 minutes)
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Discuss: Why might AI give different answers to the same question?
+
+For example, I asked AI what colors are in a sunset. It told me, “Orange and red”. When my classmate asked the AI
+it said, “Purple and pink”.
+
+Discussion Goal: Make sure students understand that AI is trained on billions of data points representing many
+different opinions. Since not everyone agrees on for example, what colors are in a sunset, AI will make a prediction
+based on the probabilities of different responses. If most people say that a sunset contains the colors orange and
+red, then AI will usually say “orange and red”. But since sometimes people see purple and pink in a sunset, AI will
+occasionally say “purple and pink.” Just as asking different people what colors are present in a sunset will yield
+different answers, asking AI the same question may result in different responses.
+
+Have students reflect on the Warm Up activity in which AI Pet Picker chose a rat, when we were expecting it to
+choose a puppy. Point out how each Pet Shop employee had different opinions about how cute each animal is and
+how big it is. Sometimes conflicting opinions in the training data can lead to conflicting AI predictions. If AI Pet
+Picker was trained on the opinions of everyone in the world, it might not pick the pet that you or I had in mind, but it
+would certainly reflect someone’s opinion from the training data.
+
+Additionally, you can point out that there can be small and large effects of AI making a different or even incorrect
+prediction. In the previous lesson, if AI couldn’t correctly predict that a starfish belonged in the ocean, it would
+assume that it was trash which needed to be removed. In the real world, this could cause large negative
+environmental impacts.
+
+
+Wrap Up
+
+ Display: Show “Wrap Up” slide
+
+Discuss: Choose one of the following jobs: Veterinarian, Teacher, Bus Driver, Artist.
+
+Now, imagine if the person doing this job were replaced by an AI robot.
+
+    Would you want AI to replace a human in this job? Why or why not?
+    What would happen if this AI got something wrong?
+
+Discussion Goal: Students should be able to give examples of what might happen if this AI got something wrong:
+misdiagnosis, misinformation, taking a wrong turn, etc. The takeaway here should be that AI can help us automate
+tasks so we can do them faster, e.g. pick out background effects, but AI needs oversight. There should be a
+partnership between humans and AI so that we are not entrusting AI to make the final decision or to operate
+unchecked.
+
+
+
+                     This work is available under a Creative Commons License (CC BY-NC-SA 4.0).
+
+If you are interested in licensing Code.org materials for commercial purposes contact us.
+Lesson 4: AI Tools in School
+45 minutes
+
+
+Overview                                                           Objectives
+In this lesson, students will evaluate sample student data. They   Students will be able to:
+will choose a hypothetical AI tool and consider what training
+data the tool will need to successfully make a decision. Then,         Consider the pros and cons of
+students will write a letter to the school principal explaining        hypothetical (made up) AI tools
+their opinion on using AI tools. At the end of the lesson,             Look at a student data and notice
+students will reflect on what they have learned about AI over          patterns
+the course of the 4 lessons.                                           Write a letter to your school principal
+Students will understand that a predictive AI model is only as         explaining why or why not the school
+good as the information it was trained on. Therefore it is             should use AI tools to make decisions
+important to train the model on a large amount of data that is
+relevant to the task at hand. Also, students should recognize
+that there needs to be human oversight when it comes to            Preparation
+working with AI to ensure that any mistakes made by AI get
+                                                                       Decide in advance if you want
+corrected.
+                                                                       students to do the Warm Up and Main
+                                                                       Activity on their devices or as an
+                                                                       unplugged activity
+Standards                      Full Course Alignment
+                                                                       If Unplugged, print out the Student
+AI4K12 National Guidelines 2021                                        Survey and Activity Guide in
+       BI-3 - Computers can learn from data                            advance. Make sure students have a
+                                                                       way to access the Student Data
+AI4K12 National Guidelines 2023                                        resource.
+       BI-5 - AI can impact society in both positive and               If using devices, make sure you are
+    negative ways                                                      able to access Student Survey results
+                                                                       in your Teacher Dashboard.
+
+Agenda
+                                                                   Links
+    Warm Up (10 minutes)
+       Vocabulary
+                                                                    Heads Up! Please make a copy of any
+       Lesson Objectives
+                                                                    documents you plan to share with
+       Question of the Day
+                                                                    students.
+       Warm Up
+
+    Main Activity (30 minutes)                                     For the teachers
+       How Do Computers Learn
+                                                                       How AI Makes Predictions - Slides
+       Using AI Tools In School
+                                                                       (Download)  Make a Copy
+    Wrap Up (5 minutes)                                                [KEY] Using AI Tools in School -
+       Question of the Day                                             Answer Key (Download)
+       Wrap Up                                                           Make a Copy
+
+                                                                   For the students
+
+                                                                       Student Data - Resource (Download)
+                                                                          Using AI Tools in School - Activity
+                                                                          Guide (Download)  Make a Copy
+                                                                          [Optional] Student Survey Activity -
+                                                                          Activity Guide (Download)
+                                                                             Make a Copy
+
+                                                                      Vocabulary
+                                                                          Artificial Intelligence (A.I.) - A way for
+                                                                          computers to make decisions by
+                                                                          themselves
+                                                                          Data - Information that we collect
+                                                                          about the world
+                                                                          Training - Teaching a computer to do
+                                                                          tasks by showing it many examples
+                                                                          Training data - Information that has
+                                                                          been sorted, then given to a
+                                                                          computer so it can make predictions
+
+
+
+
+Teaching Guide
+
+Warm Up (10 minutes)
+
+Vocabulary
+
+ Display: Show “Vocabulary” slide
+
+Say:
+
+    Artificial Intelligence - A way for computers to make decisions by themselves
+    Data - Information that we collect about the world.
+    Training - Teaching a computer to do tasks by showing it many examples.
+    Training data - Information that has been sorted, then given to a computer so it can make predictions
+
+
+
+Lesson Objectives
+
+ Display: Show “Lesson Objectives” slide
+
+Say: By the end of this lesson, you will be able to:
+
+    Read a sample student dataset and notice patterns
+    Explain what data makes sense to give an AI tool that is making a decision in school
+
+
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Say: How can you prevent bias in your training data?
+Warm Up (10 minutes)
+
+ Display: Show “Warm Up” slide
+
+    Teaching Tip                  
+
+ The following slides present two options for completing this warm up. You can either have students answer the
+ questions independently in Level 1 (Online Version) or survey each other in person and collect the data on
+ paper (Paper Version). For both options, you have the choice to use sample student data if you don’t have
+ enough time for students to provide or collect data on their own.
+
+
+Say: We’re going to collect some data of our own. In a minute, you will go to Level 1 and answer the four multiple
+choice questions about your favorite ice cream flavor, pizza topping, game, and color. If your favorite answer
+doesn’t appear, choose E. Something Else. Then we’ll look at the class data altogether.
+
+Discuss: Project your class responses on the board. Ask students to look at the data and answer the following four
+questions:
+
+   . What does each row represent?
+   . What information is captured in each column?
+   . What decisions could you make using this dataset?
+   . Would you be able to make a decision for the whole school using just this data?
+
+Discussion Goal: Students should understand that each row represents the results of one survey question. Each
+column represents how many students chose that response (represented as a percentage of the entire class).
+Some decisions that could be made based on this dataset: what flavors of ice cream or pizza to buy for a class
+party, whether recess should be inside or outside, what colors to use for classroom decorations or class folders.
+This data shouldn’t be used to make a decision on behalf of the entire school because it’s biased towards the
+opinions of one classroom. Students should keep in mind any bias that could result from a dataset having limited or
+subjective data.
+
+
+
+Main Activity (30 minutes)
+
+How Do Computers Learn (3 minutes)
+
+ Display: Show “How do computers learn?” slide
+
+Do This: Click through the diagram, step-by-step, reading each step aloud to students.
+
+Say: Today you are going to act as the human training the computer. It is up to you to decide what information to
+give the computer (and what information to leave out) so that it can make the best predictions possible.
+
+
+               ●
+               ✓
+        1            Student Survey
+
+
+
+Using AI Tools In School (27 minutes)
+
+ Display: Show “Using AI Tools in School” slide
+
+
+
+        2            Using AI Tools in School (Online Version)
+    Teaching Tip                   
+
+ The following slides present two options for completing this student activity. You can either have students
+ answer the questions independently in Level 2 (Online Version) or go to the next slide Using AI Tools in School
+ handout (Paper Version).
+
+
+Say: Now it's your turn to investigate ways AI can help us in the real world. You’ll look at a few examples of AI tools
+that can be used in school and decide which one you want to use.
+
+Once you’ve picked your AI tool, you’re going to look at some student data. You’ll think about what data will be
+most important to give to AI, what data you don’t have that you would add to the dataset, and what data you would
+remove from the dataset.
+
+Do This: Direct students to get started on Level 2.
+
+    Teaching Tip                   
+
+ You can preview the link for students here and point out the different rows and columns. The dataset can also
+ be found on the last page of the Using AI Tools in School paper handout.
+
+
+
+
+Wrap Up (5 minutes)
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Discuss: How can you prevent bias in your training data?
+
+Discussion Goal: Students should understand that training data can be subjective, for example what an “angry” fish
+looks like or someone’s favorite ice cream flavor. It is important to consider what data should and should not be
+collected. When having AI decide where to seat people in the cafeteria, including what languages they speak is
+very helpful. On the flip side, certain data which may seem irrelevant, such as the number of detentions a student
+received, and could even lead AI to make a biased decision. If this is the case, this data should likely be left out of
+the training dataset and/or AI’s predictions should be evaluated by a human.
+
+
+Wrap Up (5 minutes)
+
+ Display: Show “Wrap Up” slide
+
+Discuss: AI Activity Picker recommends activities for kids but it keeps recommending only beach activities and
+other outdoor activities.
+
+    Why is that a problem?
+    What data can we collect to solve the problem?
+
+Discussion Goal: Students should understand that this AI shows a bias towards beach and outdoor activities due to
+the data it was provided. It is a problem because kids might be looking for indoor activities and / or not live near the
+beach. In order to make this AI tool useful for all kids, we should train it on more data that includes indoor activities
+and activities that aren’t location-specific.
+
+
+
+                      This work is available under a Creative Commons License (CC BY-NC-SA 4.0).
+
+If you are interested in licensing Code.org materials for commercial purposes contact us.
+Lesson 5: Share Your Voice
+45 minutes
+
+
+Overview                                                            Objectives
+In this lesson, students will create an artifact explaining their   Students will be able to:
+opinion on using AI tools. They have the option to write a letter
+to the principal, make a speech or song, make a poster, create a        Consider the pros and cons of AI
+Sprite Lab project, or code a poem to share their opinion. At the       tools
+end of the lesson, students will reflect on what they have              Explain their opinion on AI tools to
+learned about AI over the course of the module.                         their classmates and teachers
+
+
+
+Standards                      Full Course Alignment                Preparation
+                                                                        Survey the different level types in the
+AI4K12 National Guidelines 2021
+                                                                        choice level to differentiate options
+       BI-3 - Computers can learn from data
+                                                                        for students
+AI4K12 National Guidelines 2023                                         Prepare any materials students will
+       BI-5 - AI can impact society in both positive and                need to write a letter, design a poster,
+    negative ways                                                       or complete their projects
+
+
+
+Agenda                                                              Links
+    Warm Up (10 minutes)                                             Heads Up! Please make a copy of any
+       Vocabulary                                                    documents you plan to share with
+       Lesson Objectives                                             students.
+       Question of the Day
+       Warm Up                                                      For the teachers
+
+    Main Activity (30 minutes)                                          How AI Makes Predictions - Slides
+       Share Your Voice                                                 (Download)  Make a Copy
+
+    Wrap Up (5 minutes)                                             For the students
+       Reflection
+                                                                        Share Your Voice - AI Poster -
+       Question of the Day
+                                                                        Handout (Download)
+       Wrap Up
+                                                                          Make a Copy
+
+
+                                                                    Vocabulary
+                                                                        Artificial Intelligence (A.I.) - A way for
+                                                                        computers to make decisions by
+                                                                        themselves
+                                                                        Bias - Favoring some things but not
+                                                                        others, which can lead to an unfair
+                                                                        decision
+                                                                           Data - Information that we collect
+                                                                           about the world
+                                                                           Training - Teaching a computer to do
+                                                                           tasks by showing it many examples
+
+
+
+Teaching Guide
+
+Warm Up (10 minutes)
+
+Vocabulary
+
+ Display: Show “Vocabulary” slide
+
+Say:
+
+    Artificial Intelligence - A way for computers to make decisions by themselves
+    Data - Information that we collect about the world.
+    Training - Teaching a computer to do tasks by showing it many examples.
+    Bias - When a decision favors some things and not others
+
+
+
+Lesson Objectives
+
+ Display: Show “Lesson Objectives” slide
+
+Say: By the end of this lesson, you will be able to:
+
+    Consider the pros and cons of AI tools
+    Explain your opinion on AI tools to your classmates and teachers
+
+
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Say: How do we decide if a task should use AI or not?
+
+
+Warm Up
+
+ Display: Show “Warm Up” slide
+
+Discuss: Consider one of the AI tools from the last lesson that chose:
+
+    Seats in the cafeteria
+    Teams for gym class
+    Student of the Month
+
+What are the pros and cons of using AI tools to make these decisions, instead of letting a human decide?
+
+Discussion Goal: Have students think about the different AI tools from the previous lesson. While using AI could
+save time, it may lead to outcomes that are undesirable, such as placing students who don’t get along next to each
+other in the cafeteria. Also, AI might make decisions that a human wouldn’t make. Depending on the situation this
+may or may not be a positive outcome.
+Main Activity (30 minutes)
+
+Share Your Voice (30 minutes)
+
+ Display: Show “Level 1: Share Your Voice” slide
+
+Say: Today, you'll get a chance to share your opinion on AI by writing a letter to your principal, creating a poster, or
+expressing yourself in another way. You’ll share whether or not you think AI tools should be used to help make a
+decision in school. Take a minute to decide which of these options you would like to choose.
+
+The number of chili peppers next to the option shows how difficult it is. So make sure you choose an option that
+you’ll be able to finish in class today. When you’re ready, go to Level 1 and get started.
+
+Do This: Have students choose from one of the following options:
+
+    Write a letter to the principal
+    Make a speech, song, or rap
+    Design a poster
+    Create a project in Sprite Lab
+    Code a poem
+
+
+
+        1            Choice Level: Share Your Voice
+
+
+
+
+Wrap Up (5 minutes)
+
+Reflection
+
+ Display: Show “Reflection” slide
+
+
+Question of the Day
+
+ Display: Show “Question of the Day” slide
+
+Discuss: How do we decide if a task should use AI or not?
+
+Discussion Goal: Have students think about the different examples that they learned about in the previous lessons:
+BakeryScan and machine learning sorting algorithms, Amazon’s recommendation algorithm, AI for Oceans, AI Bot to
+pick background effects, and hypothetical scenarios involving AI tools. They should understand that there are pros
+and cons to using AI tools and the decision is not “one size fits all”. Even in scenarios where they determine it
+makes sense to use AI, there should still be human involvement in making sure the outcome is fair and correct.
+
+
+Wrap Up
+
+ Display: Show “Glows, Grows, Want-to-Knows” slide
+
+Discuss: Have students discuss their letters, posters, and songs they made today and have them reflect on
+something they learned about AI in the previous lessons.
+
+Discussion Goal: Students should share what they have learned and any questions they still have about AI. This is
+an ongoing opportunity for students to continue learning and developing opinions about AI. Encourage students to
+keep coming up with questions they have about how AI works and where it shows up around them.
+                     This work is available under a Creative Commons License (CC BY-NC-SA 4.0).
+
+If you are interested in licensing Code.org materials for commercial purposes contact us.
+
