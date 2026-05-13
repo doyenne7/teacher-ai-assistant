@@ -2386,17 +2386,20 @@ async function showPreflight(lessonId) {
 }
 
 async function handlePreflightFollowUp(lessonId, label) {
-  // Map common follow-ups
+  const lessonLabel = tc().lessonChips.find(l => l.id === Number(lessonId))?.label || `Lesson ${lessonId}`;
+  const returnToPreflight = () => showPreflight(lessonId);
+
   if (label.toLowerCase().includes("vocab") || label.includes("शब्दावली")) {
     return showLessonVocab(lessonId);
   }
   if (label.toLowerCase().includes("question") || label.includes("preguntas") || label.includes("प्रश्न") || label.includes("question")) {
-    return flowInMomentForLesson(lessonId);
+    await botSay(`<p>Common student questions for <strong>${lessonLabel}</strong> — tap one for a scripted response:</p>`, 400);
+    return flowInMomentForLesson(lessonId, returnToPreflight);
   }
   if (label.toLowerCase().includes("misconception") || label.includes("error") || label.includes("गलतफहमी")) {
-    return showMisconceptions(lessonId);
+    return showMisconceptions(lessonId, returnToPreflight);
   }
-  // Generic fallback — bot acknowledges
+  // Generic fallback
   await botSay(`<p>${t().helpers.noMatch}</p>`, 500);
   showHomeMenu();
 }
@@ -2433,8 +2436,8 @@ async function flowInMoment() {
   })));
 }
 
-async function flowInMomentForLesson(lessonId) {
-  STATE.context = { intent: "inmoment", lessonId };
+async function flowInMomentForLesson(lessonId, returnTo = null) {
+  STATE.context = { intent: "inmoment", lessonId, returnTo };
   const qs = tc().studentQs[lessonId];
   const lessonLabel = tc().lessonChips.find(l => l.id === Number(lessonId)).label;
   const intros = {
@@ -2442,21 +2445,23 @@ async function flowInMomentForLesson(lessonId) {
     es: `¿Qué te preguntó el estudiante? Las comunes para <strong>${lessonLabel}</strong>:`,
     hi: `छात्र ने क्या पूछा? <strong>${lessonLabel}</strong> के आम प्रश्न:`
   };
-  await botSay(`<p>${intros[STATE.lang]}</p>`, 600);
+  if (!returnTo) await botSay(`<p>${intros[STATE.lang]}</p>`, 600);
+  const backRow = returnTo
+    ? [{ label: "← Back to lesson prep", action: returnTo }, { label: "← Main menu", action: returnHome, secondary: true }]
+    : backChips("lesson list", flowInMoment);
   setQuickReplies([
-    ...qs.map((q, idx) => ({ label: q.q, action: () => showStudentAnswer(lessonId, idx) })),
-    ...backChips("lesson list", flowInMoment),
+    ...qs.map((q, idx) => ({ label: q.q, action: () => showStudentAnswer(lessonId, idx, returnTo) })),
+    ...backRow,
   ]);
 }
 
-async function showStudentAnswer(lessonId, qIdx) {
+async function showStudentAnswer(lessonId, qIdx, returnTo = null) {
   const item = tc().studentQs[lessonId][qIdx];
   await botSay(item.a, 1100);
-  setQuickReplies([
-    { label: t().ui.thatHelped, action: returnHome, primary: true },
-    { label: "← More questions for this lesson", action: () => flowInMomentForLesson(lessonId) },
-    { label: "← Main menu", action: returnHome, secondary: true },
-  ]);
+  const backRow = returnTo
+    ? [{ label: "← More questions", action: () => flowInMomentForLesson(lessonId, returnTo) }, { label: "← Back to lesson prep", action: returnTo, secondary: true }]
+    : [{ label: t().ui.thatHelped, action: returnHome, primary: true }, { label: "← More questions for this lesson", action: () => flowInMomentForLesson(lessonId) }, { label: "← Main menu", action: returnHome, secondary: true }];
+  setQuickReplies(backRow);
 }
 
 /* ---------- CONCEPT REFRESHER ---------- */
@@ -2512,9 +2517,12 @@ async function flowMisconception() {
   })));
 }
 
-async function showMisconceptions(lessonId) {
+async function showMisconceptions(lessonId, returnTo = null) {
   const items = tc().misconceptions[lessonId];
-  const intro = STATE.lang === "es" ? `Errores comunes en la Lección ${lessonId}:` : STATE.lang === "hi" ? `पाठ ${lessonId} में आम गलतफहमियाँ:` : `Common misconceptions in Lesson ${lessonId}:`;
+  const lessonLabel = tc().lessonChips.find(l => l.id === Number(lessonId))?.label || `Lesson ${lessonId}`;
+  const intro = returnTo
+    ? `Misconceptions for <strong>${lessonLabel}</strong>:`
+    : STATE.lang === "es" ? `Errores comunes en la Lección ${lessonId}:` : STATE.lang === "hi" ? `पाठ ${lessonId} में आम गलतफहमियाँ:` : `Common misconceptions in Lesson ${lessonId}:`;
   await botSay(`<p>${intro}</p>`, 500);
   for (const m of items) {
     const html = `
@@ -2526,9 +2534,10 @@ async function showMisconceptions(lessonId) {
       <div class="quote">${m.fix}</div>`;
     await botSay(html, 1100);
   }
-  setQuickReplies([
-    ...backChips("lesson list", flowMisconception),
-  ]);
+  const backRow = returnTo
+    ? [{ label: "← Back to lesson prep", action: returnTo }, { label: "← Main menu", action: returnHome, secondary: true }]
+    : backChips("lesson list", flowMisconception);
+  setQuickReplies(backRow);
 }
 
 /* ---------- REFLECTION ---------- */
