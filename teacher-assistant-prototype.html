@@ -3513,682 +3513,1438 @@ const HAW_CONTENT = {
 };
 
 /* FOUNDATIONS OF GENERATIVE AI — course content (EN + ES + HI) */
+/* FOUNDATIONS OF GENERATIVE AI — course content EN/ES/HI */
 const FGAI_CONTENT = {
-en: {
-  greetings: {
-    first: [
-      "Hi! I'm your teaching assistant for <strong>Foundations of Generative AI</strong> — 11 lessons for high school. 👋",
-      "I'm here before class, mid-lesson, or after. What do you need right now?"
+  en: {
+    name: "Foundations of Generative AI",
+    tagline: "Grades 9–12 • 11 Lessons",
+    greetings: {
+      first: [
+        "Welcome to your <strong>Foundations of Generative AI</strong> teaching assistant.",
+        "I'm here to help you prep lessons, explain concepts, handle student questions, and reflect after class."
+      ],
+      returning: ["Welcome back! Ready to continue from {lastLesson}?"]
+    },
+    intents: [
+      { id: "preflight", label: "🛫 Pre-flight check", desc: "Prep for tomorrow's lesson" },
+      { id: "inmoment", label: "🙋 Student just asked me…", desc: "Mid-class help" },
+      { id: "concept", label: "💡 Explain a concept", desc: "Vocab & ideas, student-friendly" },
+      { id: "misconception", label: "⚠️ Common misconceptions", desc: "What students get wrong" },
+      { id: "reflect", label: "📝 Reflect on a lesson", desc: "After class" }
     ],
-    returning: ["Welcome back! 👋 Last time you taught <strong>{lastLesson}</strong>. How can I help today?"],
+    pickLessonPrompt: "Which lesson?",
+    lessonChips: [
+      { id: 1, label: "L1 · Intro to Generative AI" },
+      { id: 2, label: "L2 · Input & Training Data" },
+      { id: 3, label: "L3 · Bias in the Machine" },
+      { id: 4, label: "L4 · Understanding Embeddings" },
+      { id: 5, label: "L5 · Embeddings: How Created" },
+      { id: 6, label: "L6 · Neural Networks" },
+      { id: 7, label: "L7 · NNs: How Trained" },
+      { id: 8, label: "L8 · Attention Is All You Need" },
+      { id: 9, label: "L9 · Outputs & Probabilities" },
+      { id: 10, label: "L10 · Hallucinations" },
+      { id: 11, label: "L11 · Final Project" }
+    ],
+    preflight: {
+      1: {
+        header: "Lesson 1 · Intro to Generative AI · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> Students are introduced to generative AI through the lens of tech hype vs. reality. You'll establish the ISPO framework (Input → Storage → Processing → Output) that anchors the entire unit, and students complete a pre-survey to surface prior knowledge.</p>
+<p><strong>New vocab (3):</strong> Artificial Intelligence, Large Language Model, Model</p>
+<p><strong>Framework:</strong> Introduce ISPO (Input → Storage → Processing → Output). Students will revisit this graphic organizer every subsequent lesson — treat it as the backbone of the unit.</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Student Pre-Survey — captures prior knowledge and AI attitudes (Level 1)</li>
+  <li>Warm Up: students share a significant technological innovation; discuss hype vs. reality (Level 2)</li>
+  <li>Intro to ISPO: brief teacher-led explanation, hand out graphic organizer (Level 3)</li>
+  <li>Wrap Up: students write one sentence about what they think AI actually does (exit ticket)</li>
+</ul>
+<p><strong>Tech check:</strong> Print or digitally distribute the ISPO graphic organizer. Have the LEADERS discussion framework visible. Pre-survey must be submitted before students move to lesson 2.</p>
+<p><strong>⚡ Watch for:</strong> Students conflating all AI with ChatGPT or assuming AI is sentient. This is your first chance to broaden their mental model.</p>`,
+        followUps: [
+          "What is the ISPO framework in more detail?",
+          "How should I introduce the graphic organizer?",
+          "Common first-lesson misconceptions to address",
+          "How to facilitate the hype vs. reality discussion"
+        ]
+      },
+      2: {
+        header: "Lesson 2 · Input & Training Data · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> How language models require enormous amounts of text data to learn patterns. Students explore how words and phrases are recognized and categorized by examining their own language intuitions.</p>
+<p><strong>New vocab (2):</strong> Training Data, Input</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Warm Up: students estimate "how many words does a language model read?" — reveal the scale (Level 1)</li>
+  <li>Word Recognition activity: students sort words by category and discuss how they knew which category to use (Level 2)</li>
+  <li>Discussion: where does all this data come from? Who wrote it? (Level 3)</li>
+  <li>Wrap Up: students update the <strong>Input</strong> section of their ISPO graphic organizer (Level 4)</li>
+</ul>
+<p><strong>Tech check:</strong> No specific devices required. Index cards or sticky notes work for the word-sorting activity. Have a visual of data scale (Common Crawl) ready.</p>
+<p><strong>⚡ Watch for:</strong> Students assuming training data is curated and clean. Emphasize that most training data is raw, messy internet text — this sets up Lesson 3 on bias perfectly.</p>`,
+        followUps: [
+          "What is training data and why does scale matter?",
+          "How do I explain the difference between input and training data?",
+          "How does this lesson connect to bias in Lesson 3?",
+          "What are good discussion prompts for the data sourcing conversation?"
+        ]
+      },
+      3: {
+        header: "Lesson 3 · Bias in the Machine · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> A formal introduction to bias in AI. The RecipeBot activity is the centerpiece — students curate articles for a recipe chatbot and discover unintended biases in their choices.</p>
+<p><strong>New vocab (1):</strong> Bias</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Warm Up: "Have you ever gotten a recommendation that felt off?" (Level 1)</li>
+  <li>RecipeBot activity: students select articles for a recipe AI, then analyze whose cuisines are represented, what date ranges were chosen, what languages included (Levels 2–3)</li>
+  <li>Class debrief: where did bias enter — before the model? during? after? (Level 4)</li>
+  <li>Wrap Up: exit ticket — one example of bias students noticed in their own RecipeBot choices</li>
+</ul>
+<p><strong>Tech check:</strong> Prepare 20–30 article cards/URLs across diverse cuisines, date ranges, and languages — with intentional gaps students can discover.</p>
+<p><strong>⚡ Watch for:</strong> Students assuming bias is always intentional or malicious. Reinforce: most AI bias is unintentional, emerging from who created the data and what was available online.</p>`,
+        followUps: [
+          "How do I facilitate the RecipeBot debrief without it feeling accusatory?",
+          "What are the main types of AI bias to know?",
+          "How does bias in training data affect model outputs?",
+          "Extension: real-world examples of AI bias in deployed systems?"
+        ]
+      },
+      4: {
+        header: "Lesson 4 · Understanding Embeddings · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> Words are represented as sequences of numbers (vectors) inside a language model. "Similar" words end up numerically close. Students experience this by role-playing fictional characters represented by number sequences.</p>
+<p><strong>New vocab (2):</strong> Embedding, Storage</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Warm Up: "How would you describe the word 'cold' to a computer that only understands numbers?" (Level 1)</li>
+  <li>Number sequence activity: each student gets a character profile as a short number list — they find their "closest" classmates by comparing numbers (Level 2)</li>
+  <li>Reveal: their numbers represented personality traits; similar characters ended up close (Level 3)</li>
+  <li>Connect to AI: this is how word embeddings work (Level 4)</li>
+  <li>Wrap Up: students update the <strong>Storage</strong> section of their ISPO graphic organizer</li>
+</ul>
+<p><strong>Tech check:</strong> Prepare character cards with 4–6 number dimensions. Manhattan distance (sum of absolute differences) works without a calculator.</p>
+<p><strong>⚡ Watch for:</strong> Students thinking embeddings capture the "true meaning" of words. They capture statistical co-occurrence patterns — meaning emerges from context, which is the Lesson 5 payoff.</p>`,
+        followUps: [
+          "How do I explain vector space without linear algebra?",
+          "What is the word2vec analogy (king - man + woman = queen)?",
+          "How do embeddings connect to the Storage step of ISPO?",
+          "How should I set up the number-distance activity for 30 students?"
+        ]
+      },
+      5: {
+        header: "Lesson 5 · Embeddings: How They're Created · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> Context determines meaning. Students interpret a passage in a made-up language using context clues — then discover two groups received different contexts for the same word, arriving at opposite meanings.</p>
+<p><strong>New vocab (2):</strong> Context, Token</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Warm Up: present the word "bank" alone — how many meanings can students find? (Level 1)</li>
+  <li>Split class into two groups. Each receives a Zorbish passage. The same word "flurb" appears in both, but contexts differ → Group A infers cold; Group B infers warm (Levels 2–3)</li>
+  <li>Groups share definitions — class discovers same token can mean different things depending on training context (Level 4)</li>
+  <li>Wrap Up: journal — "What does this tell us about how AI learns the meaning of words?"</li>
+</ul>
+<p><strong>Tech check:</strong> Prepare two versions of the Zorbish passage. Keep groups separated until the reveal.</p>
+<p><strong>⚡ Watch for:</strong> Students assuming AI "decides" what words mean. Embeddings encode statistical co-occurrence patterns — no decisions, just pattern math.</p>`,
+        followUps: [
+          "How do tokens differ from words?",
+          "Why does context matter for embeddings?",
+          "How do I write a convincing fictional language passage?",
+          "How do contextual embeddings (BERT) differ from static ones (word2vec)?"
+        ]
+      },
+      6: {
+        header: "Lesson 6 · Understanding Neural Networks · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> The basic structure of a neural network — inputs, hidden layers, outputs — through a lunch recommender activity. A mad-lib shows that word order matters, motivating why networks have structure.</p>
+<p><strong>New vocab (3):</strong> Neural Network, Hidden Layer, Weights</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Mad-lib warm up: scrambled word order sentences — discuss why order matters for meaning (Level 1)</li>
+  <li>Lunch recommender: design a simple rule system based on restrictions and preferences (Level 2)</li>
+  <li>Teacher-led: introduce neural network diagram — inputs → hidden layers → output (Level 3)</li>
+  <li>Introduce weights: some rules matter more than others (Level 4)</li>
+  <li>Wrap Up: sketch your own 3-node neural network for a problem of your choice</li>
+</ul>
+<p><strong>Tech check:</strong> Prepare a visual neural network diagram (printable or projected). Lunch recommender works best as a class brainstorm before formalizing.</p>
+<p><strong>⚡ Watch for:</strong> Students thinking hidden layers are mysterious "black boxes" humans designed. Clarify: the structure is designed; the weights are learned from data.</p>`,
+        followUps: [
+          "How do I explain hidden layers to non-math students?",
+          "What are weights and why do they matter?",
+          "How does the lunch recommender connect to real neural network inputs?",
+          "What's the difference between a neural network and the human brain?"
+        ]
+      },
+      7: {
+        header: "Lesson 7 · Neural Networks: How They're Trained · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> Supervised learning — how neural networks improve through trial, error, and labeled examples. A fictional language game makes this concrete. Lesson closes with: is this "intelligence"?</p>
+<p><strong>New vocab (2):</strong> Supervised Learning, Training</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Warm Up: "How did you learn to ride a bike? Manual or practice-and-adjust?" (Level 1)</li>
+  <li>Fictional language game: teacher says Zorbish sentence; students guess meaning; teacher says correct/incorrect; students refine over multiple rounds (Levels 2–3)</li>
+  <li>Debrief: this is supervised learning — labeled examples, feedback, iteration (Level 4)</li>
+  <li>Philosophical close: "Is adjusting weights based on feedback the same as 'learning'? Is it 'intelligence'?" (Level 5)</li>
+  <li>Wrap Up: update the <strong>Processing</strong> section of ISPO graphic organizer</li>
+</ul>
+<p><strong>Tech check:</strong> Prepare 15–20 Zorbish sentences with English translations. Vary difficulty so students experience the "aha" of pattern recognition.</p>
+<p><strong>⚡ Watch for:</strong> Students equating supervised learning with human learning. Mechanisms differ fundamentally — no understanding, just optimization.</p>`,
+        followUps: [
+          "What is the difference between supervised, unsupervised, and reinforcement learning?",
+          "How does backpropagation work at a conceptual level?",
+          "How do I facilitate the 'is this intelligence?' discussion productively?",
+          "How does training connect to the ISPO Processing step?"
+        ]
+      },
+      8: {
+        header: "Lesson 8 · Attention Is All You Need · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> Ambiguous language requires context from the entire sentence to resolve. The Attention mechanism is how transformers handle this. Students write ambiguous sentences and trade with partners.</p>
+<p><strong>New vocab (2):</strong> Attention, Ambiguity</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Warm Up: brainstorm words with multiple meanings — "light," "bank," "spring," "bat." How do you know which is intended? (Level 1)</li>
+  <li>Students write a sentence using an ambiguous word, then a clarifying sentence. Trade with partner — partner identifies which meaning was intended (Level 2)</li>
+  <li>Teacher-led: introduce Attention — model learns to "look back" at other words when predicting each word (Level 3)</li>
+  <li>Attention heatmap demo: show which words the model "pays attention to" (Level 4)</li>
+  <li>Wrap Up: students explain in their own words why attention is necessary</li>
+</ul>
+<p><strong>Tech check:</strong> Attention heatmap image available in lesson materials. Pair activity works with paper.</p>
+<p><strong>⚡ Watch for:</strong> Students thinking "attention" means AI consciously focuses like a human. Attention is a mathematical weighting operation — no awareness involved.</p>`,
+        followUps: [
+          "How do I explain the attention mechanism without matrix math?",
+          "What is the difference between attention and memory?",
+          "Why was attention such a breakthrough (the 2017 Transformer paper)?",
+          "How does attention connect to ambiguity in everyday language?"
+        ]
+      },
+      9: {
+        header: "Lesson 9 · Outputs & Probabilities · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> Language models select next words by probability. The class mad-lib widget makes this visceral: students vote on word choices, class-aggregate answers drive the story, and they experience token prediction firsthand.</p>
+<p><strong>New vocab (3):</strong> Probability, Output, Token Prediction</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Warm Up: "Finish this sentence: 'The dog ran to the…'" — tally responses. The most popular is what an LLM would choose (Level 1)</li>
+  <li>Story-building: class alternates realistic and fantastical contributions, each student voting on the next word (Level 2)</li>
+  <li>Mad-lib widget: show how the aggregate of student choices mirrors LLM token selection (Level 3)</li>
+  <li>Introduce temperature: what if you weighted less-popular answers? (Level 4)</li>
+  <li>Wrap Up: update the <strong>Output</strong> section of ISPO — the organizer is now complete</li>
+</ul>
+<p><strong>Tech check:</strong> Mad-lib widget requires devices or a projected class vote. Prepare 4–5 word-choice prompts in advance.</p>
+<p><strong>⚡ Watch for:</strong> Students thinking the model "writes" the way a human writer does. It selects probable tokens. Apparent creativity is an emergent property of scale.</p>`,
+        followUps: [
+          "What is temperature in language models and how does it affect output?",
+          "How does token prediction relate to the probability distribution?",
+          "How do I explain why LLMs sometimes produce surprising outputs?",
+          "How does this lesson complete the ISPO framework?"
+        ]
+      },
+      10: {
+        header: "Lesson 10 · Hallucinations and Fabrications · 45 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> Why LLMs produce confident but inaccurate outputs. Students become AI Auditors — they evaluate real LLM outputs for accuracy and flag issues. Also discusses real recalled or retracted AI systems.</p>
+<p><strong>New vocab (3):</strong> Hallucination, Fabrication, AI Audit</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Warm Up: show a famous LLM hallucination. "What went wrong here?" (Level 1)</li>
+  <li>AI Auditor activity: small groups receive LLM-generated paragraphs on factual topics. Fact-check using reliable sources and mark errors (Levels 2–3)</li>
+  <li>Class share-out: what types of errors appeared — factual? logical? invented sources? (Level 4)</li>
+  <li>Discussion: real AI systems recalled — fabricated legal citations, medical advice errors (Level 5)</li>
+  <li>Wrap Up: "As a user, what habits should you develop when using AI-generated content?"</li>
+</ul>
+<p><strong>Tech check:</strong> Prepare 4–6 LLM-generated paragraphs with seeded hallucinations on verifiable topics. Students need internet access or printed reference sheets.</p>
+<p><strong>⚡ Watch for:</strong> Students concluding AI is "useless" or "always wrong." Balance: AI is a powerful tool that requires critical evaluation — like any information source.</p>`,
+        followUps: [
+          "Why do hallucinations happen mechanically?",
+          "What are the most notable real-world AI hallucination cases?",
+          "How do I set up the AI Auditor activity effectively?",
+          "What habits should students develop for AI verification?"
+        ]
+      },
+      11: {
+        header: "Lesson 11 · Project: Demystifying Generative AI · 45–90 min",
+        body: `<p><span class="label">Pre-flight</span></p>
+<p><strong>What you'll teach:</strong> Summative project. Students read AI opinion articles containing exaggerations or misrepresentations, write a rebuttal using unit vocabulary, and create a visual artifact.</p>
+<p><strong>New vocab:</strong> Review all unit terms: AI, LLM, Model, Training Data, Bias, Embedding, Context, Token, Neural Network, Hidden Layer, Weights, Attention, Probability, Hallucination, Fabrication, ISPO</p>
+<p><strong>Activities:</strong></p>
+<ul>
+  <li>Read: distribute 3–4 AI opinion pieces with identifiable hype, misrepresentation, or factual errors (Level 1)</li>
+  <li>Annotate: students identify specific claims that are exaggerated, misleading, or wrong (Level 2)</li>
+  <li>Write rebuttal: structured paragraph using at least 4 unit vocabulary terms (Level 3)</li>
+  <li>Visual artifact: infographic, comic, poster, or slides explaining one unit concept accurately (Level 4)</li>
+  <li>Wrap Up: post-survey (mirrors pre-survey from Lesson 1) — measure conceptual growth</li>
+</ul>
+<p><strong>Tech check:</strong> Select articles in advance — ideally current (within the past year). Rubric should be distributed at lesson start.</p>
+<p><strong>⚡ Watch for:</strong> Students focusing only on grammar in the rebuttal. Push them to use technical vocabulary precisely — that is the evidence of learning.</p>`,
+        followUps: [
+          "What makes a good AI opinion article for this activity?",
+          "How should I grade the rebuttal — rubric suggestions?",
+          "How do I assess the visual artifact?",
+          "How can I use the pre/post survey to show student growth?"
+        ]
+      }
+    },
+    studentQs: {
+      1: [
+        {
+          q: "Is generative AI the same as ChatGPT?",
+          a: `<p>ChatGPT is one example of a generative AI — specifically a large language model. Generative AI is a broader category including image generators, music creators, video models, and more.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"ChatGPT is to generative AI what a Toyota Camry is to 'car.' One specific type. Generative AI also includes image generators like DALL-E, music AI like Suno, and video models. ChatGPT just happens to be the most famous right now."</div>`
+        },
+        {
+          q: "Does AI actually understand what we say to it?",
+          a: `<p>Probably not in the way humans do. LLMs process statistical patterns in text. They predict likely responses based on training, without comprehension, intent, or awareness.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Imagine you memorized billions of conversations and got very good at guessing what comes next. You'd sound fluent — but would you understand? That's closer to what's happening in an LLM. Pattern-matching at massive scale, not understanding."</div>`
+        },
+        {
+          q: "Is AI going to take everyone's jobs?",
+          a: `<p>This is a real societal question — but 'everyone's jobs' is the hype version. AI is changing many jobs and will automate some tasks. Historically, new technologies shift what jobs look like more than they eliminate all jobs.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"That's exactly the kind of question this course helps you think about critically. By the end, you'll have real knowledge about what AI actually does — and you'll be much better equipped to evaluate those claims."</div>`
+        }
+      ],
+      2: [
+        {
+          q: "Where does all the training data come from?",
+          a: `<p>Primarily from the internet — web pages, books, Wikipedia, code repositories, forums, news articles. Common Crawl contains petabytes of web text. Some data is licensed; much is scraped without explicit permission, which is a growing legal and ethical debate.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"If it was written on the internet and publicly accessible, there's a good chance it ended up in a training dataset. That includes forums, news, social media, books — the good, the bad, and the messy."</div>`
+        },
+        {
+          q: "How much data does a language model actually need?",
+          a: `<p>Enormous amounts. GPT-3 was trained on roughly 570 GB of filtered text — about 300 billion tokens. Newer models use trillions of tokens. If you read one book a week, it would take over 10,000 years to read what one large model trained on.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"One large model processes more text in training than every human has ever written and read combined. That scale is part of why they're so capable — and why data quality matters so much."</div>`
+        },
+        {
+          q: "Can the AI learn from things I tell it during a conversation?",
+          a: `<p>During a conversation — yes, within that session (context window). But most public AI systems do not update their underlying model weights from individual user conversations. What you say doesn't permanently change the model.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Think of it like talking to someone with amnesia — they're great in the moment, but next session they start fresh. The training that built their knowledge happened before your conversation, not during it."</div>`
+        }
+      ],
+      3: [
+        {
+          q: "Is AI bias always intentional?",
+          a: `<p>Almost never intentional. Bias usually enters through the data — reflecting who wrote it, what topics were over- or under-represented, what time periods it covers, and what cultural perspectives dominate the internet.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"If you trained a recipe AI entirely on English-language cooking blogs from 2010–2020, it might be great at pasta and tacos — and terrible at injera or pho. Not because anyone decided those cuisines matter less. Just because the data reflected who was blogging in English at that time."</div>`
+        },
+        {
+          q: "Can bias be removed from AI?",
+          a: `<p>It can be reduced, but likely not eliminated. Techniques include curating training data more carefully, applying bias filters, and using human feedback. But bias is often subtle — what counts as "biased" can itself be debated.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Reducing bias in AI is less like an on/off switch and more like a dial — you can turn it down, but you're always making tradeoffs about whose perspective defines 'neutral.'"</div>`
+        },
+        {
+          q: "Why does it matter if a recipe AI is biased?",
+          a: `<p>A recipe AI is relatively low-stakes. But the same patterns appear in hiring AI, medical diagnosis AI, loan approval systems, and facial recognition — where biased outputs have real consequences for real people.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"We use recipes because the stakes are low enough to think clearly. But every lesson from RecipeBot applies directly to systems that affect people's healthcare, job applications, and legal outcomes."</div>`
+        }
+      ],
+      4: [
+        {
+          q: "Why do we use numbers to represent words?",
+          a: `<p>Computers do math. They can't do anything directly with the word "dog" — but they can do a lot with [0.2, 0.8, 0.1, 0.9]. By mapping words to vectors (lists of numbers), we make language mathematically manipulable.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Every word in an LLM's vocabulary has been converted to a list of hundreds or thousands of numbers. That's its 'address' in meaning-space. The model does all its work in that number space — then translates the result back to words for you."</div>`
+        },
+        {
+          q: "How can 'king' minus 'man' plus 'woman' equal 'queen'?",
+          a: `<p>In a well-trained embedding space, the difference between "king" and "man" roughly captures "royalty" — and adding that to "woman" points toward "queen." The model learned that certain meaning dimensions are encoded consistently.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Think of it like coordinates on a map. If you learn 'north = cold' and 'east = coastal,' then moving north-east from a city should land you somewhere cold and coastal. Word embeddings do something similar — they encode meaning as directions in number-space."</div>`
+        },
+        {
+          q: "Where are embeddings stored in the model?",
+          a: `<p>In an embedding matrix — a lookup table where each row is a word's vector. When a word is input to the model, it looks up its row in this matrix. These vectors are learned during training, not hand-coded.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"The model has a giant table — imagine a spreadsheet with one row per word in its vocabulary and hundreds of columns. Each cell is a number the model learned. When you type a word, it looks up that row and hands those numbers to the rest of the network."</div>`
+        }
+      ],
+      5: [
+        {
+          q: "What exactly is a token?",
+          a: `<p>A token is the basic unit the model processes — usually a word, part of a word, or punctuation. "Unbelievable" might be split into ["un", "believ", "able"]. The model never sees raw text — it sees a sequence of token IDs.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"A token is like a puzzle piece. Words get cut up into tokens — sometimes a whole word, sometimes a chunk, sometimes just a letter. The model sees the IDs for those pieces, not the actual letters."</div>`
+        },
+        {
+          q: "Why does the same word mean different things in different contexts?",
+          a: `<p>Because meaning is relational. Modern contextual embeddings compute a word's representation by attending to the entire surrounding context, so the same word token gets different numerical representations in different sentences.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Early embeddings gave every word one fixed meaning-address. Modern models give a word a different address depending on its neighbors. 'Bank' near 'river' gets one address; 'bank' near 'loan' gets a different one — same token, different representation."</div>`
+        },
+        {
+          q: "How does context get captured mathematically?",
+          a: `<p>Through the attention mechanism — covered more in Lesson 8. When computing the embedding for a word, the model weights contributions from every other word in the context window. Words more relevant to resolving ambiguity contribute more.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Math captures context by asking: how much should each surrounding word influence the meaning of this word? Those influence weights are attention scores — and they're learned, not programmed."</div>`
+        }
+      ],
+      6: [
+        {
+          q: "What is a hidden layer and why is it 'hidden'?",
+          a: `<p>A hidden layer is any layer in a neural network between the input and output layers. It's "hidden" in that we don't directly observe its values — we give the network inputs and read its outputs, but intermediate computations happen internally.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Think of a hidden layer like the inside of a kitchen. You see what goes in (ingredients) and what comes out (a meal), but the chopping, mixing, and cooking happen where you can't see them. That's the hidden layer — internal processing."</div>`
+        },
+        {
+          q: "What are weights and how do they get set?",
+          a: `<p>Weights are numbers attached to each connection between neurons — they determine how strongly one neuron influences another. Initially set randomly, they're adjusted through backpropagation during training: make a prediction, measure how wrong, nudge weights to reduce error.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Imagine calibrating a recipe. If the soup is too salty, add less salt next time. Weights work the same way — the model checks its error, figures out which weights contributed, and adjusts slightly. Do that billions of times and you get a good model."</div>`
+        },
+        {
+          q: "Is a neural network actually like the human brain?",
+          a: `<p>Loosely inspired by, but fundamentally different. The human brain has ~86 billion neurons with complex electrochemical signaling. Artificial neural networks are simplified mathematical graphs — powerful but not neuroscience.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"A neural network is inspired by the brain the way a paper airplane is inspired by a real plane. The inspiration was real, but the mechanism is completely different. Both fly — but for different reasons."</div>`
+        }
+      ],
+      7: [
+        {
+          q: "What's the difference between training and using a model?",
+          a: `<p>Training is when the model is learning — weights are being adjusted based on labeled examples. It's computationally expensive and happens before deployment. Using (inference) is when the trained model responds to new inputs — weights are fixed and it's much faster.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Training is like studying for a test — lots of practice, lots of correction, takes a long time. Inference is like taking the test — you use what you've learned to respond. When you chat with an AI, it's always in test-mode; the studying already happened."</div>`
+        },
+        {
+          q: "What is supervised learning exactly?",
+          a: `<p>Supervised learning means training on labeled examples — (input, correct output) pairs. For language models, the "label" is often the next word in a real human-written sentence — so the entire internet becomes a training set without needing human labelers.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"For language models, supervised learning is almost self-service. The 'correct answer' for 'The cat sat on the ___' is just whatever word came next in the original text. Billions of sentences = billions of training examples, no human labeling required."</div>`
+        },
+        {
+          q: "How long does it take to train a large language model?",
+          a: `<p>Weeks to months, running on thousands of specialized chips simultaneously. Training GPT-4 reportedly cost over $100 million. This is why only large companies or well-funded labs train frontier models from scratch.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Training a big model from scratch is like building a skyscraper — massive team, enormous resources, months of work. That's why most people use models that were already built. Fine-tuning is more like renovating a room."</div>`
+        }
+      ],
+      8: [
+        {
+          q: "How does the attention mechanism actually work?",
+          a: `<p>For each word being processed, attention calculates a score with every other word in the context — how relevant is each to understanding this one? These scores become weights, and the model creates a weighted blend of all other words' representations.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"When the model processes 'it' in 'The trophy wouldn't fit in the bag because it was too big,' attention lets 'it' ask every other word: how relevant are you to figuring out what I refer to? The word 'trophy' scores high — that's how the pronoun gets resolved."</div>`
+        },
+        {
+          q: "Why is the paper called 'Attention Is All You Need'?",
+          a: `<p>The 2017 paper by Vaswani et al. introduced the Transformer architecture, showing that attention mechanisms alone — without recurrent or convolutional layers — were sufficient and superior for language tasks.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Before this paper, models processed text sequentially — word by word — which was slow. The Transformer processes all words simultaneously using attention. A fundamental change, like switching from a single-lane road to a 100-lane highway."</div>`
+        },
+        {
+          q: "What does ambiguity have to do with why AI sometimes gets things wrong?",
+          a: `<p>When context is insufficient to resolve ambiguity, the model picks the statistically most common interpretation from training data — which may be wrong in the specific context. Pronoun resolution, sarcasm, and cultural references are common failure points.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"If you ask an AI 'Can you take me to the bank?' in a message about fishing, it might reply about ATMs — because the bank+money association is much stronger in training data than bank+river. Ambiguity is a fundamental challenge."</div>`
+        }
+      ],
+      9: [
+        {
+          q: "If AI just picks the most probable word, why does it seem creative?",
+          a: `<p>Two reasons: (1) Temperature — adding randomness so less common words get chosen sometimes. (2) The combinatorial explosion of sequences — even if each word choice is individually common, the specific combination of billions of choices can feel novel.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Imagine picking the most popular word at each step in a million-word story. Even 'popular' choices, combined in new sequences, create something that's never existed before. That's not creativity the way a human experiences it — but the output can still surprise us."</div>`
+        },
+        {
+          q: "What is temperature in AI outputs?",
+          a: `<p>Temperature is a parameter that controls randomness in token selection. At temperature 0, the model always picks the highest-probability token (deterministic, repetitive). At higher temperatures, lower-probability tokens get more chances — outputs become more varied but potentially less coherent.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Temperature 0 is like always ordering your usual at a restaurant. Temperature 1 is like sometimes trying the specials. Temperature 2 is like closing your eyes and pointing at the menu. More surprise, but higher chance of getting something weird."</div>`
+        },
+        {
+          q: "Why do language models sometimes repeat themselves?",
+          a: `<p>Repetition is a failure mode of probability-based generation. If the model assigns high probability to a phrase it just said (because it appeared in the context), it may repeat it. Repetition penalties are used to discourage this.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"The model doesn't remember it already said something — it just sees the context window. If a phrase appears multiple times in context, it looks like a 'popular' continuation. Engineers add extra rules specifically to prevent this loop."</div>`
+        }
+      ],
+      10: [
+        {
+          q: "Why does the AI make things up so confidently?",
+          a: `<p>Because the model doesn't know what it doesn't know. It generates the most probable next tokens given its training — and sometimes the most probable continuation is a plausible-sounding but false statement. There's no internal fact-checker.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"The model has no concept of 'I'm not sure.' Every output is just 'the most likely continuation.' A confident hallucination and a correct answer feel exactly the same to the model — which is why the onus is on us to verify."</div>`
+        },
+        {
+          q: "What is the difference between a hallucination and a fabrication?",
+          a: `<p>Hallucination is the broader term — any output that is plausible-sounding but incorrect or unsupported. Fabrication is a specific type where the model invents something specific that never existed: a fake citation, a made-up study, a non-existent person.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"If the model tells you Abraham Lincoln was born in Ohio, that's a hallucination — a wrong fact. If it invents a biography of a fictional Abraham Lincoln III who was a chef in the 1950s — complete with a fake ISBN — that's a fabrication. Made up from nothing."</div>`
+        },
+        {
+          q: "Is there a way to stop hallucinations?",
+          a: `<p>They can be reduced but not fully eliminated. Retrieval-Augmented Generation (RAG) helps — the model is given real documents to reference before answering. Fine-tuning on accurate data helps. But the fundamental probability-generation mechanism means hallucinations remain a risk.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"RAG is promising — instead of asking the model to remember, you give it the right documents and ask it to summarize. But even then, the model might misread what's in the documents. Critical verification remains essential."</div>`
+        }
+      ],
+      11: [
+        {
+          q: "How do I know if an AI claim in an article is exaggerated?",
+          a: `<p>Ask: Does the claim require the AI to have understanding, intention, or consciousness? Is "always" or "never" used? Is the AI described as fully replacing humans at complex tasks? Compare claims against what you know about how LLMs work — probability-based token prediction, no comprehension.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"Run every AI claim through your ISPO lens. If the claim requires the AI to 'know,' 'want,' 'understand,' or 'decide' — that's hype. If it's about what outputs look like or what patterns were learned — that could be legitimate."</div>`
+        },
+        {
+          q: "What makes a good rebuttal of an AI article?",
+          a: `<p>A good rebuttal: (1) identifies the specific claim being challenged, (2) explains why it's inaccurate using unit vocabulary, (3) provides the more accurate version, and (4) cites a reliable source.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"A rebuttal isn't 'this is wrong.' It's 'this claim says X; here's why X misrepresents how language models work; here's what's actually happening; here's a source.' That's the difference between an opinion and a well-reasoned critique."</div>`
+        },
+        {
+          q: "Why does it matter if journalists or the public misunderstand AI?",
+          a: `<p>Because public understanding shapes policy, investment, fear, and trust. Overhyped AI leads to misplaced investment and disappointment. Mischaracterized AI can lead to panic or complacency — both dangerous.</p>
+<p><span class="label">Say to your class</span></p>
+<div class="quote">"The way people understand AI affects how governments regulate it, how companies build it, and how individuals use it. You are part of the solution — people who actually understand how it works."</div>`
+        }
+      ]
+    },
+    concepts: [
+      {
+        id: "generative-ai", term: "Generative AI", lessons: [1,2,3,4,5,6,7,8,9,10,11],
+        adult: "A class of AI models that generate new content — text, images, audio, code, video — by learning statistical patterns from large datasets. Distinguished from discriminative AI, which classifies or predicts labels for existing inputs.",
+        kid: "AI that can make new things — sentences, pictures, songs, code — by learning patterns from millions of examples. It generates something new, rather than just sorting or labeling things.",
+        example: "ChatGPT writing a paragraph, DALL-E generating an image from a description, Suno creating a song.",
+        nonexample: "A spam filter (classifies existing emails). A recommendation system that ranks existing movies."
+      },
+      {
+        id: "llm", term: "Large Language Model (LLM)", lessons: [1,2,5,6,7,8,9,10],
+        adult: "A neural network with billions to trillions of parameters, trained on massive text corpora to predict and generate text. Architecture is typically transformer-based.",
+        kid: "A very big AI model trained on enormous amounts of text that learned to predict and write language. 'Large' means billions of internal settings and huge amounts of training text.",
+        example: "GPT-4, Claude, Gemini, LLaMA.",
+        nonexample: "A grammar checker (rule-based). An older chatbot that uses decision trees."
+      },
+      {
+        id: "model", term: "Model", lessons: [1,6,7,8,9,10,11],
+        adult: "In machine learning, a mathematical function (with learned parameters) that maps inputs to outputs. The artifact produced by training — it encodes the patterns the system learned.",
+        kid: "What comes out of training — the AI's 'brain' after all the learning is done. A mathematical function that takes an input and gives an output based on what it learned.",
+        example: "A trained language model that takes a prompt and outputs a response.",
+        nonexample: "The training data itself. The algorithm used to train it."
+      },
+      {
+        id: "training-data", term: "Training Data", lessons: [2,3,4,5,7],
+        adult: "The dataset used to train a machine learning model. For LLMs, typically hundreds of billions to trillions of tokens of text. Quality, diversity, and size significantly affect model behavior.",
+        kid: "All the text the model read and learned from before you ever talked to it. For big models, billions of websites, books, articles, and more.",
+        example: "Common Crawl web data, Wikipedia, digitized books, code repositories.",
+        nonexample: "The prompt you type into a chatbot (input at inference). A validation set used to evaluate a trained model."
+      },
+      {
+        id: "bias", term: "Bias", lessons: [3,10,11],
+        adult: "Systematic patterns in model outputs that reflect skews, exclusions, or disproportionate representations in training data or labeling. Can manifest as demographic disparities, cultural gaps, or consistent factual errors.",
+        kid: "When an AI consistently favors or ignores certain groups, ideas, or cultures — usually because its training data had those same imbalances. Not usually intentional; inherited from the data.",
+        example: "A hiring AI that downgrades resumes from women because it trained on historical data where men were promoted more.",
+        nonexample: "An AI making a one-time factual error. An AI that's wrong about a specific date (that's hallucination)."
+      },
+      {
+        id: "embedding", term: "Embedding", lessons: [4,5],
+        adult: "A dense vector representation of a discrete item in a continuous, high-dimensional space. Embeddings are learned such that semantically similar items are close together geometrically.",
+        kid: "A word converted into a list of numbers so the computer can do math on it. Words with similar meanings end up with similar numbers.",
+        example: "Word2Vec, GloVe, or contextual embeddings from BERT.",
+        nonexample: "A simple lookup table that maps words to IDs without capturing meaning. One-hot encoding."
+      },
+      {
+        id: "context", term: "Context", lessons: [5,8,9],
+        adult: "The surrounding text (or tokens) available to the model when generating or evaluating a given token. The context window defines how many tokens the model can 'see' at once.",
+        kid: "The surrounding words and sentences that help figure out what a word means in that moment.",
+        example: "In 'She played the bass in the orchestra,' 'orchestra' provides context that resolves 'bass' as a musical instrument.",
+        nonexample: "The model's training data (that happened before; context is the immediate input window)."
+      },
+      {
+        id: "neural-network", term: "Neural Network", lessons: [6,7,8],
+        adult: "A computational graph of interconnected nodes organized in layers, where each connection has a learned weight. Input activations propagate forward through layers with nonlinear transformations to produce outputs.",
+        kid: "A system of connected math nodes, inspired loosely by neurons in the brain, that learns patterns by adjusting its connections.",
+        example: "The network inside ChatGPT that processes your prompt and generates a response.",
+        nonexample: "A human brain. A flowchart or decision tree (rule-based, not learned weights)."
+      },
+      {
+        id: "attention", term: "Attention", lessons: [8,9],
+        adult: "A mechanism in transformer models that computes a weighted sum of value vectors, where weights are determined by the relevance between a query vector and key vectors. Allows each token to integrate information from all other tokens in the context window.",
+        kid: "A way for the model to look at all the other words in a sentence when trying to understand any one word. It figures out which other words matter most.",
+        example: "When processing 'it' in 'The trophy didn't fit because it was too small,' attention lets the model look back at 'trophy' and assign it high relevance.",
+        nonexample: "Human focus or consciousness. Memory (attention operates within context; memory implies persistent storage)."
+      },
+      {
+        id: "probability", term: "Probability", lessons: [9,10],
+        adult: "In LLM inference, a probability distribution over the vocabulary is computed for each next token position. The model's output logits are converted to probabilities via softmax, and a token is selected by sampling or argmax.",
+        kid: "A number between 0 and 1 that says how likely something is. Language models assign probabilities to all possible next words and pick one.",
+        example: "After 'The cat sat on the ___', the model assigns 80% to 'mat', 5% to 'floor', 3% to 'table', then samples.",
+        nonexample: "A random word generator (uniform probability — not learned)."
+      },
+      {
+        id: "hallucination", term: "Hallucination", lessons: [10,11],
+        adult: "A generation failure mode in which the model produces output that is fluent and confident but factually incorrect, unsupported, or entirely fabricated. Arises because generation optimizes for plausibility, not truth.",
+        kid: "When an AI makes something up but says it confidently, as if it were true. The AI doesn't know it's wrong — it just generated the most plausible-sounding continuation.",
+        example: "An LLM confidently citing a journal article that doesn't exist.",
+        nonexample: "An AI giving an opinion. An AI refusing to answer (that's abstention, not hallucination)."
+      },
+      {
+        id: "ispo", term: "ISPO Framework", lessons: [1,2,4,7,9],
+        adult: "A pedagogical framework for understanding computing systems: Input (data fed in), Storage (how data is represented and retained), Processing (transformation of data), Output (result produced). Applied to LLMs: Input = prompt + tokens, Storage = embeddings + parameters, Processing = neural network forward pass + attention, Output = generated tokens.",
+        kid: "A four-step framework: Input is what goes in, Storage is how it's saved, Processing is the work the computer does, Output is what comes out. Every AI system can be described with ISPO.",
+        example: "For ChatGPT: Input = your prompt. Storage = model weights. Processing = transformer forward pass. Output = generated response text.",
+        nonexample: "A description of a human thought process. A business process flowchart."
+      }
+    ],
+    misconceptions: {
+      1: [
+        {
+          student: "Generative AI understands what it's saying.",
+          reality: "It predicts statistically likely next tokens — no comprehension, no intent.",
+          fix: `"If I asked you to write the most common word after 'The cat sat on the...' you'd say 'mat'. Did you need to understand the sentence? No. LLMs do that at billions of examples per second. The appearance of understanding is an emergent property of scale."`
+        },
+        {
+          student: "All AI is the same thing — it's all ChatGPT.",
+          reality: "Generative AI is a broad category. ChatGPT is one product from one company. There are image generators, code models, music AI, video AI — and older AI systems like spam filters that aren't generative at all.",
+          fix: `"ChatGPT is to AI what Google Chrome is to software. One product, made by one company, that happens to be very prominent. The field is much bigger — thousands of AI systems, most of which you've never interacted with directly."`
+        },
+        {
+          student: "AI is neutral and objective because it's a computer.",
+          reality: "AI inherits the biases, gaps, and perspectives embedded in its training data. Computers do exactly what their data and algorithms lead them to do.",
+          fix: `"Computers are not neutral — they're built by people using data created by people. 'It's a computer, so it's objective' is actually a dangerous assumption. We'll explore this in depth in Lesson 3."`
+        }
+      ],
+      2: [
+        {
+          student: "AI learns during our conversation — it's getting smarter as we talk.",
+          reality: "Most deployed LLMs do not update model weights during inference. The conversation is in the context window but doesn't change the underlying model.",
+          fix: `"The model's 'learning' finished months before you started talking to it. During your conversation, it uses what it already learned — it doesn't update. Like talking to someone after their exam, not while they're studying."`
+        },
+        {
+          student: "Training data is carefully chosen and high-quality.",
+          reality: "Large language models typically train on web-scraped data that includes misinformation, offensive content, errors, and biases. Filtering helps but doesn't eliminate quality issues.",
+          fix: `"Common Crawl is basically a snapshot of the public internet — academic papers, conspiracy blogs, product reviews. Some cleanup happens, but no one hand-curated trillions of tokens."`
+        },
+        {
+          student: "The AI has read and understood every word in its training data.",
+          reality: "The model processed patterns in the training data — it didn't 'read' or 'understand' it in any human sense. What emerged is a learned statistical model of language relationships.",
+          fix: `"The model absorbed the statistical fingerprint of all that text — what words tend to follow what, in what contexts — rather than reading and comprehending it the way you would a book."`
+        }
+      ],
+      3: [
+        {
+          student: "Bias in AI means the AI is racist/sexist on purpose.",
+          reality: "Most AI bias is unintentional — it reflects statistical patterns in training data that correlate with demographic or cultural factors.",
+          fix: `"Unintentional doesn't mean harmless. The RecipeBot didn't mean to exclude any cuisine. It just trained on what was there. The fix requires systematic thinking about data, not just good intentions."`
+        },
+        {
+          student: "You can completely remove bias from AI with the right technique.",
+          reality: "Bias can be reduced but not eliminated. What counts as 'biased' is often contested. Debiasing in one dimension can introduce bias in another.",
+          fix: `"Bias reduction is a dial, not a switch. There's no universal 'neutral' — every dataset reflects whose writing was on the internet, in what languages, from what time periods."`
+        },
+        {
+          student: "Once the model is trained, bias can't be changed.",
+          reality: "Bias can be addressed post-training through fine-tuning, RLHF, content filtering, system prompts, and output auditing. However, these are patches on an underlying training distribution issue.",
+          fix: `"You can do a lot after training — add guardrails, filter outputs, fine-tune on more balanced data. But it's easier to get the training data right to begin with."`
+        }
+      ],
+      4: [
+        {
+          student: "Embeddings capture the 'true meaning' of words.",
+          reality: "Embeddings capture statistical co-occurrence patterns — not semantic truth. They also encode stereotypes and cultural biases.",
+          fix: `"Embeddings are more like a popularity contest than a dictionary. A word's embedding reflects the company it keeps in billions of documents — not a deep truth about its meaning."`
+        },
+        {
+          student: "The numbers in an embedding directly correspond to understandable concepts.",
+          reality: "Embedding dimensions are not human-interpretable. Each dimension doesn't mean 'happiness' or 'size.' Meaning is distributed across hundreds or thousands of dimensions.",
+          fix: `"If you look at dimension 47 of a word embedding, you won't find a label that says 'positive sentiment.' The dimensions don't have names — meaning is in the pattern across all dimensions together."`
+        },
+        {
+          student: "Similar words always have similar embeddings.",
+          reality: "Synonyms often do — but words with the same statistical context can end up similar even if they're not synonyms. Contextual embeddings give 'bank' different vectors depending on the sentence.",
+          fix: `"'Hot dog' (food) and 'dog' (animal) might not be as close as you'd expect, because they appear in very different contexts. Embeddings reflect statistical patterns, not human intuition."`
+        }
+      ],
+      5: [
+        {
+          student: "Tokens are always individual words.",
+          reality: "Tokens can be whole words, parts of words, punctuation, or spaces — depending on the tokenizer. 'Unbelievable' might be 3 tokens. Token count matters for context length limits and cost.",
+          fix: `"Most tokenizers split text using byte-pair encoding — frequent words stay whole, rare words get split. That's why AI sometimes struggles with uncommon names or technical jargon."`
+        },
+        {
+          student: "Context just means the previous sentence.",
+          reality: "Context means the entire context window — which in modern models can span thousands to hundreds of thousands of tokens.",
+          fix: `"Context is everything the model can 'see' at once — its entire working memory for that exchange. In large models, that window is now big enough to hold entire books."`
+        },
+        {
+          student: "The same word always means the same thing to the AI.",
+          reality: "Contextual embedding models (transformers) give each token a different representation depending on its context.",
+          fix: `"Early word2vec gave one fixed vector per word. Modern transformers compute context-sensitive vectors — the same word token gets different representations depending on its neighborhood."`
+        }
+      ],
+      6: [
+        {
+          student: "Neural networks work like the human brain.",
+          reality: "Neural networks are loosely inspired by neuroscience but are fundamentally different — artificial neurons are simple weighted sum + activation functions.",
+          fix: `"The brain-metaphor was useful for inspiration, but it's misleading. Artificial neural networks are mathematical graphs with learned numbers — powerful for reasons related to optimization theory, not neurobiology."`
+        },
+        {
+          student: "More hidden layers always means a better model.",
+          reality: "Depth helps with complex tasks, but more layers can cause vanishing gradients, increase computation cost, and lead to overfitting without proper regularization.",
+          fix: `"Adding layers isn't free. Each layer increases computation and training difficulty. Too shallow and the model can't learn complex patterns; too deep and it becomes difficult to train."`
+        },
+        {
+          student: "Weights are programmed by engineers to mean specific things.",
+          reality: "Initial weights are random; final weights emerge from the training process. Engineers design the architecture, but the specific values learned are determined by the data and training objective.",
+          fix: `"Engineers don't say 'weight #47 should represent happiness.' They say 'here's the structure; now learn to minimize this error.' The values in the weights are discovered through training, not programmed."`
+        }
+      ],
+      7: [
+        {
+          student: "Supervised learning requires humans to label every piece of training data.",
+          reality: "For language models, the 'label' is just the next word in existing text — self-supervised learning. Human labeling is used for fine-tuning and RLHF, but the massive initial training is self-supervised.",
+          fix: `"The brilliant trick is that all text on the internet is self-labeled — the 'correct next word' is just the word that actually came next. No one needed to tag 300 billion tokens."`
+        },
+        {
+          student: "Training makes the model 'remember' specific facts.",
+          reality: "Training adjusts weights to capture statistical patterns, not to store specific facts. What looks like memory is actually pattern completion.",
+          fix: `"The model doesn't have a fact-database. It has weights shaped by encountering 'Paris is the capital of France' millions of times. That's why it can also hallucinate — pattern completion doesn't distinguish facts from plausible-sounding outputs."`
+        },
+        {
+          student: "A well-trained model will never make mistakes.",
+          reality: "No model achieves perfect accuracy. Training minimizes error on the training distribution, but models fail on out-of-distribution inputs and edge cases.",
+          fix: `"A model trained to perfection on training data would still fail on new inputs it hasn't seen — this is overfitting. The goal is to generalize, not memorize."`
+        }
+      ],
+      8: [
+        {
+          student: "Attention means the AI is consciously focusing like a human.",
+          reality: "Attention is a mathematical operation: dot products between query and key vectors, softmax, weighted sum of values. No consciousness — just matrix multiplication.",
+          fix: `"Human attention involves awareness and limited capacity. Transformer attention is a mathematical operation that happens in parallel across all tokens simultaneously — no bottleneck, no awareness. It's called 'attention' by analogy."`
+        },
+        {
+          student: "The attention mechanism reads text sequentially, word by word.",
+          reality: "Transformers process all tokens in parallel within the context window. This parallelism is what makes training on massive corpora feasible on modern GPU clusters.",
+          fix: `"RNNs processed text word by word — slow and hard to parallelize. Attention lets every token relate to every other token simultaneously. That's why transformers can train on trillions of tokens in weeks."`
+        },
+        {
+          student: "Ambiguous sentences always confuse AI.",
+          reality: "Models handle many ambiguous sentences well when sufficient context resolves the ambiguity. Failures occur when context is genuinely insufficient.",
+          fix: `"AI handles a lot of ambiguity well — often better than you'd expect. Where it fails is unusual ambiguity or cultural context it didn't see in training. The model just has no mechanism to ask for clarification."`
+        }
+      ],
+      9: [
+        {
+          student: "Language models know what they're going to say before they start.",
+          reality: "Generation is sequential and autoregressive — each token is sampled based on the previous ones. The model has no plan; it generates one token at a time.",
+          fix: `"The model doesn't draft and revise like a human writer. It generates left-to-right, one token at a time, with no ability to go back. Early mistakes can compound — no self-editing."`
+        },
+        {
+          student: "Higher probability always means more accurate or better output.",
+          reality: "High-probability outputs are the most common — not necessarily the most accurate, creative, or useful.",
+          fix: `"Probability reflects what's statistically common, not what's true or good. 'The capital of Australia is ___' will most probably complete with 'Sydney' — and that's wrong. Common ≠ correct."`
+        },
+        {
+          student: "The AI picks one 'right' answer from its list.",
+          reality: "The model samples from a probability distribution — this involves randomness controlled by temperature. The same prompt can produce different outputs on different runs.",
+          fix: `"Try asking the same question to ChatGPT twice. You might get different answers. That's the sampling randomness. The model doesn't look up the 'right answer' — it draws a token from a probability distribution each time."`
+        }
+      ],
+      10: [
+        {
+          student: "Hallucinations only happen with obscure topics.",
+          reality: "LLMs hallucinate about well-known topics too — specific dates, names, statistics, quotes, and technical details.",
+          fix: `"A model can correctly explain quantum physics at a general level and then fabricate a specific equation. Hallucinations don't respect the importance or familiarity of the topic."`
+        },
+        {
+          student: "If the AI sounds confident, it must be right.",
+          reality: "Confidence in generation is a function of high-probability token sequences, not factual accuracy. The model's 'tone' is part of its learned output style.",
+          fix: `"The model learned that confident, assertive writing appears more often in training data than hedged, uncertain writing. It reproduces that confidence as a stylistic pattern — independent of whether the content is accurate."`
+        },
+        {
+          student: "AI companies are hiding the hallucination problem.",
+          reality: "Hallucinations are a fundamental known limitation that companies openly discuss. They result from the generation mechanism itself — not a bug being hidden. Researchers actively work on mitigation.",
+          fix: `"This is one of the most openly discussed challenges in AI research. There are papers, leaderboards, and competitions dedicated to measuring and reducing hallucinations. It's not hidden — it's a hard, known problem."`
+        }
+      ],
+      11: [
+        {
+          student: "If an AI article was published by a major outlet, it must be accurate.",
+          reality: "Many major publications have published AI articles with significant technical errors — confusing LLMs with AGI, anthropomorphizing model behavior, overstating capabilities.",
+          fix: `"Even reputable journalists often don't have computer science backgrounds. Your job as an AI-literate reader is to evaluate claims against what you know — not to defer to publication authority."`
+        },
+        {
+          student: "Using technical vocabulary makes a rebuttal feel pedantic.",
+          reality: "Precise vocabulary is the tool for precision. Using correct terms — token, embedding, attention, hallucination — makes arguments more specific, verifiable, and less dismissible.",
+          fix: `"'The model doesn't understand' is vague. 'The model generates high-probability token continuations without semantic comprehension' is precise and verifiable — and harder to dismiss."`
+        },
+        {
+          student: "The ISPO framework only applies to AI systems.",
+          reality: "ISPO applies to all computing systems. It's a general framework for understanding any information-processing system.",
+          fix: `"ISPO describes how any system processes information. Apply it to your phone's autocorrect, to a search engine, to a hospital records system. The vocabulary changes but the framework holds."`
+        }
+      ]
+    },
+    onboarding: {
+      banner: "These guides are also on the web version. Tap any card to preview here.",
+      cards: [
+        { id: "start", icon: "🚀", title: "Where to start", desc: "5-min orientation: what this unit covers and what to do first." },
+        { id: "syllabus", icon: "📋", title: "All 11 lessons", desc: "Quick overview of each lesson, topic, and timing." },
+        { id: "lesson-plan", icon: "📖", title: "See a lesson plan", desc: "Walk through any lesson in detail." },
+        { id: "sample", icon: "🎬", title: "Try an activity", desc: "Experience a widget or activity as a student would." },
+        { id: "evaluate", icon: "✅", title: "Assessment guide", desc: "Journal prompts, graphic organizer checkpoints, final project rubric." },
+        { id: "section", icon: "👩‍🏫", title: "Set up a section", desc: "Steps to add students on Code.org." }
+      ]
+    },
+    onboardingDetail: {
+      start: `<p><span class="label">Where to start</span></p>
+<p>The unit is <strong>11 lessons × 45 min</strong>, designed for Grades 9–12. No prior CS knowledge required for students or teachers.</p>
+<p><strong>Your first 30 minutes:</strong></p>
+<ul>
+  <li>Watch the 5-part <em>Exploring Generative AI</em> video series (~15 min total)</li>
+  <li>Complete the free PL module on Code.org (2–3 hrs — spread it over a week)</li>
+  <li>Read the Lesson 1 pre-flight in this chat</li>
+  <li>Print or digitally assign the ISPO graphic organizer — students will use it all unit</li>
+</ul>`,
+      syllabus: `<p><span class="label">Syllabus</span></p>
+<ul>
+  <li><strong>L1</strong> · Intro to Generative AI — Hype vs. reality, ISPO framework, pre-survey</li>
+  <li><strong>L2</strong> · Input &amp; Training Data — Data scale, word recognition, update ISPO Input</li>
+  <li><strong>L3</strong> · Bias in the Machine — RecipeBot activity, unintended bias</li>
+  <li><strong>L4</strong> · Understanding Embeddings — Words as numbers, update ISPO Storage</li>
+  <li><strong>L5</strong> · Embeddings: How Created — Context, tokens, Zorbish activity</li>
+  <li><strong>L6</strong> · Neural Networks — Lunch recommender, hidden layers, weights</li>
+  <li><strong>L7</strong> · NNs: How Trained — Supervised learning, update ISPO Processing</li>
+  <li><strong>L8</strong> · Attention — Ambiguous language, context, Transformer intro</li>
+  <li><strong>L9</strong> · Outputs &amp; Probabilities — Mad lib, token prediction, complete ISPO</li>
+  <li><strong>L10</strong> · Hallucinations — AI Auditor activity, real recalled systems</li>
+  <li><strong>L11</strong> · Project — Rebuttal, visual artifact, post-survey</li>
+</ul>`,
+      "lesson-plan": `<p>Pick a lesson chip above to see its full pre-flight plan in this chat.</p>`,
+      sample: `<p><span class="label">Sample activity</span></p>
+<p>Best starting points:</p>
+<ul>
+  <li><strong>Lesson 3, RecipeBot</strong> — source articles yourself and discover what biases your natural choices introduce</li>
+  <li><strong>Lesson 9, Mad Lib widget</strong> — experience probability-based text generation from the student perspective</li>
+  <li><strong>Lesson 5, Zorbish passages</strong> — interpret the fictional language; see how context shapes meaning</li>
+</ul>`,
+      evaluate: `<p><span class="label">Assessment</span></p>
+<p><strong>Exit tickets:</strong> Each lesson ends with a Wrap Up question — use as a brief exit ticket or journal prompt.</p>
+<p><strong>Graphic organizer checkpoints:</strong> Collect and give feedback at L2 (Input), L4 (Storage), L7 (Processing), L9 (Output).</p>
+<p><strong>Lesson 11 project rubric:</strong></p>
+<ul>
+  <li>Identifies specific exaggerated/inaccurate claims in article (25%)</li>
+  <li>Rebuttal uses at least 4 unit vocabulary terms precisely (35%)</li>
+  <li>Visual artifact accurately represents a unit concept (25%)</li>
+  <li>Post-survey completion (15%)</li>
+</ul>`,
+      section: `<p><span class="label">Set up a section</span></p>
+<ol>
+  <li>Log in to <strong>studio.code.org</strong></li>
+  <li>Click <strong>Sections</strong> → <strong>New section</strong></li>
+  <li>Choose course: <em>"Foundations of Generative AI"</em></li>
+  <li>Set grade level (9–12) and section name</li>
+  <li>Share the join code or link with your students</li>
+</ol>`
+    }
   },
-  lessonChips: [
-    { id: 1, label: "L1 · Intro to Generative AI" },
-    { id: 2, label: "L2 · Input & Training Data" },
-    { id: 3, label: "L3 · Bias in the Machine" },
-    { id: 4, label: "L4 · Understanding Embeddings" },
-    { id: 5, label: "L5 · Embeddings: How Created" },
-    { id: 6, label: "L6 · Understanding Neural Networks" },
-    { id: 7, label: "L7 · Neural Networks: Training" },
-    { id: 8, label: "L8 · Attention Is All You Need" },
-    { id: 9, label: "L9 · Outputs & Probabilities" },
-    { id: 10, label: "L10 · Hallucinations & Fabrications" },
-    { id: 11, label: "L11 · Project: Demystifying GenAI" },
-  ],
-  preflight: {
-    1: { header: "Lesson 1 · Introduction to Generative AI · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> Introduce generative AI through the lens of tech hype vs. reality. Introduce the ISPO (Input, Storage, Processing, Output) framework.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Student Pre-Survey</li>
-          <li>Level 2: Warm Up — tech hype discussion</li>
-          <li>Level 3: Wrap Up — students receive graphic organizer for the unit</li></ul>
-        <p><strong>Key vocab:</strong> Artificial Intelligence, Large Language Model, Model, ISPO</p>
-        <p><strong>⚡ Watch for:</strong> Students coming in with strong opinions about AI ("it'll take our jobs" / "it's magic"). This lesson doesn't debunk — it prepares them to investigate.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "ISPO framework explained", "How to run the hype discussion"] },
-    2: { header: "Lesson 2 · Input & Training Data · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> How language models need vast training data, comparable to the whole internet.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Warm Up — word recognition and categorization</li>
-          <li>Level 2: Wrap Up — update ISPO graphic organizer (Input step)</li></ul>
-        <p><strong>Key vocab:</strong> Training data, Input</p>
-        <p><strong>Discussion anchor:</strong> What does it mean for an AI to "know" a word? What data would it need to learn every word a human knows?</p>
-        <p><strong>⚡ Watch for:</strong> Students thinking AI uses a dictionary. Key insight: it learns from context, not definitions.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "Misconception: AI uses a dictionary", "ISPO Input step"] },
-    3: { header: "Lesson 3 · Bias in the Machine · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> How bias implicitly enters LLMs through training data, using a RecipeBot simulation.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Warm Up</li>
-          <li>Level 2: Wrap Up — RecipeBot activity</li></ul>
-        <p><strong>Key vocab:</strong> Bias</p>
-        <p><strong>Setup:</strong> Students act as data collectors for a recipe chatbot. They use search results to find articles — then analyze patterns: which cuisines appear? What date range?</p>
-        <p><strong>⚡ Watch for:</strong> Students surprised that "just searching" introduced bias. That's the lesson — search results themselves are biased inputs.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "Most likely misconception", "How to run RecipeBot activity"] },
-    4: { header: "Lesson 4 · Understanding Embeddings · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> Words can be represented as sequences of numbers — similar words are numerically close.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Warm Up — word similarity game</li>
-          <li>Level 2: Wrap Up — role-play using number sequences as character traits</li></ul>
-        <p><strong>Key vocab:</strong> Embedding, Storage</p>
-        <p><strong>Analogy:</strong> Latitude and longitude represent location; embeddings represent word meaning in multi-dimensional space.</p>
-        <p><strong>⚡ Watch for:</strong> Students thinking numbers are arbitrary. Emphasize: similar meanings → similar numbers.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "How to explain embeddings simply", "Most likely misconception"] },
-    5: { header: "Lesson 5 · Embeddings: How They're Created · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> Context determines meaning — same word can have different embeddings based on usage.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Warm Up — interpret a passage in a made-up language using context clues</li>
-          <li>Level 2: Wrap Up — reveal that two groups worked with different passages; same word, different meanings</li></ul>
-        <p><strong>Key vocab:</strong> Context, Token</p>
-        <p><strong>⚡ Watch for:</strong> The reveal lands hard — some students may feel tricked. Normalize: that's exactly what the model experiences too.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "What is a token?", "Most likely misconception"] },
-    6: { header: "Lesson 6 · Understanding Neural Networks · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> How neural networks learn word relationships using hidden layers and weights — via a lunch recommender activity.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Warm Up — mad-libs showing how word order affects meaning</li>
-          <li>Level 2: Wrap Up — build a cafeteria lunch neural network model</li></ul>
-        <p><strong>Key vocab:</strong> Hidden layers, Weights (in context of LLMs)</p>
-        <p><strong>⚡ Watch for:</strong> Students mixing up "layers" with "steps." Layers process simultaneously, not sequentially.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "Hidden layers explained", "Most likely misconception"] },
-    7: { header: "Lesson 7 · Neural Networks: How They're Trained · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> Supervised learning — how neural networks adjust through trial-and-error on language data.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Warm Up — students improve by playing a guessing game in a fictional language</li></ul>
-        <p><strong>Key discussion:</strong> Is this improvement "intelligence" or sophisticated rule-following?</p>
-        <p><strong>⚡ Watch for:</strong> Students concluding this process = true understanding. They're ready to argue both sides — let them.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "Intelligence vs. pattern-matching discussion", "Supervised learning explained"] },
-    8: { header: "Lesson 8 · Attention Is All You Need · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> How context updates word meaning — the Attention mechanism.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Warm Up — ambiguous language examples</li>
-          <li>Level 2: Wrap Up — students write sentences with ambiguous words, trade with partners, identify context clues</li></ul>
-        <p><strong>Key vocab:</strong> Attention, Context</p>
-        <p><strong>⚡ Watch for:</strong> Students conflating Attention with "understanding." Attention is a math operation that updates embeddings — not comprehension.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "Attention mechanism explained simply", "Most likely misconception"] },
-    9: { header: "Lesson 9 · Outputs & Probabilities · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> How LLMs select output words using probability distributions from training data.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Wrap Up — mad lib activity, students select most popular words from class aggregate</li>
-          <li>Level 2: Mad Lib Widget (teacher-facing) — shows distribution of word choices</li></ul>
-        <p><strong>Key discussion:</strong> Why does the "most likely" word sometimes produce boring or wrong text?</p>
-        <p><strong>⚡ Watch for:</strong> Students thinking AI "decides" to use a word. Key: it samples from a probability distribution.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "Probability distributions explained", "What is temperature in LLMs?"] },
-    10: { header: "Lesson 10 · Hallucinations & Fabrications · 45 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> Why AI produces inaccurate outputs (hallucinations), and how to audit AI systems.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Warm Up — examples of AI systems recalled for bias/hallucinations</li>
-          <li>Level 2: Wrap Up — students become AI Auditors; then watch a real AI Auditor video</li></ul>
-        <p><strong>Key vocab:</strong> Hallucination, Fabrication, AI Audit</p>
-        <p><strong>⚡ Watch for:</strong> Students thinking hallucinations are rare. They're a fundamental property of probabilistic text generation, not a bug to be fixed.</p>`,
-      followUps: ["Vocab refresher", "Common student questions", "Why hallucinations happen", "What does an AI Auditor actually do?"] },
-    11: { header: "Lesson 11 · Project: Demystifying Generative AI · 45–90 min",
-      body: `<p><span class="label">Pre-flight</span></p>
-        <p><strong>What you'll teach:</strong> Students apply their knowledge to critique AI misinformation articles and create a rebuttal artifact.</p>
-        <p><strong>Activities:</strong></p><ul>
-          <li>Level 1: Student Post-Survey</li>
-          <li>Students read opinion articles with AI exaggerations/misrepresentations</li>
-          <li>Draft a rebuttal using unit knowledge</li>
-          <li>Create an artifact (visual, diagram, etc.) to support their argument</li></ul>
-        <p><strong>Summative assessment:</strong> This is the main assessment for the unit.</p>
-        <p><strong>⚡ Watch for:</strong> Students who just say "the article is wrong." Push them to cite specific mechanisms from the unit (embeddings, attention, training data, etc.).</p>`,
-      followUps: ["Rubric for the project", "Common student questions", "What articles to use?", "Grading guidance"] },
+  es: {
+    name: "Fundamentos de IA Generativa",
+    tagline: "Grados 9–12 • 11 Lecciones",
+    greetings: {
+      first: [
+        "Bienvenido/a a tu asistente de enseñanza de <strong>Fundamentos de IA Generativa</strong>.",
+        "Estoy aquí para ayudarte a preparar lecciones, explicar conceptos, responder preguntas de estudiantes y reflexionar después de clase."
+      ],
+      returning: ["¡Bienvenido/a de nuevo! ¿Listo/a para continuar desde {lastLesson}?"]
+    },
+    intents: [
+      { id: "preflight", label: "🛫 Preparación", desc: "Prepárate para la lección de mañana" },
+      { id: "inmoment", label: "🙋 Un estudiante me preguntó…", desc: "Ayuda durante la clase" },
+      { id: "concept", label: "💡 Explicar un concepto", desc: "Vocabulario e ideas, fácil para estudiantes" },
+      { id: "misconception", label: "⚠️ Ideas erróneas comunes", desc: "Lo que los estudiantes entienden mal" },
+      { id: "reflect", label: "📝 Reflexionar sobre una lección", desc: "Después de clase" }
+    ],
+    pickLessonPrompt: "¿Qué lección?",
+    lessonChips: [
+      { id: 1, label: "L1 · Intro a IA Generativa" },
+      { id: 2, label: "L2 · Datos de entrenamiento" },
+      { id: 3, label: "L3 · Sesgo en la máquina" },
+      { id: 4, label: "L4 · Comprensión de Embeddings" },
+      { id: 5, label: "L5 · Embeddings: Cómo se crean" },
+      { id: 6, label: "L6 · Redes neuronales" },
+      { id: 7, label: "L7 · RN: Cómo se entrenan" },
+      { id: 8, label: "L8 · La Atención lo es todo" },
+      { id: 9, label: "L9 · Resultados y probabilidades" },
+      { id: 10, label: "L10 · Alucinaciones" },
+      { id: 11, label: "L11 · Proyecto final" }
+    ],
+    preflight: {
+      1: {
+        header: "Lección 1 · Intro a IA Generativa · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> Los estudiantes se introducen a la IA generativa a través de exageración tecnológica frente a la realidad. Establecerás el marco ISPO (Entrada → Almacenamiento → Procesamiento → Salida) que sostiene toda la unidad.</p>
+<p><strong>Vocabulario nuevo (3):</strong> Inteligencia Artificial, Modelo de Lenguaje Grande, Modelo</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Encuesta previa del estudiante (Nivel 1)</li>
+  <li>Calentamiento: discuten exageración frente a realidad tecnológica (Nivel 2)</li>
+  <li>Intro a ISPO: explicación breve, distribuir organizador gráfico (Nivel 3)</li>
+  <li>Cierre: los estudiantes escriben una oración sobre lo que creen que hace la IA</li>
+</ul>
+<p><strong>Verificación técnica:</strong> Imprime o distribuye digitalmente el organizador gráfico ISPO. La encuesta previa debe completarse antes de pasar a la lección 2.</p>
+<p><strong>⚡ Observa:</strong> Los estudiantes confunden toda la IA con ChatGPT. Esta es tu primera oportunidad de ampliar ese modelo mental.</p>`,
+        followUps: ["¿Qué es el marco ISPO con más detalle?", "¿Cómo debo presentar el organizador gráfico?", "Ideas erróneas comunes de la primera lección", "Cómo facilitar la discusión de exageración vs. realidad"]
+      },
+      2: {
+        header: "Lección 2 · Entrada y Datos de Entrenamiento · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> Cómo los modelos de lenguaje requieren cantidades enormes de texto para aprender patrones. Los estudiantes exploran cómo se reconocen y categorizan las palabras.</p>
+<p><strong>Vocabulario nuevo (2):</strong> Datos de entrenamiento, Entrada</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento: estiman cuántas palabras lee un modelo — revelar la escala (Nivel 1)</li>
+  <li>Actividad de reconocimiento de palabras: clasifican palabras por categoría (Nivel 2)</li>
+  <li>Discusión: ¿de dónde vienen estos datos? ¿Quién los escribió? (Nivel 3)</li>
+  <li>Cierre: actualizar la sección de <strong>Entrada</strong> del organizador gráfico ISPO (Nivel 4)</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes asumen que los datos de entrenamiento son seleccionados y limpios. Enfatiza que la mayoría son texto de internet crudo — esto prepara la Lección 3 sobre sesgo.</p>`,
+        followUps: ["¿Qué son los datos de entrenamiento y por qué importa la escala?", "¿Cómo explico la diferencia entre entrada y datos de entrenamiento?", "¿Cómo conecta esta lección con el sesgo en la Lección 3?", "¿Qué preguntas son buenas para la conversación sobre datos?"]
+      },
+      3: {
+        header: "Lección 3 · Sesgo en la Máquina · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> Introducción formal al sesgo en IA. La actividad RecipeBot es el centro — los estudiantes curan artículos para un chatbot de recetas y descubren sesgos involuntarios.</p>
+<p><strong>Vocabulario nuevo (1):</strong> Sesgo</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento: "¿Alguna vez recibiste una recomendación que se sintió incorrecta?" (Nivel 1)</li>
+  <li>Actividad RecipeBot: seleccionan artículos y analizan qué cocinas están representadas (Niveles 2–3)</li>
+  <li>Debate: ¿dónde entró el sesgo? (Nivel 4)</li>
+  <li>Cierre: exit ticket — un ejemplo de sesgo que notaron</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes asumen que el sesgo es siempre intencional. Refuerza: la mayoría del sesgo en IA es involuntario.</p>`,
+        followUps: ["¿Cómo facilito el debate de RecipeBot sin que se sienta acusatorio?", "¿Cuáles son los principales tipos de sesgo en IA?", "¿Cómo afecta el sesgo en los datos al modelo?", "Extensión: ejemplos reales de sesgo en IA"]
+      },
+      4: {
+        header: "Lección 4 · Comprensión de Embeddings · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> Las palabras se representan como secuencias de números (vectores) dentro de un modelo. Las palabras "similares" terminan numéricamente cercanas.</p>
+<p><strong>Vocabulario nuevo (2):</strong> Embedding, Almacenamiento</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento: "¿Cómo describirías 'frío' a una computadora que solo entiende números?" (Nivel 1)</li>
+  <li>Actividad de secuencias numéricas: cada estudiante recibe un perfil como lista de números — encuentran sus "más cercanos" comparando (Nivel 2)</li>
+  <li>Revelación: los números representaban rasgos de personalidad (Nivel 3)</li>
+  <li>Conexión con IA: así funcionan los word embeddings (Nivel 4)</li>
+  <li>Cierre: actualizar la sección de <strong>Almacenamiento</strong> del organizador gráfico ISPO</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes creen que los embeddings capturan el "verdadero significado". Capturan patrones estadísticos de co-ocurrencia.</p>`,
+        followUps: ["¿Cómo explico el espacio vectorial sin álgebra lineal?", "¿Qué es la analogía de word2vec (rey - hombre + mujer = reina)?", "¿Cómo conectan los embeddings con el Almacenamiento de ISPO?", "¿Cómo configuro la actividad de distancia numérica?"]
+      },
+      5: {
+        header: "Lección 5 · Embeddings: Cómo Se Crean · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> El contexto determina el significado. Los estudiantes interpretan un pasaje en un idioma inventado — luego descubren que dos grupos recibieron contextos diferentes para la misma palabra.</p>
+<p><strong>Vocabulario nuevo (2):</strong> Contexto, Token</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento: presenta la palabra "banco" sola — ¿cuántos significados encuentran? (Nivel 1)</li>
+  <li>Divide la clase en dos grupos. Cada recibe un pasaje en zorbiés. La misma palabra "flurb" aparece en ambos con contextos distintos (Niveles 2–3)</li>
+  <li>Los grupos comparten definiciones — la clase descubre que el mismo token puede significar cosas distintas (Nivel 4)</li>
+  <li>Cierre: diario — "¿Qué nos dice esto sobre cómo la IA aprende el significado?"</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes asumen que la IA "decide" qué significan las palabras. Los embeddings codifican patrones estadísticos.</p>`,
+        followUps: ["¿En qué se diferencian los tokens de las palabras?", "¿Por qué importa el contexto para los embeddings?", "¿Cómo escribo un pasaje convincente en idioma ficticio?", "¿En qué se diferencian los embeddings contextuales de los estáticos?"]
+      },
+      6: {
+        header: "Lección 6 · Redes Neuronales · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> La estructura básica de una red neuronal — entradas, capas ocultas y salidas — a través de una actividad de recomendador de almuerzos.</p>
+<p><strong>Vocabulario nuevo (3):</strong> Red Neuronal, Capa Oculta, Pesos</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento mad-lib: oraciones con palabras en orden desordenado (Nivel 1)</li>
+  <li>Recomendador de almuerzos: diseñan un sistema de reglas simple (Nivel 2)</li>
+  <li>Docente presenta: diagrama de red neuronal — entradas → capas ocultas → salida (Nivel 3)</li>
+  <li>Presenta los pesos: algunas reglas importan más que otras (Nivel 4)</li>
+  <li>Cierre: dibuja tu propia red neuronal de 3 nodos</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes piensan que las capas ocultas son "cajas negras" misteriosas que diseñaron los humanos. La estructura se diseña; los pesos se aprenden.</p>`,
+        followUps: ["¿Cómo explico las capas ocultas a estudiantes sin matemáticas?", "¿Qué son los pesos y por qué importan?", "¿Cómo conecta el recomendador con las redes neuronales reales?", "¿Cuál es la diferencia entre una red neuronal y el cerebro humano?"]
+      },
+      7: {
+        header: "Lección 7 · Redes Neuronales: Cómo Se Entrenan · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> Aprendizaje supervisado — cómo las redes neuronales mejoran mediante ensayo, error y ejemplos etiquetados. Un juego de idioma ficticio lo hace concreto.</p>
+<p><strong>Vocabulario nuevo (2):</strong> Aprendizaje Supervisado, Entrenamiento</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento: "¿Cómo aprendiste a andar en bicicleta?" (Nivel 1)</li>
+  <li>Juego de idioma ficticio: el docente dice una oración en zorbiés; estudiantes adivinan; docente dice correcto/incorrecto (Niveles 2–3)</li>
+  <li>Debate: esto es aprendizaje supervisado (Nivel 4)</li>
+  <li>Cierre filosófico: "¿Es esto 'inteligencia'?" (Nivel 5)</li>
+  <li>Cierre: actualizar la sección de <strong>Procesamiento</strong> del organizador gráfico ISPO</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes equiparan el aprendizaje supervisado con el aprendizaje humano. Los mecanismos difieren fundamentalmente.</p>`,
+        followUps: ["¿Cuál es la diferencia entre aprendizaje supervisado, no supervisado y por refuerzo?", "¿Cómo funciona la retropropagación conceptualmente?", "¿Cómo facilito productivamente '¿es esto inteligencia?'", "¿Cómo conecta el entrenamiento con el Procesamiento de ISPO?"]
+      },
+      8: {
+        header: "Lección 8 · La Atención lo es Todo · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> El lenguaje ambiguo requiere contexto de toda la oración. El mecanismo de Atención es cómo los transformers manejan esto.</p>
+<p><strong>Vocabulario nuevo (2):</strong> Atención, Ambigüedad</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento: palabras con múltiples significados — "banco", "vela", "cura" (Nivel 1)</li>
+  <li>Los estudiantes escriben una oración con palabra ambigua y una aclaratoria; intercambian con un compañero (Nivel 2)</li>
+  <li>Docente presenta: introduce la Atención (Nivel 3)</li>
+  <li>Demo de mapa de calor de atención (Nivel 4)</li>
+  <li>Cierre: explican en sus palabras por qué la atención es necesaria</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes piensan que "atención" significa que la IA se concentra conscientemente. La atención es una operación matemática.</p>`,
+        followUps: ["¿Cómo explico el mecanismo de atención sin matemáticas de matrices?", "¿Cuál es la diferencia entre atención y memoria?", "¿Por qué fue tan innovadora la atención (paper Transformer 2017)?", "¿Cómo conecta la atención con la ambigüedad cotidiana?"]
+      },
+      9: {
+        header: "Lección 9 · Resultados y Probabilidades · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> Los modelos de lenguaje seleccionan palabras por probabilidad. El widget de mad-lib lo hace visceral: los estudiantes votan sobre opciones y experimentan la predicción de tokens.</p>
+<p><strong>Vocabulario nuevo (3):</strong> Probabilidad, Salida, Predicción de Tokens</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento: "Completa: 'El perro corrió hacia el/la…'" — cuenta respuestas (Nivel 1)</li>
+  <li>Construcción de historia: la clase alterna contribuciones realistas y fantásticas votando (Nivel 2)</li>
+  <li>Widget de mad-lib: muestra cómo el agregado refleja la selección de tokens (Nivel 3)</li>
+  <li>Introduce la temperatura (Nivel 4)</li>
+  <li>Cierre: actualizar la sección de <strong>Salida</strong> del ISPO — el organizador está completo</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes piensan que el modelo "escribe" como escritor humano. Selecciona tokens probables.</p>`,
+        followUps: ["¿Qué es la temperatura en los modelos de lenguaje?", "¿Cómo se relaciona la predicción de tokens con la distribución de probabilidad?", "¿Por qué los LLMs producen resultados sorprendentes a veces?", "¿Cómo completa esta lección el marco ISPO?"]
+      },
+      10: {
+        header: "Lección 10 · Alucinaciones y Fabricaciones · 45 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> Por qué los LLMs producen resultados confiados pero inexactos. Los estudiantes se convierten en Auditores de IA — evalúan resultados reales.</p>
+<p><strong>Vocabulario nuevo (3):</strong> Alucinación, Fabricación, Auditoría de IA</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Calentamiento: muestra una alucinación famosa de un LLM (Nivel 1)</li>
+  <li>Actividad Auditor de IA: grupos pequeños verifican párrafos generados por LLM (Niveles 2–3)</li>
+  <li>Presentación: ¿qué tipos de errores aparecieron? (Nivel 4)</li>
+  <li>Discusión: sistemas de IA reales retirados del mercado (Nivel 5)</li>
+  <li>Cierre: "¿Qué hábitos deberías desarrollar al usar contenido generado por IA?"</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes concluyen que la IA es "inútil". Equilibra: la IA es una herramienta poderosa que requiere evaluación crítica.</p>`,
+        followUps: ["¿Por qué ocurren las alucinaciones mecánicamente?", "¿Cuáles son los casos más notables de alucinaciones de IA?", "¿Cómo configuro efectivamente la actividad Auditor de IA?", "¿Qué hábitos deben desarrollar los estudiantes?"]
+      },
+      11: {
+        header: "Lección 11 · Proyecto: Desmitificando la IA Generativa · 45–90 min",
+        body: `<p><span class="label">Preparación</span></p>
+<p><strong>Qué enseñarás:</strong> Proyecto sumativo. Los estudiantes leen artículos de opinión con exageraciones, escriben una refutación usando el vocabulario de la unidad y crean un artefacto visual.</p>
+<p><strong>Vocabulario:</strong> Revisión de todos los términos de la unidad</p>
+<p><strong>Actividades:</strong></p>
+<ul>
+  <li>Lectura: 3–4 artículos de opinión sobre IA con afirmaciones identificablemente exageradas (Nivel 1)</li>
+  <li>Anotación: identifican afirmaciones específicas exageradas o incorrectas (Nivel 2)</li>
+  <li>Escribir refutación: párrafo usando al menos 4 términos de vocabulario (Nivel 3)</li>
+  <li>Artefacto visual: infografía, tira cómica, póster o presentación (Nivel 4)</li>
+  <li>Cierre: encuesta posterior</li>
+</ul>
+<p><strong>⚡ Observa:</strong> Los estudiantes se enfocan solo en la gramática en la refutación. Empújalos a usar vocabulario técnico con precisión.</p>`,
+        followUps: ["¿Qué hace que un artículo de opinión sobre IA sea bueno para esta actividad?", "¿Cómo debo calificar la refutación?", "¿Cómo evalúo el artefacto visual?", "¿Cómo uso la encuesta pre/post para mostrar el crecimiento?"]
+      }
+    },
+    studentQs: {
+      1: [
+        {
+          q: "¿La IA generativa es lo mismo que ChatGPT?",
+          a: `<p>ChatGPT es un ejemplo de IA generativa — específicamente un modelo de lenguaje grande. Pero la IA generativa es una categoría más amplia que incluye generadores de imágenes, IA musical, modelos de video y más.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"ChatGPT es a la IA generativa lo que un Toyota Corolla es a 'automóvil'. Es un tipo específico. La IA generativa también incluye DALL-E, IA de música y modelos de video."</div>`
+        },
+        {
+          q: "¿La IA realmente entiende lo que le decimos?",
+          a: `<p>Probablemente no de la manera en que los humanos lo hacemos. Los LLMs procesan patrones estadísticos en texto. Predicen respuestas probables sin comprensión, intención ni conciencia.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Imagina que memorizaste miles de millones de conversaciones y te volviste muy bueno adivinando qué viene después. Sonarías fluido — pero ¿comprenderías? Eso es más cercano a lo que ocurre en un LLM. Coincidencia de patrones a escala masiva, no comprensión."</div>`
+        },
+        {
+          q: "¿Va a quitar la IA el trabajo a todos?",
+          a: `<p>Esta es una pregunta social real — pero 'el trabajo de todos' es la versión exagerada. La IA está cambiando muchos empleos y automatizará algunas tareas. Históricamente, las nuevas tecnologías cambian el aspecto de los trabajos más que eliminarlos todos.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Esa es exactamente el tipo de pregunta sobre la que este curso te ayuda a pensar críticamente. Al final, tendrás conocimiento real sobre lo que la IA realmente hace."</div>`
+        }
+      ],
+      2: [
+        {
+          q: "¿De dónde vienen todos los datos de entrenamiento?",
+          a: `<p>Principalmente de internet — páginas web, libros, Wikipedia, repositorios de código, foros, artículos de noticias. Common Crawl contiene petabytes de texto web. Algunos datos están licenciados; gran parte se extrae sin permiso explícito.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Básicamente, si estaba escrito en internet y era de acceso público, hay buenas posibilidades de que haya terminado en un conjunto de datos de entrenamiento. Eso incluye foros, noticias, redes sociales, libros — lo bueno, lo malo y lo desordenado."</div>`
+        },
+        {
+          q: "¿Cuántos datos necesita realmente un modelo de lenguaje?",
+          a: `<p>Cantidades enormes. GPT-3 se entrenó con aproximadamente 570 GB de texto filtrado — unos 300 mil millones de tokens. Si leyeras un libro por semana, tardarías más de 10,000 años en leer lo que entrenó un modelo grande.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Un modelo grande procesa más texto en el entrenamiento que todo lo que la humanidad ha escrito y leído combinado. Esa escala es parte de por qué son tan capaces — y por qué la calidad de los datos importa tanto."</div>`
+        },
+        {
+          q: "¿Puede la IA aprender de lo que le digo durante una conversación?",
+          a: `<p>Durante una conversación — sí, dentro de esa sesión (está en la ventana de contexto). Pero la mayoría de los sistemas de IA públicos no actualizan los pesos del modelo subyacente con las conversaciones individuales.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Piensa en ello como hablar con alguien con amnesia — son excelentes en el momento, pero la próxima sesión empiezan de nuevo. El entrenamiento que construyó su conocimiento ocurrió antes de tu conversación, no durante ella."</div>`
+        }
+      ],
+      3: [
+        {
+          q: "¿El sesgo en la IA siempre es intencional?",
+          a: `<p>Casi nunca. El sesgo generalmente entra a través de los datos — reflejando quién los escribió, qué temas estaban sobre o subrepresentados, y qué perspectivas culturales dominan internet.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Si entrenaste una IA de recetas con blogs de cocina en español de 2010–2020, podría ser excelente con pasta y tacos — y terrible con injera o pho. No porque alguien decidiera que esas cocinas importan menos. Solo porque los datos reflejaban quién escribía blogs en ese momento."</div>`
+        },
+        {
+          q: "¿Se puede eliminar el sesgo de la IA?",
+          a: `<p>Se puede reducir, pero probablemente no eliminar completamente. Las técnicas incluyen curar los datos de entrenamiento con más cuidado, aplicar filtros de sesgo y usar retroalimentación humana.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Reducir el sesgo en IA es menos como un interruptor de encendido/apagado y más como un dial — puedes bajarlo, pero siempre estás haciendo compromisos sobre qué perspectiva define la 'neutralidad'."</div>`
+        },
+        {
+          q: "¿Por qué importa si una IA de recetas tiene sesgo?",
+          a: `<p>Una IA de recetas es relativamente de bajo riesgo. Pero los mismos patrones aparecen en IA de contratación, diagnóstico médico, sistemas de aprobación de préstamos y reconocimiento facial — donde los resultados sesgados tienen consecuencias reales.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Usamos recetas porque las apuestas son lo suficientemente bajas como para pensar con claridad. Pero cada lección de RecipeBot aplica directamente a sistemas que afectan la salud, solicitudes de empleo y resultados legales de las personas."</div>`
+        }
+      ],
+      4: [
+        {
+          q: "¿Por qué usamos números para representar palabras?",
+          a: `<p>Las computadoras hacen matemáticas. No pueden hacer nada directamente con la palabra "perro" — pero pueden hacer mucho con [0.2, 0.8, 0.1, 0.9]. Al mapear palabras a vectores, hacemos que el lenguaje sea matemáticamente manipulable.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Cada palabra en el vocabulario de un LLM ha sido convertida en una lista de cientos o miles de números. Esa es su 'dirección' en el espacio de significado. El modelo hace todo su trabajo en ese espacio numérico."</div>`
+        },
+        {
+          q: "¿Cómo puede 'rey' menos 'hombre' más 'mujer' igual 'reina'?",
+          a: `<p>En un espacio de embedding bien entrenado, la diferencia entre "rey" y "hombre" captura aproximadamente "realeza" — y añadirlo a "mujer" apunta hacia "reina".</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Piensa en ello como coordenadas en un mapa. Si aprendes 'norte = frío' y 'este = costero', moverte hacia el noreste debería llevarte a algún lugar frío y costero. Los embeddings de palabras hacen algo similar."</div>`
+        },
+        {
+          q: "¿Dónde se almacenan los embeddings en el modelo?",
+          a: `<p>En una matriz de embedding — una tabla de búsqueda donde cada fila es el vector de una palabra. Estos vectores se aprenden durante el entrenamiento, no se codifican manualmente.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"El modelo tiene una tabla gigante — imagina una hoja de cálculo con una fila por cada palabra en su vocabulario y cientos de columnas. Cuando escribes una palabra, busca esa fila y entrega esos números al resto de la red."</div>`
+        }
+      ],
+      5: [
+        {
+          q: "¿Qué es exactamente un token?",
+          a: `<p>Un token es la unidad básica que procesa el modelo — generalmente una palabra, parte de una palabra o un signo de puntuación. "Increíble" podría dividirse en ["in", "cre", "íble"]. El modelo nunca ve texto sin procesar — ve una secuencia de IDs de tokens.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Un token es como una pieza de rompecabezas. Las palabras se cortan en tokens — a veces una palabra completa, a veces un fragmento, a veces solo una letra. El modelo ve los IDs de esas piezas, no las letras reales."</div>`
+        },
+        {
+          q: "¿Por qué la misma palabra significa cosas diferentes en distintos contextos?",
+          a: `<p>Porque el significado es relacional. Los modelos modernos calculan la representación de una palabra atendiendo a todo el contexto circundante, por lo que el mismo token de palabra recibe representaciones numéricas diferentes.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Los embeddings anteriores daban a cada palabra una dirección de significado fija. Los transformers modernos calculan vectores sensibles al contexto — la misma palabra obtiene representaciones diferentes dependiendo de sus vecinos."</div>`
+        },
+        {
+          q: "¿Cómo se captura el contexto matemáticamente?",
+          a: `<p>A través del mecanismo de atención. Al calcular el embedding para una palabra, el modelo pondera contribuciones de cada otra palabra en la ventana de contexto. Las palabras más relevantes contribuyen más.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Las matemáticas capturan el contexto preguntando: ¿cuánto debe influir cada palabra circundante en el significado de esta palabra? Esos pesos de influencia son puntuaciones de atención — se aprenden, no se programan."</div>`
+        }
+      ],
+      6: [
+        {
+          q: "¿Qué es una capa oculta y por qué está 'oculta'?",
+          a: `<p>Una capa oculta es cualquier capa entre la capa de entrada y la capa de salida. Está "oculta" porque no observamos directamente sus valores — damos entradas a la red y leemos sus salidas.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Piensa en una capa oculta como el interior de una cocina. Ves lo que entra (ingredientes) y lo que sale (una comida), pero el corte, la mezcla y la cocción ocurren donde no los ves directamente."</div>`
+        },
+        {
+          q: "¿Qué son los pesos y cómo se establecen?",
+          a: `<p>Los pesos son números adjuntos a cada conexión entre neuronas. Inicialmente se establecen aleatoriamente. Durante el entrenamiento, se ajustan a través de la retropropagación.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Imagina que estás calibrando una receta. Si la sopa está demasiado salada, añades menos sal la próxima vez. Los pesos funcionan igual — el modelo verifica su error y ajusta. Haz eso miles de millones de veces y obtienes un buen modelo."</div>`
+        },
+        {
+          q: "¿Una red neuronal es realmente como el cerebro humano?",
+          a: `<p>Vagamente inspirada, pero fundamentalmente diferente. El cerebro humano tiene ~86 mil millones de neuronas con señalización electroquímica compleja. Las redes neuronales artificiales son grafos matemáticos simplificados.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Una red neuronal está inspirada en el cerebro de la misma manera que un avión de papel está inspirado en un avión real. La inspiración fue real, pero el mecanismo es completamente diferente."</div>`
+        }
+      ],
+      7: [
+        {
+          q: "¿Cuál es la diferencia entre entrenar y usar un modelo?",
+          a: `<p>El entrenamiento es cuando el modelo aprende — los pesos se ajustan. Es computacionalmente costoso y ocurre antes del despliegue. Usar (inferencia) es cuando el modelo entrenado responde — los pesos están fijos y es mucho más rápido.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"El entrenamiento es como estudiar para un examen — mucha práctica, mucha corrección. La inferencia es como tomar el examen — usas lo que aprendiste. Cuando chateas con una IA, siempre está en modo examen."</div>`
+        },
+        {
+          q: "¿Qué es exactamente el aprendizaje supervisado?",
+          a: `<p>El aprendizaje supervisado significa entrenar con ejemplos etiquetados. Para los modelos de lenguaje, la "etiqueta" es la siguiente palabra en una oración real escrita por humanos — así el internet entero se convierte en datos de entrenamiento.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Para los modelos de lenguaje, el aprendizaje supervisado es casi autoservicio. La 'respuesta correcta' para 'El gato se sentó en el ___' es simplemente la palabra que vino después en el texto original."</div>`
+        },
+        {
+          q: "¿Cuánto tiempo tarda en entrenarse un modelo de lenguaje grande?",
+          a: `<p>Semanas a meses, ejecutándose en miles de chips especializados simultáneamente. El entrenamiento de GPT-4 se estima que costó más de 100 millones de dólares.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Entrenar un modelo grande desde cero es como construir un rascacielos — requiere un equipo masivo, enormes recursos y meses de trabajo. Por eso la mayoría de las personas usan modelos que ya fueron construidos."</div>`
+        }
+      ],
+      8: [
+        {
+          q: "¿Cómo funciona realmente el mecanismo de atención?",
+          a: `<p>Para cada palabra que se procesa, la atención calcula una puntuación con cada otra palabra en el contexto — ¿qué tan relevante es para entender esta? Estas puntuaciones se convierten en pesos, y el modelo crea una mezcla ponderada.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Cuando el modelo procesa 'ello' en 'El trofeo no cabía en la bolsa porque era demasiado grande', la atención deja que 'ello' pregunte a cada palabra: ¿qué tan relevante eres para descubrir a qué me refiero?"</div>`
+        },
+        {
+          q: "¿Por qué el artículo se llama 'Attention Is All You Need'?",
+          a: `<p>El artículo de 2017 de Vaswani et al. introdujo la arquitectura Transformer, mostrando que los mecanismos de atención solos eran suficientes y superiores para tareas de lenguaje.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Antes de este artículo, los modelos procesaban el texto secuencialmente — palabra por palabra. El Transformer procesa todas las palabras simultáneamente usando atención. Un cambio fundamental, como pasar de una carretera de un carril a una autopista de 100 carriles."</div>`
+        },
+        {
+          q: "¿Qué tiene que ver la ambigüedad con por qué la IA a veces se equivoca?",
+          a: `<p>Cuando el contexto es insuficiente para resolver la ambigüedad, el modelo elige la interpretación más común estadísticamente de los datos de entrenamiento — que puede ser incorrecta en el contexto específico.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Si le preguntas a una IA '¿Puedes llevarme al banco?' en un mensaje sobre pesca, podría responder sobre cajeros automáticos — porque la asociación banco+dinero es mucho más fuerte en los datos de entrenamiento que banco+río."</div>`
+        }
+      ],
+      9: [
+        {
+          q: "Si la IA solo elige la palabra más probable, ¿por qué parece creativa?",
+          a: `<p>Dos razones: (1) Temperatura — agregar aleatoriedad para que palabras menos comunes también tengan oportunidad. (2) La explosión combinatoria de secuencias — incluso elecciones "populares" combinadas en nuevas secuencias crean algo que se siente novedoso.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Imagina elegir la palabra más popular en cada paso de una historia de un millón de palabras. Incluso las elecciones 'populares', combinadas en nuevas secuencias, crean algo que nunca ha existido antes."</div>`
+        },
+        {
+          q: "¿Qué es la temperatura en los resultados de IA?",
+          a: `<p>La temperatura es un parámetro que controla la aleatoriedad en la selección de tokens. A temperatura 0, el modelo siempre elige el token de mayor probabilidad. A temperaturas más altas, los tokens de menor probabilidad tienen más posibilidades.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Temperatura 0 es como pedir siempre lo mismo en un restaurante. Temperatura 1 es como a veces probar los especiales del día. Temperatura 2 es como cerrar los ojos y señalar el menú al azar."</div>`
+        },
+        {
+          q: "¿Por qué los modelos de lenguaje a veces se repiten?",
+          a: `<p>La repetición es un modo de falla de la generación basada en probabilidad. Si el modelo asigna alta probabilidad a una frase que acaba de decir, puede repetirla. Se utilizan penalizaciones de repetición para desalentar esto.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"El modelo no recuerda que ya dijo algo — solo ve la ventana de contexto. Si una frase aparece varias veces en el contexto, parece una continuación 'popular', así que el modelo la dice de nuevo."</div>`
+        }
+      ],
+      10: [
+        {
+          q: "¿Por qué la IA inventa cosas con tanta confianza?",
+          a: `<p>Porque el modelo no sabe lo que no sabe. Genera los tokens siguientes más probables — y a veces la continuación más probable es una afirmación que suena plausible pero es falsa. No hay verificador de hechos interno.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"El modelo no tiene concepto de 'no estoy seguro'. Cada resultado es simplemente 'la continuación más probable'. Una alucinación confiada y una respuesta correcta se sienten exactamente igual para el modelo."</div>`
+        },
+        {
+          q: "¿Cuál es la diferencia entre una alucinación y una fabricación?",
+          a: `<p>La alucinación es el término más amplio — cualquier resultado que suene plausible pero sea incorrecto. La fabricación es un tipo específico donde el modelo inventa algo que nunca existió: una cita falsa, un estudio inventado.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Si el modelo te dice que Simón Bolívar nació en Ecuador, eso es una alucinación — un hecho equivocado. Si inventa una biografía de un ficticio Simón Bolívar II que era chef en los años 1950 — eso es una fabricación."</div>`
+        },
+        {
+          q: "¿Hay alguna manera de detener las alucinaciones?",
+          a: `<p>Se pueden reducir pero no eliminar completamente. La Generación Aumentada por Recuperación (RAG) ayuda. El ajuste fino en datos precisos ayuda. Pero el mecanismo fundamental de generación por probabilidad significa que las alucinaciones siguen siendo un riesgo.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"RAG es prometedor — en lugar de pedir al modelo que recuerde, le das los documentos correctos y le pides que resuma. Pero incluso entonces, el modelo podría malinterpretar. La verificación crítica sigue siendo esencial."</div>`
+        }
+      ],
+      11: [
+        {
+          q: "¿Cómo sé si una afirmación sobre IA en un artículo está exagerada?",
+          a: `<p>Pregúntate: ¿La afirmación requiere que la IA tenga comprensión, intención o conciencia? ¿Se usa "siempre" o "nunca"? Compara las afirmaciones con lo que sabes sobre cómo funcionan los LLMs.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Pasa cada afirmación sobre IA por tu lente ISPO. Si requiere que la IA 'sepa', 'quiera', 'entienda' o 'decida' — eso es exageración. Si es sobre cómo se ven los resultados o qué patrones se aprendieron — podría ser legítimo."</div>`
+        },
+        {
+          q: "¿Qué hace que una buena refutación de un artículo sobre IA?",
+          a: `<p>Una buena refutación: (1) identifica la afirmación específica, (2) explica por qué es inexacta usando vocabulario de la unidad, (3) proporciona la versión más precisa, y (4) cita una fuente confiable.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"Una refutación no es 'esto está mal'. Es 'esta afirmación dice X; aquí está por qué X tergiversa cómo funcionan los modelos de lenguaje; aquí está lo que realmente ocurre; aquí hay una fuente'."</div>`
+        },
+        {
+          q: "¿Por qué importa si los periodistas o el público malentienden la IA?",
+          a: `<p>Porque la comprensión pública da forma a la política, la inversión, el miedo y la confianza. La IA sobrevalorada lleva a inversión mal dirigida y decepción. La IA mal caracterizada puede llevar al pánico o la complacencia.</p>
+<p><span class="label">Di a tu clase</span></p>
+<div class="quote">"La forma en que las personas entienden la IA afecta cómo los gobiernos la regulan, cómo las empresas la construyen y cómo los individuos la usan. Ustedes son parte de la solución — personas que realmente entienden cómo funciona."</div>`
+        }
+      ]
+    },
+    concepts: [
+      { id: "generative-ai", term: "IA Generativa", lessons: [1,2,3,4,5,6,7,8,9,10,11],
+        adult: "Clase de modelos de IA que generan nuevo contenido aprendiendo patrones estadísticos de grandes conjuntos de datos.",
+        kid: "IA que puede crear cosas nuevas aprendiendo patrones de millones de ejemplos.",
+        example: "ChatGPT, DALL-E, Suno.", nonexample: "Filtro de spam. Sistema de recomendación que clasifica películas existentes." },
+      { id: "llm", term: "Modelo de Lenguaje Grande (LLM)", lessons: [1,2,5,6,7,8,9,10],
+        adult: "Red neuronal con miles de millones de parámetros, entrenada en corpus de texto masivos para predecir y generar texto.",
+        kid: "Modelo de IA muy grande entrenado en enormes cantidades de texto que aprendió a predecir y escribir lenguaje.",
+        example: "GPT-4, Claude, Gemini.", nonexample: "Verificador de gramática basado en reglas." },
+      { id: "model", term: "Modelo", lessons: [1,6,7,8,9,10,11],
+        adult: "Función matemática con parámetros aprendidos que mapea entradas a salidas. El artefacto producido por el entrenamiento.",
+        kid: "Lo que sale del entrenamiento — el 'cerebro' de la IA después de que todo el aprendizaje termina.",
+        example: "Modelo de lenguaje que toma un prompt y genera una respuesta.", nonexample: "Los datos de entrenamiento. El algoritmo de entrenamiento." },
+      { id: "training-data", term: "Datos de Entrenamiento", lessons: [2,3,4,5,7],
+        adult: "Conjunto de datos usado para entrenar un modelo de ML. Para LLMs, cientos de miles de millones a billones de tokens de texto.",
+        kid: "Todo el texto que el modelo leyó y aprendió antes de que hablaras con él.",
+        example: "Common Crawl, Wikipedia, libros digitalizados.", nonexample: "El prompt que escribes en un chatbot." },
+      { id: "bias", term: "Sesgo", lessons: [3,10,11],
+        adult: "Patrones sistemáticos en los resultados del modelo que reflejan desequilibrios en los datos de entrenamiento.",
+        kid: "Cuando una IA favorece o ignora consistentemente ciertos grupos — generalmente porque sus datos de entrenamiento tenían esos mismos desequilibrios.",
+        example: "IA de contratación que rebaja currículums de mujeres.", nonexample: "Error factual único. Error en una fecha específica." },
+      { id: "embedding", term: "Embedding", lessons: [4,5],
+        adult: "Representación vectorial densa de un elemento discreto en un espacio continuo de alta dimensión.",
+        kid: "Una palabra convertida en una lista de números. Palabras con significados similares terminan con números similares.",
+        example: "Word2Vec, GloVe, BERT.", nonexample: "Tabla de búsqueda simple. Codificación one-hot." },
+      { id: "context", term: "Contexto", lessons: [5,8,9],
+        adult: "El texto circundante disponible para el modelo al generar o evaluar un token dado.",
+        kid: "Las palabras y oraciones circundantes que ayudan a descubrir qué significa una palabra en ese momento.",
+        example: "'Bajo' en 'tocó el bajo en la orquesta' se resuelve como instrumento gracias a 'orquesta'.", nonexample: "Los datos de entrenamiento del modelo." },
+      { id: "neural-network", term: "Red Neuronal", lessons: [6,7,8],
+        adult: "Grafo computacional de nodos interconectados en capas, donde cada conexión tiene un peso aprendido.",
+        kid: "Sistema de nodos matemáticos conectados que aprende patrones ajustando sus conexiones.",
+        example: "La red dentro de ChatGPT.", nonexample: "Cerebro humano. Árbol de decisión." },
+      { id: "attention", term: "Atención", lessons: [8,9],
+        adult: "Mecanismo en transformers que calcula una suma ponderada de vectores de valor según la relevancia entre vectores de consulta y clave.",
+        kid: "Manera para que el modelo mire todas las otras palabras cuando intenta entender cualquier palabra.",
+        example: "Resolucion de pronombres en 'La copa no cabía porque era pequeña'.", nonexample: "Enfoque o conciencia humana." },
+      { id: "probability", term: "Probabilidad", lessons: [9,10],
+        adult: "En inferencia LLM, distribución de probabilidad sobre el vocabulario para cada posición de token siguiente.",
+        kid: "Número entre 0 y 1 que dice qué tan probable es algo. Los modelos asignan probabilidades a todas las palabras posibles.",
+        example: "Después de 'El gato se sentó en el ___', 80% a 'suelo', 5% a 'tapete'.", nonexample: "Generador de palabras aleatorias." },
+      { id: "hallucination", term: "Alucinación", lessons: [10,11],
+        adult: "Modo de falla de generación donde el modelo produce output fluido y confiado pero factualmente incorrecto o fabricado.",
+        kid: "Cuando una IA inventa algo pero lo dice con confianza como si fuera verdad.",
+        example: "LLM citando un artículo de revista que no existe.", nonexample: "IA dando una opinión. IA negándose a responder." },
+      { id: "ispo", term: "Marco ISPO", lessons: [1,2,4,7,9],
+        adult: "Marco pedagógico: Entrada, Almacenamiento, Procesamiento, Salida — aplicado a LLMs para trazar cómo funciona la IA generativa.",
+        kid: "Marco de cuatro pasos: Entrada es lo que entra, Almacenamiento cómo se guarda, Procesamiento el trabajo, Salida lo que sale.",
+        example: "Para ChatGPT: Entrada=prompt, Almacenamiento=pesos, Procesamiento=transformador, Salida=texto generado.", nonexample: "Descripción de proceso de pensamiento humano." }
+    ],
+    misconceptions: {
+      1: [
+        { student: "La IA generativa entiende lo que dice.", reality: "Predice tokens estadísticamente probables — sin comprensión ni intención.", fix: `"Si te pidiera escribir la palabra más común después de 'El gato se sentó en el...' dirías 'tapete'. ¿Lo necesitabas entender? No. Los LLMs hacen eso a miles de millones de ejemplos por segundo."` },
+        { student: "Toda la IA es lo mismo — todo es ChatGPT.", reality: "IA generativa es una categoría amplia. ChatGPT es un producto de una empresa.", fix: `"ChatGPT es a la IA lo que Google Chrome es al software. Un producto prominente. El campo es mucho más grande."` },
+        { student: "La IA es neutral y objetiva porque es una computadora.", reality: "La IA hereda los sesgos de sus datos de entrenamiento.", fix: `"Las computadoras no son neutrales — construidas por personas usando datos creados por personas. Exploraremos esto en la Lección 3."` }
+      ],
+      2: [
+        { student: "La IA aprende durante nuestra conversación.", reality: "La mayoría de los LLMs no actualizan pesos durante la inferencia.", fix: `"El 'aprendizaje' del modelo terminó meses antes. Durante tu conversación, usa lo que ya aprendió."` },
+        { student: "Los datos de entrenamiento están cuidadosamente seleccionados.", reality: "Los modelos típicamente entrenan en datos extraídos de la web con misinformación, errores y sesgos.", fix: `"Common Crawl es básicamente una instantánea del internet público — académico, conspiraciones, reseñas de productos. Sin curación manual."` },
+        { student: "La IA ha leído y entendido cada palabra en sus datos.", reality: "El modelo procesó patrones estadísticos — no leyó ni comprendió en ningún sentido humano.", fix: `"El modelo absorbió la huella estadística del texto — qué palabras tienden a seguir a cuáles — en lugar de leerlo como tú harías un libro."` }
+      ],
+      3: [
+        { student: "El sesgo en IA significa que la IA es racista/sexista a propósito.", reality: "La mayoría del sesgo en IA es no intencional — refleja patrones estadísticos en los datos.", fix: `"No intencional no significa inofensivo. RecipeBot no planeó excluir ninguna cocina. Solo entrenó con lo que había."` },
+        { student: "Puedes eliminar completamente el sesgo con la técnica correcta.", reality: "El sesgo puede reducirse pero no eliminarse. Lo que cuenta como 'sesgado' es debatible.", fix: `"La reducción del sesgo es un dial, no un interruptor. No hay una 'neutralidad' universal."` },
+        { student: "Una vez entrenado, el sesgo no puede cambiarse.", reality: "El sesgo puede abordarse post-entrenamiento mediante ajuste fino, RLHF, filtrado y auditoría.", fix: `"Puedes hacer mucho después del entrenamiento. Pero es más fácil obtener los datos correctos desde el principio."` }
+      ],
+      4: [
+        { student: "Los embeddings capturan el 'verdadero significado' de las palabras.", reality: "Los embeddings capturan patrones estadísticos de co-ocurrencia — no verdad semántica.", fix: `"Los embeddings son más como un concurso de popularidad que un diccionario. Reflejan la compañía que mantiene una palabra en millones de documentos."` },
+        { student: "Los números en un embedding corresponden a conceptos comprensibles.", reality: "Las dimensiones del embedding no son interpretables por humanos.", fix: `"Si miras la dimensión 47 de un embedding, no encontrarás una etiqueta. El significado está en el patrón a través de todas las dimensiones juntas."` },
+        { student: "Las palabras similares siempre tienen embeddings similares.", reality: "Palabras con el mismo contexto estadístico pueden ser similares aunque no sean sinónimos.", fix: `"'Hot dog' y 'perro' podrían no estar tan cerca como esperarías, porque aparecen en contextos muy diferentes."` }
+      ],
+      5: [
+        { student: "Los tokens son siempre palabras individuales.", reality: "Los tokens pueden ser partes de palabras, puntuación o espacios.", fix: `"Los tokenizadores frecuentes dividen palabras raras en partes. Por eso la IA a veces tiene problemas con nombres poco comunes."` },
+        { student: "El contexto solo significa la oración anterior.", reality: "El contexto es toda la ventana de contexto — miles a cientos de miles de tokens en modelos modernos.", fix: `"El contexto es todo lo que el modelo puede 'ver' a la vez. En modelos grandes, esa ventana puede contener libros enteros."` },
+        { student: "La misma palabra siempre significa lo mismo para la IA.", reality: "Los transformers dan a cada token representaciones diferentes dependiendo del contexto.", fix: `"Los modelos modernos calculan vectores sensibles al contexto — la misma palabra obtiene representaciones diferentes según sus vecinos."` }
+      ],
+      6: [
+        { student: "Las redes neuronales funcionan como el cerebro humano.", reality: "Son vagamente inspiradas pero fundamentalmente diferentes.", fix: `"La metáfora del cerebro fue útil para la inspiración, pero es engañosa. Son grafos matemáticos con números aprendidos."` },
+        { student: "Más capas ocultas siempre significa un mejor modelo.", reality: "Más capas pueden causar gradientes que desaparecen, aumentar el costo computacional y llevar al sobreajuste.", fix: `"Agregar capas no es gratis. El arte es encontrar la profundidad y el ancho correctos para la tarea."` },
+        { student: "Los ingenieros programan los pesos para significar cosas específicas.", reality: "Los pesos iniciales son aleatorios; los finales emergen del proceso de entrenamiento.", fix: `"Los ingenieros no dicen 'el peso #47 debe representar la felicidad'. Los valores se descubren a través del entrenamiento."` }
+      ],
+      7: [
+        { student: "El aprendizaje supervisado requiere que los humanos etiqueten cada dato.", reality: "Para los modelos de lenguaje, la 'etiqueta' es la siguiente palabra en texto existente — aprendizaje autosupervisado.", fix: `"Todo el texto en internet está autoetiquetado — la 'siguiente palabra correcta' es simplemente la que vino después."` },
+        { student: "El entrenamiento hace que el modelo 'recuerde' hechos específicos.", reality: "El entrenamiento ajusta pesos para capturar patrones estadísticos, no para almacenar hechos.", fix: `"El modelo no tiene una base de datos de hechos. Tiene pesos moldeados por encontrar patrones millones de veces."` },
+        { student: "Un modelo bien entrenado nunca cometerá errores.", reality: "Ningún modelo logra precisión perfecta. Los modelos fallan en entradas fuera de distribución y casos extremos.", fix: `"Un modelo perfectamente entrenado en datos de entrenamiento aún fallaría en nuevas entradas — esto se llama sobreajuste."` }
+      ],
+      8: [
+        { student: "La atención significa que la IA se concentra conscientemente.", reality: "La atención es una operación matemática — producto punto, softmax, suma ponderada. Sin conciencia.", fix: `"La atención humana involucra conciencia. La atención en transformers es operación matemática paralela — sin cuello de botella, sin conciencia."` },
+        { student: "El mecanismo de atención lee el texto secuencialmente.", reality: "Los transformers procesan todos los tokens en paralelo dentro de la ventana de contexto.", fix: `"Las RNN procesaban el texto palabra por palabra. La atención permite que cada token se relacione con todos los otros simultáneamente."` },
+        { student: "Las oraciones ambiguas siempre confunden a la IA.", reality: "Los modelos manejan muchas oraciones ambiguas bien cuando hay suficiente contexto.", fix: `"La IA maneja mucha ambigüedad bien. Falla en ambigüedad inusual o contexto cultural específico que no vio en el entrenamiento."` }
+      ],
+      9: [
+        { student: "Los modelos de lenguaje saben lo que van a decir antes de comenzar.", reality: "La generación es secuencial y autorregresiva — cada token se muestrea basándose en los anteriores.", fix: `"El modelo no hace borradores y revisa. Genera de izquierda a derecha, un token a la vez, sin capacidad de volver atrás."` },
+        { student: "Mayor probabilidad siempre significa un resultado más preciso.", reality: "Los resultados de alta probabilidad son los más comunes — no necesariamente los más precisos o útiles.", fix: `"La probabilidad refleja lo que es estadísticamente común, no lo que es verdadero. 'La capital de Australia es ___' se completará más probablemente con 'Sídney' — y eso es incorrecto."` },
+        { student: "La IA elige una respuesta 'correcta' de su lista.", reality: "El modelo muestrea de una distribución de probabilidad — hay aleatoriedad controlada por temperatura.", fix: `"Intenta hacer la misma pregunta a ChatGPT dos veces. Podrías obtener respuestas diferentes. Esa es la aleatoriedad del muestreo."` }
+      ],
+      10: [
+        { student: "Las alucinaciones solo ocurren con temas oscuros.", reality: "Los LLMs alucinan sobre temas bien conocidos también — fechas, nombres, estadísticas, citas.", fix: `"Un modelo puede explicar correctamente la física cuántica a nivel general y luego fabricar una ecuación específica."` },
+        { student: "Si la IA suena confiada, debe tener razón.", reality: "La confianza es función de secuencias de tokens de alta probabilidad, no de precisión factual.", fix: `"El modelo aprendió que la escritura confiada aparece más en los datos de entrenamiento. Reproduce esa confianza como patrón estilístico."` },
+        { student: "Las empresas de IA están ocultando el problema de las alucinaciones.", reality: "Las alucinaciones son una limitación conocida que las empresas discuten abiertamente.", fix: `"Este es uno de los desafíos más abiertamente discutidos en la investigación de IA. No está oculto — es un problema difícil sin solución completa."` }
+      ],
+      11: [
+        { student: "Si un artículo fue publicado por una publicación importante, debe ser preciso.", reality: "Muchas publicaciones importantes han publicado artículos de IA con errores técnicos significativos.", fix: `"Incluso periodistas respetables a menudo no tienen formación en informática. Tu trabajo es evaluar las afirmaciones contra lo que sabes."` },
+        { student: "Usar vocabulario técnico hace que una refutación parezca pedante.", reality: "El vocabulario preciso es la herramienta para la precisión — hace los argumentos más específicos y verificables.", fix: `"'El modelo no entiende' es vago. 'El modelo genera continuaciones de tokens de alta probabilidad sin comprensión semántica' es preciso y verificable."` },
+        { student: "El marco ISPO solo aplica a los sistemas de IA.", reality: "ISPO aplica a todos los sistemas informáticos — es un marco general para cualquier sistema de procesamiento de información.", fix: `"ISPO describe cómo cualquier sistema procesa información. Aplícalo al autocorrector, a un motor de búsqueda, a un sistema de registros hospitalarios."` }
+      ]
+    },
+    onboarding: {
+      banner: "Estas guías también están en la versión web. Toca cualquier tarjeta para previsualizar aquí.",
+      cards: [
+        { id: "start", icon: "🚀", title: "Por dónde empezar", desc: "Orientación de 5 min: qué cubre esta unidad y qué hacer primero." },
+        { id: "syllabus", icon: "📋", title: "Las 11 lecciones", desc: "Descripción rápida de cada lección, tema y tiempo." },
+        { id: "lesson-plan", icon: "📖", title: "Ver un plan de lección", desc: "Revisa cualquier lección en detalle." },
+        { id: "sample", icon: "🎬", title: "Probar una actividad", desc: "Experimenta un widget o actividad como lo haría un estudiante." },
+        { id: "evaluate", icon: "✅", title: "Guía de evaluación", desc: "Preguntas de diario, puntos de control, rúbrica del proyecto final." },
+        { id: "section", icon: "👩‍🏫", title: "Configurar una sección", desc: "Pasos para agregar estudiantes en Code.org." }
+      ]
+    },
+    onboardingDetail: {
+      start: `<p><span class="label">Por dónde empezar</span></p>
+<p>La unidad tiene <strong>11 lecciones × 45 min</strong>, diseñada para los Grados 9–12. No se requieren conocimientos previos de informática.</p>
+<p><strong>Tus primeros 30 minutos:</strong></p>
+<ul>
+  <li>Mira la serie de videos de 5 partes <em>Explorando la IA Generativa</em> (~15 min)</li>
+  <li>Completa el módulo de PL gratuito en Code.org (2–3 hrs)</li>
+  <li>Lee la preparación de la Lección 1 en este chat</li>
+  <li>Imprime o asigna digitalmente el organizador gráfico ISPO</li>
+</ul>`,
+      syllabus: `<p><span class="label">Programa</span></p>
+<ul>
+  <li><strong>L1</strong> · Intro a IA Generativa — Exageración vs. realidad, ISPO</li>
+  <li><strong>L2</strong> · Entrada y Datos de Entrenamiento</li>
+  <li><strong>L3</strong> · Sesgo en la Máquina — RecipeBot</li>
+  <li><strong>L4</strong> · Comprensión de Embeddings</li>
+  <li><strong>L5</strong> · Embeddings: Cómo Se Crean</li>
+  <li><strong>L6</strong> · Redes Neuronales</li>
+  <li><strong>L7</strong> · RN: Cómo Se Entrenan</li>
+  <li><strong>L8</strong> · Atención</li>
+  <li><strong>L9</strong> · Resultados y Probabilidades</li>
+  <li><strong>L10</strong> · Alucinaciones</li>
+  <li><strong>L11</strong> · Proyecto</li>
+</ul>`,
+      "lesson-plan": `<p>Selecciona una lección arriba para ver su plan completo en este chat.</p>`,
+      sample: `<p><span class="label">Actividad de muestra</span></p>
+<p>Mejores puntos de partida:</p>
+<ul>
+  <li><strong>Lección 3, RecipeBot</strong> — selecciona artículos tú mismo y descubre qué sesgos introduces</li>
+  <li><strong>Lección 9, Widget de Mad Lib</strong> — experimenta la generación basada en probabilidad como estudiante</li>
+  <li><strong>Lección 5, Pasajes en Zorbiés</strong> — interpreta el idioma ficticio; ve cómo el contexto da forma al significado</li>
+</ul>`,
+      evaluate: `<p><span class="label">Evaluación</span></p>
+<p><strong>Boletas de salida:</strong> Cada lección termina con una pregunta de Cierre.</p>
+<p><strong>Puntos de control del organizador:</strong> L2 (Entrada), L4 (Almacenamiento), L7 (Procesamiento), L9 (Salida).</p>
+<p><strong>Rúbrica del proyecto L11:</strong></p>
+<ul>
+  <li>Identifica afirmaciones exageradas/inexactas (25%)</li>
+  <li>Refutación usa al menos 4 términos de vocabulario (35%)</li>
+  <li>Artefacto visual representa con precisión un concepto (25%)</li>
+  <li>Completar encuesta posterior (15%)</li>
+</ul>`,
+      section: `<p><span class="label">Configurar una sección</span></p>
+<ol>
+  <li>Inicia sesión en <strong>studio.code.org</strong></li>
+  <li>Haz clic en <strong>Secciones</strong> → <strong>Nueva sección</strong></li>
+  <li>Elige el curso: <em>"Fundamentos de IA Generativa"</em></li>
+  <li>Establece el nivel de grado (9–12) y el nombre de la sección</li>
+  <li>Comparte el código de acceso con tus estudiantes</li>
+</ol>`
+    }
   },
-  studentQs: {
-    1: [
-      { q: "What is generative AI exactly?",
-        a: `<p>AI that creates new content — text, images, audio, video — by learning patterns from massive amounts of existing content.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Generative AI doesn't look up answers. It generates responses by predicting what comes next, based on patterns it learned from billions of documents, images, or sounds."</div>` },
-      { q: "What's the ISPO framework?",
-        a: `<p>Input, Storage, Processing, Output — a lens for understanding any computing system, applied here to trace how generative AI works step by step.</p>
-            <p><span class="label">Behind the scenes</span></p>
-            <p>Students will update their ISPO graphic organizer each lesson. By Lesson 9, they should have a complete picture of the generative AI pipeline.</p>` },
-    ],
-    2: [
-      { q: "Why does AI need so much training data?",
-        a: `<p>Language is vast and contextual. To learn what any word means in any context, an LLM needs to see it used millions of times across many different situations.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"You learned the word 'bank' means both a riverbank and a financial institution because you heard it in hundreds of different sentences. AI does the same — but it needs millions of examples to approach human fluency."</div>` },
-      { q: "Does AI understand what it reads during training?",
-        a: `<p>No — it statistically tracks which words appear near which other words. No comprehension, just pattern frequency.</p>
-            <p><span class="label">Behind the scenes</span></p>
-            <p>This is a foundational misconception worth returning to at multiple points in the unit. The Lesson 8 Attention activity makes this especially concrete.</p>` },
-    ],
-    3: [
-      { q: "How does searching online introduce bias?",
-        a: `<p>Search algorithms amplify popular content. "Popular" ≠ representative — some cuisines, time periods, and voices are over-represented.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"You didn't try to add bias — you just Googled 'pasta recipes.' But what comes up first? Mostly Italian recipes from Western food blogs. That pattern gets baked into training data."</div>` },
-      { q: "Is bias in AI always bad?",
-        a: `<p>Not always — sometimes patterns are informative. The problem is when bias produces harm, like excluding certain cuisines from a recipe tool or affecting medical diagnoses.</p>
-            <p><span class="label">Behind the scenes</span></p>
-            <p>Push students toward specificity: bias is a problem when it causes differential harm to some groups over others.</p>` },
-    ],
-    4: [
-      { q: "What exactly is an embedding?",
-        a: `<p>A list of numbers (a vector) that represents a word's meaning based on how it's used in training data. Similar meanings → similar vectors.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Think of it like GPS coordinates — but for meaning. 'King' and 'queen' are in the same neighborhood. 'Banana' is somewhere completely different."</div>` },
-      { q: "Why use numbers instead of just storing word meanings?",
-        a: `<p>Because computers can do math with numbers. Representing meaning numerically lets the model compute relationships — how similar, how different, how to combine meanings.</p>
-            <p><span class="label">Behind the scenes</span></p>
-            <p>This connects directly to Lesson 6 — neural networks operate by doing math on these number representations.</p>` },
-    ],
-    5: [
-      { q: "Can the same word have different embeddings?",
-        a: `<p>Yes — "bank" in "river bank" has a different embedding than "bank" in "bank account." Context shapes the numbers.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"That's why the Lesson 5 reveal works — your group's definition of that made-up word depended entirely on which sentences gave it context. Same word, different meaning, different numbers."</div>` },
-    ],
-    6: [
-      { q: "What's a hidden layer?",
-        a: `<p>An intermediate layer in a neural network that transforms inputs before they reach the output. "Hidden" because we don't directly observe what each node represents.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"In your lunch recommender, the hidden layer might be learning concepts like 'spicy' or 'filling' — but nobody told it to. It discovers intermediate features on its own."</div>` },
-    ],
-    7: [
-      { q: "Does the neural network actually understand language by the end of training?",
-        a: `<p>It learns extremely sophisticated statistical patterns — but whether that constitutes "understanding" is genuinely debated.</p>
-            <p><span class="label">Behind the scenes</span></p>
-            <p>This is a great discussion anchor. Students should engage with both positions: understanding requires intent/experience (no, it doesn't understand) vs. correct prediction of meaning constitutes understanding (maybe it does).</p>` },
-    ],
-    8: [
-      { q: "What is Attention in simple terms?",
-        a: `<p>A mechanism that updates each word's embedding based on the other words around it. "Bank" gets adjusted differently in "river bank" vs. "bank account."</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"When you read 'I deposited money at the bank,' Attention tells the model: 'bank is near money and deposited — update its meaning toward financial institution.'"</div>` },
-    ],
-    9: [
-      { q: "How does an LLM choose which word to output?",
-        a: `<p>It generates a probability distribution over all possible next words, then samples from it. The highest-probability word isn't always chosen — randomness is intentional.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"Temperature controls how much randomness is added. Low temperature = always pick the most likely word (boring but predictable). High temperature = more surprises (creative but sometimes incoherent)."</div>` },
-    ],
-    10: [
-      { q: "Why do AI hallucinations happen?",
-        a: `<p>Because LLMs predict likely text, not true text. When no training data clearly supports the right answer, the model fills the gap with something plausible-sounding.</p>
-            <p><span class="label">Say to your class</span></p>
-            <div class="quote">"An LLM doesn't know what it doesn't know. It has no uncertainty flag — it generates text with the same confident pattern regardless of whether the topic is well-covered in training data."</div>` },
-    ],
-    11: [
-      { q: "How do I help students who can't find the specific error in the article?",
-        a: `<p>Redirect them to the ISPO graphic organizer. Ask: which step does the article misrepresent? Training data? Processing? Output behavior?</p>
-            <p><span class="label">Teaching tip</span></p>
-            <p>Vague critiques ("AI can't really think") are less valuable than mechanism-based ones ("the article claims AI 'understands' language, but it actually learns statistical patterns without semantic meaning").</p>` },
-    ],
-  },
-  concepts: [
-    { id: "ispo", term: "ISPO Framework", lessons: [1],
-      adult: "Input, Storage, Processing, Output — a framework for analyzing computing systems.",
-      kid: "A four-part checklist: What goes in? What's saved? What calculation happens? What comes out?",
-      example: "For an LLM: Input=your prompt, Storage=embeddings, Processing=attention+neural net, Output=generated text.",
-      nonexample: "Just describing 'what AI does' without tracing each step." },
-    { id: "training-data-llm", term: "Training Data", lessons: [2],
-      adult: "The massive text corpus an LLM is trained on — books, websites, code, conversations.",
-      kid: "All the text the AI read before you ever used it. Imagine reading the whole internet — that's roughly what LLMs do.",
-      example: "Wikipedia articles, news sites, books, Reddit, code repositories.",
-      nonexample: "The information in your specific conversation — that's context, not training data." },
-    { id: "bias-llm", term: "Bias", lessons: [3],
-      adult: "Systematic over- or under-representation in training data that skews model outputs.",
-      kid: "When the AI gives some things more attention than others because the data it learned from did. Not always on purpose.",
-      example: "A recipe model trained mostly on Western food blogs underrepresents Southeast Asian cuisines.",
-      nonexample: "A model correctly noting that French cuisine is popular in French cooking sites — accurate, not biased." },
-    { id: "embedding", term: "Embedding", lessons: [4,5],
-      adult: "A vector (list of numbers) representing a word's meaning, where similar words have numerically close vectors.",
-      kid: "GPS coordinates for words — words with similar meanings live near each other in number-space.",
-      example: "'Doctor' and 'nurse' have similar embeddings. 'Doctor' and 'democracy' do not.",
-      nonexample: "A dictionary entry — words are defined with other words, not numbers." },
-    { id: "token", term: "Token", lessons: [5],
-      adult: "A unit of text (roughly a word or subword) that the model processes as a single unit.",
-      kid: "The chunks the AI splits text into — usually words, but sometimes parts of words.",
-      example: "'Unbelievable' might be split into 'un', 'believ', 'able' — three tokens.",
-      nonexample: "A character — models usually work with larger chunks than single letters." },
-    { id: "hidden-layer", term: "Hidden Layer", lessons: [6],
-      adult: "An intermediate layer in a neural network that transforms data between input and output.",
-      kid: "A middle step in the AI's calculation — it mixes and transforms information in ways we can't directly observe.",
-      example: "In the lunch recommender, hidden nodes might represent concepts like 'savory' or 'hearty.'",
-      nonexample: "The input layer (what goes in) or output layer (what comes out)." },
-    { id: "attention", term: "Attention", lessons: [8],
-      adult: "A neural network mechanism that updates each token's representation based on its context in the sequence.",
-      kid: "The AI looking at every other word in the sentence to decide what a word means in this specific sentence.",
-      example: "'Bank' next to 'money' gets updated toward 'financial institution.' Next to 'river' — toward geography.",
-      nonexample: "Simply looking up a word in a dictionary — that gives one meaning regardless of context." },
-    { id: "hallucination", term: "Hallucination", lessons: [10],
-      adult: "AI output that is plausibly structured but factually incorrect or fabricated.",
-      kid: "When an AI makes up facts confidently. It sounds right because it's written fluently, but it's wrong.",
-      example: "An LLM citing a book that doesn't exist, or giving wrong historical dates with total confidence.",
-      nonexample: "A typo — that's an error, not a hallucination." },
-  ],
-  misconceptions: {
-    1: [
-      { student: "Generative AI is basically a smarter search engine.",
-        reality: "Search retrieves existing content. GenAI generates new content by predicting patterns.",
-        fix: `"Google finds documents. An LLM generates text it has never seen before. The output is new — it's not copied from anywhere."` },
-      { student: "AI is either going to save the world or destroy it.",
-        reality: "These extreme views block nuanced thinking about real benefits and real risks.",
-        fix: `"The goal of this unit is to understand how these tools actually work — then you can form an informed opinion about specific benefits and risks."` },
-    ],
-    2: [
-      { student: "AI learns from a dictionary, like humans use one.",
-        reality: "LLMs learn from usage patterns in context, not definitions.",
-        fix: `"Humans use dictionaries to check a definition they missed. AI never sees a dictionary entry — it infers meaning from patterns like 'bank' appearing near 'money' thousands of times."` },
-    ],
-    3: [
-      { student: "Bias in AI is always intentional.",
-        reality: "Bias can emerge from data collection choices that seem neutral.",
-        fix: `"You didn't decide to exclude certain cuisines — you just searched the web. But the web has biases. Your neutral search inherited them."` },
-    ],
-    4: [
-      { student: "Embeddings are just translation tables.",
-        reality: "Embeddings capture semantic relationships, not one-to-one mappings.",
-        fix: `"A translation table has one answer per word. Embeddings have nuanced positions in high-dimensional space that capture similarity, analogy, and context."` },
-    ],
-    5: [
-      { student: "Each word always has exactly one embedding.",
-        reality: "In modern LLMs (transformers), context updates embeddings — the same word gets different representations in different sentences.",
-        fix: `"Static embeddings (Word2Vec) do give one vector per word. But transformer models compute context-dependent embeddings — that's the Lesson 8 Attention mechanism."` },
-    ],
-    6: [
-      { student: "Hidden layers store learned information.",
-        reality: "Information is encoded in the weights between nodes, not in the layers themselves.",
-        fix: `"Think of weights as the memory. Layers are structure. You can have the same layers with completely different weights — and get completely different behavior."` },
-    ],
-    7: [
-      { student: "More training always makes AI better.",
-        reality: "More training on biased or low-quality data amplifies problems. Quality and diversity of data matter more than volume.",
-        fix: `"If the model trains more on text that says the Earth is flat, it gets worse. Volume without quality = amplified errors."` },
-    ],
-    8: [
-      { student: "Attention means the AI pays attention like a human does.",
-        reality: "Attention is a mathematical operation — weighted averaging of vectors. No consciousness involved.",
-        fix: `"'Attention' is a name chosen because the mechanism resembles what humans do — but it's just math. Multiplying matrices to update word representations."` },
-    ],
-    9: [
-      { student: "AI always picks the most likely word.",
-        reality: "AI samples from a probability distribution — there's randomness, controlled by temperature.",
-        fix: `"Deterministic = always the same output, like a calculator. LLMs add randomness intentionally. That's why ChatGPT gives different answers to the same question."` },
-    ],
-    10: [
-      { student: "Hallucinations are bugs that will be fixed eventually.",
-        reality: "Hallucinations are a fundamental property of probabilistic text generation, not a correctable bug.",
-        fix: `"LLMs will always hallucinate to some degree — because they're built to generate plausible text, not to verify truth. The solution is better oversight, not just better models."` },
-    ],
-    11: [
-      { student: "If an article sounds smart, it must be accurate about AI.",
-        reality: "AI hype articles are often written by people who don't understand the underlying mechanisms.",
-        fix: `"Your test: can the article explain HOW the AI does what it claims? If not, check the specific claim against what you know about embeddings, training data, and probability."` },
-    ],
-  },
-  onboarding: {
-    banner: "These journeys help you get started with Foundations of Generative AI.",
-    cards: [
-      { id: "start", icon: "🚀", title: "Where should I start?", desc: "Orientation: course goals, ISPO framework, and first steps." },
-      { id: "syllabus", icon: "📋", title: "Review the syllabus", desc: "All 11 lessons at a glance." },
-      { id: "lesson-plan", icon: "📖", title: "See a lesson plan", desc: "Walk through Lesson 1 step by step." },
-      { id: "sample", icon: "🎬", title: "Try the ISPO graphic organizer", desc: "See the through-line for the entire unit." },
-      { id: "evaluate", icon: "✅", title: "How to evaluate", desc: "Lesson 11 project rubric guidance." },
-      { id: "section", icon: "👩‍🏫", title: "Create a class section", desc: "Set up in Code.org." },
-    ]
-  },
-  onboardingDetail: {
-    start: `<p><span class="label">Where to start</span></p>
-      <p><strong>11 lessons × 45 min</strong> for grades 9–12. Recommended: complete the free AI 101 for Teachers module first (2–3 hours).</p>
-      <p><strong>First 30 minutes:</strong></p><ul>
-        <li>Watch the 5-part Exploring Generative AI video series (~15 min)</li>
-        <li>Review the ISPO graphic organizer students will fill across the unit</li>
-        <li>Read the Lesson 1 pre-flight in this chat</li></ul>`,
-    syllabus: `<p><span class="label">Syllabus</span></p><ul>
-      <li><strong>L1</strong> · Intro to GenAI — ISPO framework, hype vs. reality</li>
-      <li><strong>L2</strong> · Input & Training Data</li>
-      <li><strong>L3</strong> · Bias in the Machine — RecipeBot</li>
-      <li><strong>L4</strong> · Understanding Embeddings</li>
-      <li><strong>L5</strong> · Embeddings: How Created — context & tokens</li>
-      <li><strong>L6</strong> · Neural Networks — hidden layers, weights</li>
-      <li><strong>L7</strong> · Neural Networks: Training — supervised learning</li>
-      <li><strong>L8</strong> · Attention Is All You Need</li>
-      <li><strong>L9</strong> · Outputs & Probabilities</li>
-      <li><strong>L10</strong> · Hallucinations & Fabrications</li>
-      <li><strong>L11</strong> · Project: Demystifying GenAI (summative)</li></ul>`,
-    "lesson-plan": `<p>Choose a lesson to see its full plan in chat:</p>`,
-    sample: `<p><span class="label">ISPO Graphic Organizer</span></p>
-      <p>The graphic organizer is the spine of this unit. Students update one section per lesson cluster:</p><ul>
-        <li>Input (L2): Training data</li>
-        <li>Storage (L4–5): Embeddings</li>
-        <li>Processing (L6–8): Neural networks + Attention</li>
-        <li>Output (L9–10): Probabilities + Hallucinations</li></ul>`,
-    evaluate: `<p><span class="label">Evaluating</span></p>
-      <p>Lesson 11 project is the summative assessment. Evaluate on:</p><ul>
-        <li>Accurately identifies the misrepresentation in the article</li>
-        <li>Uses specific mechanisms from the unit (training data, embeddings, attention, probability)</li>
-        <li>Artifact clearly visualizes or conceptualizes the argument</li></ul>`,
-    section: `<p><span class="label">Class section</span></p><ol>
-      <li>Log in to <strong>studio.code.org</strong></li>
-      <li>Go to <strong>Sections → New section</strong></li>
-      <li>Choose course: <em>Foundations of Generative AI</em></li>
-      <li>Share section code with students</li></ol>`
-  },
-},
-
-es: {
-  greetings: {
-    first: [
-      "¡Hola! Soy tu asistente docente para <strong>Fundamentos de IA Generativa</strong> — 11 lecciones para preparatoria. 👋",
-      "Estoy aquí cuando lo necesites. ¿Qué necesitas ahora?"
-    ],
-    returning: ["¡Bienvenido/a de vuelta! 👋 La última vez enseñaste <strong>{lastLesson}</strong>. ¿En qué puedo ayudarte?"],
-  },
-  lessonChips: [
-    { id: 1, label: "L1 · Intro a la IA Generativa" },
-    { id: 2, label: "L2 · Entrada y Datos de Entrenamiento" },
-    { id: 3, label: "L3 · Sesgo en la Máquina" },
-    { id: 4, label: "L4 · Comprender Embeddings" },
-    { id: 5, label: "L5 · Embeddings: Cómo se Crean" },
-    { id: 6, label: "L6 · Redes Neuronales" },
-    { id: 7, label: "L7 · Entrenamiento de Redes Neuronales" },
-    { id: 8, label: "L8 · La Atención lo es Todo" },
-    { id: 9, label: "L9 · Salidas y Probabilidades" },
-    { id: 10, label: "L10 · Alucinaciones y Fabricaciones" },
-    { id: 11, label: "L11 · Proyecto: Desmitificar la IA Generativa" },
-  ],
-  preflight: {
-    1: { header: "Lección 1 · Introducción a la IA Generativa · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Introducir la IA generativa a través del exagerado de la tecnología vs. realidad. Introducir el marco ISPO.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Encuesta previa del estudiante</li>
-          <li>Nivel 2: Calentamiento — discusión sobre el bombo tecnológico</li>
-          <li>Nivel 3: Cierre — estudiantes reciben organizador gráfico ISPO</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes con opiniones fuertes sobre IA. Esta lección prepara para investigar, no para rebatir.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "El marco ISPO explicado", "Cómo dirigir la discusión sobre el bombo"] },
-    2: { header: "Lección 2 · Entrada y Datos de Entrenamiento · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Cómo los modelos de lenguaje necesitan datos de entrenamiento masivos.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Calentamiento — reconocimiento y categorización de palabras</li>
-          <li>Nivel 2: Cierre — actualizar organizador ISPO (paso Entrada)</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes que piensan que la IA usa un diccionario.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "Error: IA usa diccionario", "Paso Entrada del ISPO"] },
-    3: { header: "Lección 3 · Sesgo en la Máquina · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Cómo el sesgo entra en los LLMs a través de los datos de entrenamiento, usando la simulación RecipeBot.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Calentamiento</li>
-          <li>Nivel 2: Cierre — actividad RecipeBot</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes sorprendidos de que "solo buscar" introdujo sesgo.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "Error más probable", "Cómo funciona la actividad RecipeBot"] },
-    4: { header: "Lección 4 · Comprender Embeddings · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Las palabras pueden representarse como secuencias de números — palabras similares son numéricamente cercanas.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Calentamiento — juego de similitud de palabras</li>
-          <li>Nivel 2: Cierre — juego de roles con rasgos de personaje como números</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes que piensan que los números son arbitrarios.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "Cómo explicar embeddings simplemente", "Error más probable"] },
-    5: { header: "Lección 5 · Embeddings: Cómo se Crean · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> El contexto determina el significado — la misma palabra puede tener diferentes embeddings.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Calentamiento — interpretar un pasaje en un idioma inventado</li>
-          <li>Nivel 2: Cierre — revelar que dos grupos trabajaron con pasajes diferentes</li></ul>
-        <p><strong>⚡ Atención:</strong> La revelación impacta — algunos estudiantes se sentirán engañados. Normaliza: así es exactamente lo que experimenta el modelo.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "¿Qué es un token?", "Error más probable"] },
-    6: { header: "Lección 6 · Comprender Redes Neuronales · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Cómo las redes neuronales aprenden relaciones de palabras usando capas ocultas y pesos.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Calentamiento — mad-libs mostrando cómo el orden afecta el significado</li>
-          <li>Nivel 2: Cierre — construir modelo de red neuronal para la cafetería</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes confundiendo "capas" con "pasos." Las capas procesan simultáneamente.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "Capas ocultas explicadas", "Error más probable"] },
-    7: { header: "Lección 7 · Entrenamiento de Redes Neuronales · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Aprendizaje supervisado — cómo las redes neuronales se ajustan a través del ensayo y error.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Calentamiento — juego de adivinanzas en idioma ficticio</li></ul>
-        <p><strong>Discusión clave:</strong> ¿Este proceso = inteligencia verdadera o seguimiento sofisticado de reglas?</p>
-        <p><strong>⚡ Atención:</strong> Que los estudiantes argumenten ambas posiciones.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "Discusión: inteligencia vs. patrones", "Aprendizaje supervisado explicado"] },
-    8: { header: "Lección 8 · La Atención lo es Todo · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Cómo el contexto actualiza el significado de las palabras — el mecanismo de Atención.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Calentamiento — ejemplos de lenguaje ambiguo</li>
-          <li>Nivel 2: Cierre — escribir oraciones con palabras ambiguas, intercambiar con compañeros</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes confundiendo Atención con "comprensión."</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "Mecanismo de Atención explicado", "Error más probable"] },
-    9: { header: "Lección 9 · Salidas y Probabilidades · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Cómo los LLMs seleccionan palabras de salida usando distribuciones de probabilidad.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Cierre — actividad mad-lib, estudiantes eligen palabras más populares</li>
-          <li>Nivel 2: Widget Mad-Lib (para docentes)</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes que piensan que la IA "decide" usar una palabra.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "Distribuciones de probabilidad", "¿Qué es la temperatura en LLMs?"] },
-    10: { header: "Lección 10 · Alucinaciones y Fabricaciones · 45 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Por qué la IA produce resultados inexactos y cómo auditar sistemas de IA.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Calentamiento — ejemplos de sistemas de IA retirados por sesgo/alucinaciones</li>
-          <li>Nivel 2: Cierre — estudiantes como Auditores de IA; luego ver video real</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes que piensan que las alucinaciones son raras.</p>`,
-      followUps: ["Repaso de vocabulario", "Preguntas comunes", "Por qué ocurren las alucinaciones", "¿Qué hace un Auditor de IA?"] },
-    11: { header: "Lección 11 · Proyecto: Desmitificar la IA Generativa · 45–90 min",
-      body: `<p><span class="label">Preparación</span></p>
-        <p><strong>Qué enseñarás:</strong> Los estudiantes critican artículos de desinformación sobre IA y crean un artefacto de refutación.</p>
-        <p><strong>Actividades:</strong></p><ul>
-          <li>Nivel 1: Encuesta posterior del estudiante</li>
-          <li>Leer artículos con exageraciones de IA</li>
-          <li>Escribir refutación usando conocimientos de la unidad</li>
-          <li>Crear artefacto visual de apoyo</li></ul>
-        <p><strong>⚡ Atención:</strong> Estudiantes que solo dicen "el artículo está equivocado." Empújalos a citar mecanismos específicos.</p>`,
-      followUps: ["Rúbrica del proyecto", "Preguntas comunes", "¿Qué artículos usar?", "Orientación para calificar"] },
-  },
-  studentQs: {
-    1: [
-      { q: "¿Qué es exactamente la IA generativa?",
-        a: `<p>IA que crea nuevo contenido aprendiendo patrones de cantidades masivas de contenido existente.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"La IA generativa no busca respuestas. Genera texto prediciendo qué viene después, basándose en patrones aprendidos de miles de millones de documentos."</div>` },
-    ],
-    2: [
-      { q: "¿Por qué la IA necesita tantos datos de entrenamiento?",
-        a: `<p>El lenguaje es vasto y contextual. Para aprender cualquier palabra en cualquier contexto, un LLM necesita verla millones de veces.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"Aprendiste que 'banco' significa tanto orilla del río como institución financiera porque lo escuchaste en cientos de oraciones diferentes. La IA hace lo mismo — pero necesita millones de ejemplos."</div>` },
-    ],
-    3: [
-      { q: "¿Cómo introduce sesgo la búsqueda en línea?",
-        a: `<p>Los algoritmos de búsqueda amplifican el contenido popular. Popular ≠ representativo.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"No intentaste agregar sesgo — solo buscaste 'recetas de pasta.' Pero ¿qué aparece primero? Mayormente recetas italianas de blogs occidentales. Ese patrón se incorpora a los datos de entrenamiento."</div>` },
-    ],
-    4: [
-      { q: "¿Qué es exactamente un embedding?",
-        a: `<p>Una lista de números (un vector) que representa el significado de una palabra. Significados similares → vectores similares.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"Piensa en coordenadas GPS — pero para el significado. 'Rey' y 'reina' están en el mismo vecindario. 'Banana' está en un lugar completamente diferente."</div>` },
-    ],
-    5: [
-      { q: "¿Puede la misma palabra tener diferentes embeddings?",
-        a: `<p>Sí — "banco" en "orilla del banco" tiene un embedding diferente al de "cuenta bancaria." El contexto da forma a los números.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"Por eso funciona la revelación de la Lección 5 — tu definición de esa palabra inventada dependía completamente de qué oraciones le dieron contexto."</div>` },
-    ],
-    6: [
-      { q: "¿Qué es una capa oculta?",
-        a: `<p>Una capa intermedia que transforma entradas antes de llegar a la salida. "Oculta" porque no observamos directamente lo que representa cada nodo.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"En el recomendador de almuerzo, la capa oculta podría estar aprendiendo conceptos como 'picante' o 'abundante' — pero nadie se lo dijo. Descubre características intermedias sola."</div>` },
-    ],
-    7: [
-      { q: "¿La red neuronal entiende el lenguaje después del entrenamiento?",
-        a: `<p>Aprende patrones estadísticos muy sofisticados — pero si eso constituye "comprensión" es genuinamente debatido.</p>
-            <p><span class="label">Detrás de escenas</span></p>
-            <p>Haz que los estudiantes argumenten ambas posiciones.</p>` },
-    ],
-    8: [
-      { q: "¿Qué es la Atención en términos simples?",
-        a: `<p>Mecanismo que actualiza el embedding de cada palabra según las otras palabras alrededor de ella.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"Cuando lees 'Deposité dinero en el banco,' la Atención le dice al modelo: 'banco está cerca de dinero y deposité — actualiza su significado hacia institución financiera.'"</div>` },
-    ],
-    9: [
-      { q: "¿Cómo elige un LLM qué palabra generar?",
-        a: `<p>Genera una distribución de probabilidad sobre todas las palabras posibles, luego muestrea de ella.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"La temperatura controla cuánta aleatoriedad se agrega. Baja = siempre la palabra más probable (aburrida pero predecible). Alta = más sorpresas (creativa pero a veces incoherente)."</div>` },
-    ],
-    10: [
-      { q: "¿Por qué ocurren las alucinaciones de IA?",
-        a: `<p>Los LLMs predicen texto probable, no texto verdadero. Cuando los datos de entrenamiento no cubren claramente la respuesta correcta, el modelo llena el vacío con algo plausible.</p>
-            <p><span class="label">Di a tu clase</span></p>
-            <div class="quote">"Un LLM no sabe lo que no sabe. Genera texto con el mismo patrón confiado independientemente de si el tema está bien cubierto en los datos."</div>` },
-    ],
-    11: [
-      { q: "¿Cómo ayudo a estudiantes que no encuentran el error específico en el artículo?",
-        a: `<p>Redirígelos al organizador gráfico ISPO. Pregunta: ¿qué paso tergiversa el artículo?</p>
-            <p><span class="label">Consejo docente</span></p>
-            <p>Las críticas vagas son menos valiosas que las basadas en mecanismos específicos del curso.</p>` },
-    ],
-  },
-  concepts: [
-    { id: "ispo", term: "Marco ISPO", lessons: [1],
-      adult: "Entrada, Almacenamiento, Procesamiento, Salida — marco para analizar sistemas informáticos.",
-      kid: "Una lista de cuatro partes: ¿Qué entra? ¿Qué se guarda? ¿Qué cálculo ocurre? ¿Qué sale?",
-      example: "Para LLM: Entrada=prompt, Almacenamiento=embeddings, Procesamiento=atención+red, Salida=texto generado.",
-      nonexample: "Solo describir 'qué hace la IA' sin rastrear cada paso." },
-    { id: "embedding", term: "Embedding", lessons: [4,5],
-      adult: "Vector que representa el significado de una palabra, donde palabras similares tienen vectores numéricamente cercanos.",
-      kid: "Coordenadas GPS para palabras — palabras con significados similares viven cerca en el espacio numérico.",
-      example: "'Médico' y 'enfermero' tienen embeddings similares.",
-      nonexample: "Una entrada de diccionario — definida con otras palabras, no con números." },
-    { id: "token", term: "Token", lessons: [5],
-      adult: "Unidad de texto (aproximadamente una palabra o subpalabra) que el modelo procesa como unidad.",
-      kid: "Los trozos en que la IA divide el texto.",
-      example: "'Increíble' puede dividirse en 'In', 'creí', 'ble' — tres tokens.",
-      nonexample: "Un carácter individual." },
-    { id: "attention", term: "Atención", lessons: [8],
-      adult: "Mecanismo que actualiza la representación de cada token según su contexto en la secuencia.",
-      kid: "La IA mirando cada otra palabra en la oración para decidir qué significa una palabra en esta oración específica.",
-      example: "'Banco' junto a 'dinero' se actualiza hacia institución financiera.",
-      nonexample: "Buscar en un diccionario — da un solo significado sin importar el contexto." },
-    { id: "hallucination", term: "Alucinación", lessons: [10],
-      adult: "Resultado de IA plausiblemente estructurado pero factualmente incorrecto o fabricado.",
-      kid: "Cuando la IA inventa hechos con confianza. Suena bien porque está escrito fluidamente, pero es incorrecto.",
-      example: "LLM citando un libro que no existe.",
-      nonexample: "Un error tipográfico — eso es un error, no una alucinación." },
-  ],
-  misconceptions: {
-    1: [
-      { student: "La IA generativa es básicamente un motor de búsqueda más inteligente.",
-        reality: "La búsqueda recupera contenido existente. La IA generativa crea texto nuevo prediciendo patrones.",
-        fix: `"Google encuentra documentos. Un LLM genera texto que nunca ha visto antes. La salida es nueva, no copiada."` },
-    ],
-    2: [
-      { student: "La IA aprende de un diccionario.",
-        reality: "Los LLMs aprenden de patrones de uso en contexto, no de definiciones.",
-        fix: `"La IA nunca ve una entrada de diccionario — infiere el significado de patrones como 'banco' apareciendo cerca de 'dinero' miles de veces."` },
-    ],
-    3: [
-      { student: "El sesgo en la IA siempre es intencional.",
-        reality: "El sesgo puede surgir de elecciones de recolección de datos que parecen neutrales.",
-        fix: `"No decidiste excluir ciertas cocinas — solo buscaste en la web. Pero la web tiene sesgos que heredó tu búsqueda neutral."` },
-    ],
-    4: [
-      { student: "Los embeddings son solo tablas de traducción.",
-        reality: "Los embeddings capturan relaciones semánticas, no mapeos uno a uno.",
-        fix: `"Una tabla de traducción tiene una respuesta por palabra. Los embeddings tienen posiciones matizadas que capturan similitud y analogía."` },
-    ],
-    5: [
-      { student: "Cada palabra siempre tiene exactamente un embedding.",
-        reality: "En LLMs modernos, el contexto actualiza los embeddings.",
-        fix: `"Los transformadores calculan embeddings dependientes del contexto — ese es el mecanismo de Atención de la Lección 8."` },
-    ],
-    6: [
-      { student: "Las capas ocultas almacenan información aprendida.",
-        reality: "La información se codifica en los pesos entre nodos, no en las capas mismas.",
-        fix: `"Los pesos son la memoria. Las capas son la estructura. Mismas capas, diferentes pesos = comportamiento completamente diferente."` },
-    ],
-    7: [
-      { student: "Más entrenamiento siempre hace a la IA mejor.",
-        reality: "Más entrenamiento con datos sesgados amplifica problemas.",
-        fix: `"Volumen sin calidad = errores amplificados."` },
-    ],
-    8: [
-      { student: "La Atención significa que la IA presta atención como un humano.",
-        reality: "La Atención es una operación matemática — promediación ponderada de vectores.",
-        fix: `"'Atención' es un nombre elegido porque el mecanismo se asemeja a lo que hacen los humanos — pero es solo matemáticas."` },
-    ],
-    9: [
-      { student: "La IA siempre elige la palabra más probable.",
-        reality: "La IA muestrea de una distribución de probabilidad — hay aleatoriedad controlada por temperatura.",
-        fix: `"Determinístico = siempre la misma salida. Los LLMs añaden aleatoriedad intencionalmente."` },
-    ],
-    10: [
-      { student: "Las alucinaciones son errores que se corregirán eventualmente.",
-        reality: "Las alucinaciones son una propiedad fundamental de la generación de texto probabilístico.",
-        fix: `"Los LLMs siempre alucinarán en cierta medida — la solución es mejor supervisión, no solo mejores modelos."` },
-    ],
-    11: [
-      { student: "Si un artículo suena inteligente, debe ser preciso sobre IA.",
-        reality: "Los artículos de bombo de IA a menudo son escritos por personas que no entienden los mecanismos.",
-        fix: `"Tu prueba: ¿puede el artículo explicar CÓMO la IA hace lo que afirma? Si no, comprueba contra lo que sabes."` },
-    ],
-  },
-  onboarding: {
-    banner: "Estos recorridos te ayudan a comenzar con Fundamentos de IA Generativa.",
-    cards: [
-      { id: "start", icon: "🚀", title: "¿Por dónde empiezo?", desc: "Orientación: metas del curso, marco ISPO y primeros pasos." },
-      { id: "syllabus", icon: "📋", title: "Revisar el programa", desc: "Las 11 lecciones de un vistazo." },
-      { id: "lesson-plan", icon: "📖", title: "Ver plan de lección", desc: "Lección 1 paso a paso." },
-      { id: "sample", icon: "🎬", title: "Probar el organizador ISPO", desc: "El hilo conductor de toda la unidad." },
-      { id: "evaluate", icon: "✅", title: "Cómo evaluar", desc: "Orientación de rúbrica para el proyecto de la Lección 11." },
-      { id: "section", icon: "👩‍🏫", title: "Crear sección de clase", desc: "Configurar en Code.org." },
-    ]
-  },
-  onboardingDetail: {
-    start: `<p><span class="label">Por dónde empezar</span></p>
-      <p><strong>11 lecciones × 45 min</strong> para grados 9–12.</p>
-      <p><strong>Primeros 30 minutos:</strong></p><ul>
-        <li>Mira la serie de 5 videos de IA Generativa (~15 min)</li>
-        <li>Revisa el organizador gráfico ISPO</li>
-        <li>Lee la preparación de la Lección 1 en este chat</li></ul>`,
-    syllabus: `<p><span class="label">Programa</span></p><ul>
-      <li><strong>L1</strong> · Intro a IA Generativa</li>
-      <li><strong>L2</strong> · Datos de Entrenamiento</li>
-      <li><strong>L3</strong> · Sesgo en la Máquina</li>
-      <li><strong>L4</strong> · Embeddings</li>
-      <li><strong>L5</strong> · Cómo se Crean los Embeddings</li>
-      <li><strong>L6</strong> · Redes Neuronales</li>
-      <li><strong>L7</strong> · Entrenamiento de RN</li>
-      <li><strong>L8</strong> · Mecanismo de Atención</li>
-      <li><strong>L9</strong> · Salidas y Probabilidades</li>
-      <li><strong>L10</strong> · Alucinaciones</li>
-      <li><strong>L11</strong> · Proyecto (evaluación sumativa)</li></ul>`,
-    "lesson-plan": `<p>Elige una lección para ver su plan:</p>`,
-    sample: `<p><span class="label">Organizador ISPO</span></p>
-      <p>El organizador es la columna vertebral de la unidad. Actualizar una sección por grupo de lecciones.</p>`,
-    evaluate: `<p><span class="label">Evaluación</span></p>
-      <p>Proyecto L11 — evaluar en:</p><ul>
-        <li>Identifica correctamente la tergiversación</li>
-        <li>Usa mecanismos específicos de la unidad</li>
-        <li>El artefacto visualiza claramente el argumento</li></ul>`,
-    section: `<p><span class="label">Sección de clase</span></p><ol>
-      <li>Inicia sesión en <strong>studio.code.org</strong></li>
-      <li><strong>Secciones → Nueva sección</strong></li>
-      <li>Elige: <em>Fundamentos de IA Generativa</em></li>
-      <li>Comparte el código con tus estudiantes</li></ol>`
-  },
-},
-
   hi: {
     name: "जनरेटिव AI की नींव",
     tagline: "कक्षा 9–12 • 11 पाठ",
@@ -5150,6 +5906,7 @@ es: {
     }
   }
 }; // end FGAI_CONTENT
+
 
 /* PROBLEM SOLVING WITH AI — course content (EN + ES + HI) */
 /* PROBLEM SOLVING WITH AI — course content EN/ES/HI */
